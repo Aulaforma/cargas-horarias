@@ -582,8 +582,8 @@
               </div>
               <div class="space-y-1.5 font-mono text-[11px]">
                 <div class="flex justify-between items-baseline">
-                  <span class="text-slate-400 font-sans text-[10px]">Hrs Pedagógicas (clases):</span>
-                  <span class="text-slate-200 font-semibold" id="breakdown-recess-ped-hrs">0 hrs ped.</span>
+                  <span class="text-slate-400 font-sans text-[10px]">Hrs Contrato (cronológicas):</span>
+                  <span class="text-slate-200 font-semibold" id="breakdown-recess-ped-hrs">0 hrs cron.</span>
                 </div>
                 <div class="flex justify-between items-baseline">
                   <span class="text-slate-400 font-sans text-[10px]">× 4 min/hr = Recreo:</span>
@@ -591,7 +591,7 @@
                 </div>
               </div>
             </div>
-            <p class="text-[9px] text-slate-500 mt-2 leading-tight">4 min de recreo por cada hora pedagógica lectiva asignada al docente.</p>
+            <p class="text-[9px] text-slate-500 mt-2 leading-tight">4 min de recreo por cada hora cronológica de contrato del docente.</p>
           </div>
         </div>
 
@@ -670,11 +670,11 @@
                   <span class="text-[11px] font-bold text-emerald-400 uppercase">3. Fórmula de Recreos</span>
                   <i data-lucide="coffee" class="w-3.5 h-3.5 text-emerald-400"></i>
                 </div>
-                <p class="text-[10px] text-slate-400 leading-tight mb-2">4 minutos por hora pedagógica asignada en aula.</p>
+                <p class="text-[10px] text-slate-400 leading-tight mb-2">4 minutos por hora cronológica de contrato.</p>
                 <div class="space-y-1 font-mono text-[11px]">
                   <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">Horas Pedagógicas Aula:</span>
-                    <span id="legal-recess-ped" class="font-bold">0 hrs</span>
+                    <span class="font-sans text-[10px] text-slate-400">Horas Contrato (cronológicas):</span>
+                    <span id="legal-recess-ped" class="font-bold">0 hrs cron.</span>
                   </div>
                   <div class="flex justify-between text-emerald-400 pt-1 border-t border-slate-800/40">
                     <span class="font-sans text-[10px] text-slate-400">× 4 min/hr = Recreo:</span>
@@ -987,12 +987,9 @@
         contractRequired = lectivasTotal / 0.65;
       }
 
-      // Recess: 4 minutes per pedagogical hour (clases + PIE converted to 45m pedagogical hrs)
-      // PIE 60m hrs converted to 45m hrs: pieChrono / 0.75 (ej: 3 hrs PIE = 4 hrs ped)
-      const piePed1 = pie1 / 0.75;
-      const piePed2 = pie2 / 0.75;
-      const totalPedagogicalHours = ped1 + ped2 + piePed1 + piePed2;
-      const recessHrs = (totalPedagogicalHours * 4) / 60;
+      // Recess: 4 minutes per chronological hour of contract (effectiveContract)
+      const totalPedagogicalHours = ped1 + ped2 + (pie1 / 0.75) + (pie2 / 0.75);
+      const recessHrs = (effectiveContract * 4) / 60;
 
       // Total non-teaching hours = obtenido exclusivamente de las horas de aula asignadas (lectivas)
       let nlTotal = 0;
@@ -1419,7 +1416,7 @@
 
       // Update recess card with formula display
       const recessPedEl = document.getElementById('breakdown-recess-ped-hrs');
-      if (recessPedEl) recessPedEl.textContent = `${metrics.totalPedagogicalHours} hrs ped.`;
+      if (recessPedEl) recessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
       document.getElementById('breakdown-recess-formula').textContent = formatHours(metrics.recessHrs);
 
       // Update Dynamic Legal Formulas & Supervision Card (SimoHora 20.903/21.625)
@@ -1460,7 +1457,7 @@
       if (legDirector50El) legDirector50El.textContent = formatHours(metrics.otrasNLBudget);
 
       const legRecessPedEl = document.getElementById('legal-recess-ped');
-      if (legRecessPedEl) legRecessPedEl.textContent = `${metrics.totalPedagogicalHours} hrs ped.`;
+      if (legRecessPedEl) legRecessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
 
       const legRecessTotalEl = document.getElementById('legal-recess-total');
       if (legRecessTotalEl) legRecessTotalEl.textContent = formatHours(metrics.recessHrs);
