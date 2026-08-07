@@ -784,18 +784,18 @@
         blockDuration: 90,
         priority: false,
         schedule: [
-          { day: "Lunes", entrance: "08:00", exit: "16:00", lunch: 45 },
-          { day: "Martes", entrance: "08:00", exit: "16:00", lunch: 45 },
-          { day: "Miércoles", entrance: "08:00", exit: "16:00", lunch: 45 },
-          { day: "Jueves", entrance: "08:00", exit: "16:00", lunch: 45 },
-          { day: "Viernes", entrance: "08:00", exit: "14:00", lunch: 45 }
+          { day: "Lunes", entrance: "", exit: "", lunch: 0 },
+          { day: "Martes", entrance: "", exit: "", lunch: 0 },
+          { day: "Miércoles", entrance: "", exit: "", lunch: 0 },
+          { day: "Jueves", entrance: "", exit: "", lunch: 0 },
+          { day: "Viernes", entrance: "", exit: "", lunch: 0 }
         ]
       },
       teachers: [],
       editingId: null
     };
 
-    const STORAGE_KEY = 'simohora_app_state_v5.3';
+    const STORAGE_KEY = 'simohora_app_state_v5.4';
 
     // Load initial state from LocalStorage if exists
     function loadState() {
@@ -929,9 +929,12 @@
       const { priority, blockDuration, apoderadosMins } = globalParams;
       const { contract, ped1, pie1, ped2, pie2 } = teacherInput;
 
+      // Colación por Ley (Ley 20.903): Contratos de 43h y 44h tienen 2h destinadas a colación (se calculan como 41h y 42h efectivas)
+      const legalColacionHrs = (contract === 43 || contract === 44) ? 2 : 0;
+
       // Admin hours: deducted directly from contract before lectiva/no-lectiva split
       const adminHrs = (teacherInput.adminMins || 0) / 60;
-      const effectiveContract = Math.max(0, contract - adminHrs);
+      const effectiveContract = Math.max(0, contract - adminHrs - legalColacionHrs);
 
       // Class hours in chronological time (pedagógica = 45 min = 0.75 chronological hrs)
       const lClass1 = ped1 * 0.75;
@@ -1067,6 +1070,7 @@
         isInfraccion,
         status,
         fLect1: fLect,
+        legalColacionHrs,
         adminHrs,
         effectiveContract,
         customActivity1Name: teacherInput.customActivity1Name,
