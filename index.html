@@ -987,12 +987,20 @@
         contractRequired = lectivasTotal / 0.65;
       }
 
-      // Recess: 4 minutes per pedagogical hour (clases only, all cycles)
-      const totalPedagogicalHours = ped1 + pie1 + ped2 + pie2;
+      // Recess: 4 minutes per pedagogical hour (clases + PIE converted to 45m pedagogical hrs)
+      // PIE 60m hrs converted to 45m hrs: pieChrono / 0.75 (ej: 3 hrs PIE = 4 hrs ped)
+      const piePed1 = pie1 / 0.75;
+      const piePed2 = pie2 / 0.75;
+      const totalPedagogicalHours = ped1 + ped2 + piePed1 + piePed2;
       const recessHrs = (totalPedagogicalHours * 4) / 60;
 
-      // Total non-teaching hours = fNoLect * effectiveContract under Ley 20.903
-      const nlTotal = effectiveContract * fNoLect;
+      // Total non-teaching hours = obtenido exclusivamente de las horas de aula asignadas (lectivas)
+      let nlTotal = 0;
+      if (priority) {
+        nlTotal = (lectivas1 * 0.40) + (lectivas2 * 0.35);
+      } else {
+        nlTotal = lectivasTotal * 0.35;
+      }
 
       // Planificación Inamovible (50% of the actual contract non-teaching portion)
       const planningHrsActual = nlTotal * 0.50;
