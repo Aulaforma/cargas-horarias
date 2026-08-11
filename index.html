@@ -22,17 +22,35 @@
             outfit: ['Outfit', 'sans-serif'],
           },
           colors: {
-            brand: {
-              50: '#f5f3ff',
-              100: '#ede9fe',
-              200: '#ddd6fe',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              700: '#6d28d9',
-              900: '#4c1d95',
+            mint: {
+              50: '#f0fdf9',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              400: '#2dd4bf',
+              500: '#00c49f',
+              600: '#00b390',
+              700: '#0d9488',
+              900: '#115e59',
+            },
+            navy: {
+              800: '#1e293b',
+              900: '#162238',
+              950: '#0e1726',
+            },
+            teal: {
+              400: '#2dd4bf',
+              500: '#00c49f',
+              600: '#0d9488',
+              700: '#0f766e',
+            },
+            indigo: {
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
             },
             slate: {
-              950: '#0b0f19',
+              850: '#131c2e',
+              950: '#090d16',
             }
           }
         }
@@ -46,43 +64,105 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
     }
     h1, h2, h3, h4, .font-title {
       font-family: 'Outfit', sans-serif;
     }
+
+    /* Modern Motion & Animation Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-16px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 15px rgba(0, 196, 159, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(0, 196, 159, 0.45); }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    .animate-slide-left {
+      animation: slideInLeft 0.3s ease-out forwards;
+    }
+
+    /* SaaS Dashboard Elevated Cards (Hixme Corporate Theme) */
+    .dashboard-card {
+      background: rgba(22, 34, 56, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .dashboard-card:hover {
+      border-color: rgba(0, 196, 159, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px -15px rgba(0, 196, 159, 0.15);
+    }
+
+    .light .dashboard-card {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 25px -5px rgba(13, 148, 136, 0.06), 0 8px 16px rgba(0, 0, 0, 0.03);
+    }
+    .light .dashboard-card:hover {
+      border-color: rgba(0, 196, 159, 0.4);
+      box-shadow: 0 20px 35px -10px rgba(0, 196, 159, 0.12);
+    }
+
+    /* Custom Glass Panel */
     .glass-panel {
-      background: rgba(30, 41, 59, 0.7);
+      background: rgba(22, 34, 56, 0.85);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .glass-card {
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
     .light .glass-panel {
-      background: rgba(255, 255, 255, 0.85);
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(226, 232, 240, 0.9);
       backdrop-filter: blur(12px);
     }
-    .light .glass-card {
-      background: rgba(248, 250, 252, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.04);
-    }
+
     .tooltip {
       visibility: hidden;
       position: absolute;
       z-index: 50;
+      transition: opacity 0.2s ease-in-out;
+      opacity: 0;
     }
     .has-tooltip:hover .tooltip {
       visibility: visible;
+      opacity: 1;
     }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(14, 23, 38, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 196, 159, 0.3);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 196, 159, 0.7);
+    }
+
     @media print {
       body {
         background: white !important;
         color: black !important;
       }
-      .no-print {
+      .no-print, aside, header {
         display: none !important;
       }
       .print-panel {
@@ -93,690 +173,979 @@
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col transition-colors duration-300 dark">
+<body class="bg-[#0E1726] text-slate-100 min-h-screen flex transition-colors duration-300 dark antialiased overflow-x-hidden light:bg-[#F0F4F8]">
 
-  <!-- Blue and Red Top Bar (Chilean Institutional touch) -->
-  <div class="h-1.5 w-full flex">
-    <div class="h-full w-1/3 bg-blue-600"></div>
-    <div class="h-full w-1/3 bg-white"></div>
-    <div class="h-full w-1/3 bg-red-600"></div>
-  </div>
+  <!-- ========================================== -->
+  <!-- LEFT DASHBOARD SIDEBAR (HIXME ADMIN STYLE) -->
+  <!-- ========================================== -->
+  <!-- ========================================== -->
+  <!-- LEFT DASHBOARD SIDEBAR (HIXME ADMIN STYLE) -->
+  <!-- ========================================== -->
+  <aside id="sidebar" class="w-64 bg-[#162238] border-r border-slate-800/80 flex flex-col flex-shrink-0 min-h-screen sticky top-0 z-50 transition-all duration-300 no-print shadow-xl">
+    
+    <!-- Chilean Institutional Top Accent Line -->
+    <div class="h-1 w-full flex">
+      <div class="h-full w-1/3 bg-blue-600"></div>
+      <div class="h-full w-1/3 bg-white"></div>
+      <div class="h-full w-1/3 bg-red-600"></div>
+    </div>
 
-  <!-- Header -->
-  <header class="glass-panel sticky top-0 z-40 border-b shadow-lg px-4 lg:px-8 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <div class="p-2 bg-brand-600 rounded-lg text-white shadow-md shadow-brand-500/20">
+    <!-- App Logo & Brand Header -->
+    <div class="p-5 border-b border-slate-800/80 flex items-center space-x-3">
+      <div class="p-2.5 bg-gradient-to-br from-[#00C49F] to-teal-700 rounded-xl text-white shadow-lg shadow-teal-500/20 transform transition-transform hover:scale-105">
         <i data-lucide="scale" class="w-6 h-6"></i>
       </div>
       <div>
         <div class="flex items-center space-x-2">
-          <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-violet-400 via-indigo-200 to-white bg-clip-text text-transparent light:from-brand-700 light:via-indigo-900 light:to-slate-950 font-title">
-            SimoHora 20.903/21.625
+          <h1 class="text-lg font-bold tracking-tight bg-gradient-to-r from-teal-300 via-teal-100 to-white bg-clip-text text-transparent font-title">
+            SimoHora
           </h1>
-          <span class="px-2 py-0.5 text-[10px] font-semibold bg-indigo-500/20 text-indigo-300 rounded-full uppercase tracking-wider border border-indigo-500/30">
+          <span class="px-2 py-0.5 text-[9px] font-extrabold bg-[#00C49F]/20 text-[#00C49F] rounded-full uppercase tracking-wider border border-[#00C49F]/30">
             v5.3
           </span>
         </div>
-        <p class="text-xs text-slate-400 light:text-slate-600">Simulador de Cargas Horarias y Permanencia Docente (Chile)</p>
+        <p class="text-[11px] text-slate-400 font-medium">Docencia Chile 20.903</p>
       </div>
     </div>
 
-    <div class="flex items-center space-x-4">
-      <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-900/50 light:bg-slate-100 border border-slate-800 light:border-slate-200 text-xs">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="text-slate-300 light:text-slate-700">Ley de Carrera Docente Vigente</span>
+    <!-- Sidebar Quick Navigation Menu -->
+    <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+      <div class="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">Menú Principal</div>
+      
+      <button onclick="switchTab('simulator')" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-[#00C49F] transition-all duration-200 group text-left">
+        <div class="p-1.5 rounded-lg bg-slate-800/60 group-hover:bg-[#00C49F]/20 group-hover:text-[#00C49F] text-slate-400 transition-colors">
+          <i data-lucide="calculator" class="w-4 h-4"></i>
+        </div>
+        <span>1. Simulación Docente</span>
+      </button>
+
+      <button onclick="switchTab('schedule')" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-[#00C49F] transition-all duration-200 group text-left">
+        <div class="p-1.5 rounded-lg bg-slate-800/60 group-hover:bg-[#00C49F]/20 group-hover:text-[#00C49F] text-slate-400 transition-colors">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+        </div>
+        <span>2. Horario Colegio</span>
+      </button>
+
+      <button onclick="switchTab('roster')" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-[#00C49F] transition-all duration-200 group text-left">
+        <div class="p-1.5 rounded-lg bg-slate-800/60 group-hover:bg-[#00C49F]/20 group-hover:text-[#00C49F] text-slate-400 transition-colors">
+          <i data-lucide="users" class="w-4 h-4"></i>
+        </div>
+        <span>3. Planta Docente</span>
+      </button>
+
+      <button id="sidebar-btn-master" onclick="switchTab('master')" class="hidden w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-bold text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all duration-200 group text-left">
+        <div class="p-1.5 rounded-lg bg-amber-500/20 text-amber-400">
+          <i data-lucide="shield-check" class="w-4 h-4"></i>
+        </div>
+        <span>👑 Página Maestra</span>
+      </button>
+    </nav>
+
+    <!-- Sidebar Status & Legal Footer -->
+    <div class="p-4 border-t border-slate-800/80 space-y-3">
+      <div class="flex items-center space-x-2.5 px-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800 text-[11px]">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#00C49F] animate-pulse"></span>
+        <span class="text-slate-300 font-medium">Ley Carrera Docente</span>
       </div>
-
-      <!-- Theme Switcher -->
-      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-slate-800 light:hover:bg-slate-200 text-slate-400 hover:text-white transition-colors" title="Cambiar tema">
-        <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
-        <i data-lucide="moon" class="w-5 h-5 block dark:hidden text-slate-600"></i>
-      </button>
-
-      <!-- Reset App -->
-      <button id="reset-app-btn" class="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-950/30 rounded-lg transition-colors" title="Restablecer Simulador">
-        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
-      </button>
+      <p class="text-[10px] text-slate-400 px-1">Diseñado para UTP y Equipos Directivos de Chile.</p>
     </div>
-  </header>
+  </aside>
 
-  <!-- Main Work Area -->
-  <main class="flex-1 max-w-[1600px] w-full mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    
-    <!-- LEFT SIDE: Configuration & Input (cols 1 to 5) -->
-    <div class="lg:col-span-5 space-y-6">
-      
-      <!-- SECTION 1: GLOBAL PARAMETERS (DAILY SCHEDULE CONFIGURATION) -->
-      <section class="glass-panel p-6 rounded-2xl shadow-xl transition-all relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-500/5 rounded-full blur-2xl"></div>
-        
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center space-x-2">
-            <div class="p-1.5 bg-indigo-500/10 text-indigo-400 rounded-lg">
-              <i data-lucide="calendar" class="w-5 h-5"></i>
-            </div>
-            <h2 class="text-lg font-bold text-white light:text-slate-800 font-title">1. Horario del Establecimiento (Semanal)</h2>
-          </div>
-          <div class="relative has-tooltip">
-            <button class="text-slate-400 hover:text-white"><i data-lucide="help-circle" class="w-4 h-4"></i></button>
-            <div class="tooltip bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded p-3 w-64 shadow-xl right-0 mt-1 leading-relaxed">
-              Configura las horas de funcionamiento por día de la semana para determinar la jornada presencial y la permanencia física de los docentes.
-            </div>
-          </div>
-        </div>
+  <!-- ========================================== -->
+  <!-- MAIN WORKSPACE CANVAS -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-col min-w-0 bg-[#0E1726] light:bg-[#F0F4F8] transition-colors">
 
-        <div class="space-y-3">
-          <div class="grid grid-cols-5 text-center text-[10px] font-bold text-slate-400 uppercase pb-1 border-b border-slate-850">
-            <span class="text-left pl-2">Día</span>
-            <span>Entrada</span>
-            <span>Salida</span>
-            <span>Almuerzo</span>
-            <span>Permanencia</span>
-          </div>
-
-          <div class="space-y-2" id="daily-schedule-container">
-            <!-- Dynamically populated -->
-          </div>
-
-          <div class="pt-3 border-t border-slate-850 flex flex-wrap items-center justify-between gap-3">
-            <div class="flex items-center space-x-4 flex-wrap gap-2">
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="global-priority" class="sr-only peer">
-                <div class="w-9 h-5 bg-slate-800 light:bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-600"></div>
-                <span class="ml-2 text-xs font-semibold text-slate-300 light:text-slate-700">&gt;80% Estudiantes Prioritarios</span>
-              </label>
-            </div>
-            
-            <div class="text-[11px] text-slate-400">
-              Jornada Establecimiento: <span class="font-bold text-white light:text-slate-900 font-mono" id="establishment-weekly-hours">0.0 hrs</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 2: TEACHER DATA ENTRY -->
-      <section class="glass-panel p-6 rounded-2xl shadow-xl transition-all relative">
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center space-x-2">
-            <div class="p-1.5 bg-brand-500/10 text-brand-400 rounded-lg">
-              <i data-lucide="user-plus" class="w-5 h-5"></i>
-            </div>
-            <h2 class="text-lg font-bold text-white light:text-slate-800 font-title" id="form-title">2. Ingreso del Docente</h2>
-          </div>
-          <span id="edit-indicator" class="hidden px-2 py-0.5 text-[10px] font-semibold bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">
-            Editando
-          </span>
-        </div>
-
-        <form id="teacher-form" class="space-y-4">
-          <input type="hidden" id="teacher-id" value="">
-          
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="md:col-span-2">
-              <label class="block text-xs font-semibold text-slate-400 mb-1">Nombre del Docente</label>
-              <input type="text" id="teacher-name" required placeholder="Prof. María José Valenzuela" class="w-full bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-400 mb-1">Contrato (hrs 60m)</label>
-              <div class="relative flex items-center">
-                <input type="number" id="teacher-contract" required min="1" max="44" placeholder="44" class="w-full bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl pl-3 pr-10 py-2 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <span class="absolute right-3 text-xs text-slate-500">hrs</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- COURSE ASSIGNMENTS TABLE (16 SPACES) -->
-          <div class="p-4 bg-slate-900/40 light:bg-slate-50/50 rounded-xl border border-slate-800/50 light:border-slate-200 space-y-2">
-            <div class="flex items-center justify-between border-b border-slate-800/50 pb-2">
-              <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Asignación de Cursos y Horas (16 Espacios)</h3>
-              <span class="text-[9px] px-1.5 py-0.5 bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">Horas Pedagógicas</span>
-            </div>
-            
-            <div class="max-h-[300px] overflow-y-auto pr-1 border border-slate-850 light:border-slate-250 rounded-xl p-2 bg-slate-950/20">
-              <table class="w-full text-left text-xs">
-                <thead>
-                  <tr class="text-slate-400 font-bold border-b border-slate-800/50 pb-1 uppercase text-[9px] tracking-wider">
-                    <th class="pb-2 w-1/4">Curso</th>
-                    <th class="pb-2 w-1/4">Asignatura</th>
-                    <th class="pb-2 w-1/3">Tipo de Carga</th>
-                    <th class="pb-2 w-1/6 text-center">Horas</th>
-                  </tr>
-                </thead>
-                <tbody id="course-assignments-tbody">
-                  <!-- Generated 16 rows in JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- CYCLE CARDS (SUMMARIES) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- 1° Cycle Card (1° a 4° Básico) -->
-            <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl space-y-3">
-              <div class="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Primer Ciclo (1° a 4° Básico)</h3>
-                <span class="text-[9px] px-1.5 py-0.5 bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30" id="cycle1-ratio-tag">Ratio: 65/35</span>
-              </div>
-              
-              <div>
-                <label class="block text-[10px] font-semibold text-slate-400 mb-1">Clases Asignadas (45 min) <span class="text-slate-500">[Suma automática]</span></label>
-                <div class="relative flex items-center">
-                  <input type="number" id="teacher-ped1" min="0" max="50" value="0" class="w-full bg-slate-950/50 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl pl-3 pr-16 py-2 text-sm text-slate-400 light:text-slate-600 focus:outline-none cursor-not-allowed font-semibold" readonly>
-                  <span class="absolute right-3 text-xs text-slate-500">hrs ped.</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 2° Cycle Card (5° Básico a Media) -->
-            <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl space-y-3">
-              <div class="flex items-center justify-between border-b border-slate-800/50 pb-2">
-                <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Segundo Ciclo / Media</h3>
-                <span class="text-[9px] px-1.5 py-0.5 bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30">Ratio: 65/35</span>
-              </div>
-              
-              <div>
-                <label class="block text-[10px] font-semibold text-slate-400 mb-1">Clases Asignadas (45 min) <span class="text-slate-500">[Suma automática]</span></label>
-                <div class="relative flex items-center">
-                  <input type="number" id="teacher-ped2" min="0" max="50" value="0" class="w-full bg-slate-950/50 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl pl-3 pr-16 py-2 text-sm text-slate-400 light:text-slate-600 focus:outline-none cursor-not-allowed font-semibold" readonly>
-                  <span class="absolute right-3 text-xs text-slate-500">hrs ped.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- PIE CARD (SEPARATE, DIRECT ENTRY) -->
-          <div class="p-4 bg-slate-900/40 light:bg-slate-50/50 rounded-xl border border-cyan-800/40 light:border-slate-200 space-y-3">
-            <div class="flex items-center justify-between border-b border-cyan-800/30 pb-2">
-              <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center space-x-1.5">
-                <i data-lucide="accessibility" class="w-3.5 h-3.5"></i>
-                <span>Horas PIE (Co-Docencia)</span>
-              </h3>
-              <span class="text-[9px] px-1.5 py-0.5 bg-cyan-500/10 text-cyan-300 rounded border border-cyan-500/30">60 min / hora &mdash; Lectivas</span>
-            </div>
-            <p class="text-[10px] text-slate-500 leading-tight">Ingresa las horas PIE directamente. Son horas lectivas contabilizadas a 60 min cada una (no se aplica factor 0.75). Se descuentan del contrato en el cuadro de distribución.</p>
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[10px] font-semibold text-slate-400 mb-1">PIE 1° Ciclo (1° a 4° Básico)</label>
-                <div class="relative flex items-center">
-                  <input type="number" id="teacher-pie1" min="0" max="44" value="0" placeholder="0" class="w-full bg-slate-900/50 light:bg-white border border-cyan-800/50 light:border-slate-300 rounded-xl pl-3 pr-16 py-2 text-sm text-cyan-200 light:text-slate-900 focus:outline-none focus:border-cyan-500 font-semibold">
-                  <span class="absolute right-3 text-xs text-slate-500">hrs</span>
-                </div>
-              </div>
-              <div>
-                <label class="block text-[10px] font-semibold text-slate-400 mb-1">PIE 2° Ciclo / Media</label>
-                <div class="relative flex items-center">
-                  <input type="number" id="teacher-pie2" min="0" max="44" value="0" placeholder="0" class="w-full bg-slate-900/50 light:bg-white border border-cyan-800/50 light:border-slate-300 rounded-xl pl-3 pr-16 py-2 text-sm text-cyan-200 light:text-slate-900 focus:outline-none focus:border-cyan-500 font-semibold">
-                  <span class="absolute right-3 text-xs text-slate-500">hrs</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Presence days for physical footprint calculation -->
-          <div class="p-4 bg-slate-900/40 light:bg-slate-50/50 rounded-xl border border-slate-800/50 light:border-slate-200">
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Días de Presencia Semanal</label>
-            <select id="teacher-presence-days" class="w-full bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-              <option value="5" selected>5 Días (Lunes-Viernes)</option>
-              <option value="4">4 Días</option>
-              <option value="3">3 Días</option>
-              <option value="2">2 Días</option>
-              <option value="1">1 Día</option>
-            </select>
-          </div>
-
-          <!-- Distribución de Horas Restantes (5 casillas en blanco con minutaje) -->
-          <div class="p-4 bg-slate-900/40 light:bg-slate-50/50 rounded-xl border border-slate-800/50 light:border-slate-200 space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-800/50 pb-2">
-              <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">3. Distribuir Horas Restantes</h3>
-              <span class="text-[9px] px-1.5 py-0.5 bg-amber-500/20 text-amber-400 rounded border border-amber-500/30">Opcional (Hrs + Min)</span>
-            </div>
-            
-            <p class="text-[10px] text-slate-400 leading-normal mb-1">
-              Ingresa el nombre de la actividad y la duración en horas y minutos para descontar de las horas restantes no lectivas.
-            </p>
-
-            <div class="space-y-2">
-              <div class="grid grid-cols-12 gap-1.5 items-center text-[10px] font-bold text-slate-400 uppercase pb-1 border-b border-slate-850">
-                <span class="col-span-6 pl-1">Nombre Actividad</span>
-                <span class="col-span-3 text-center">Hrs</span>
-                <span class="col-span-3 text-center">Min</span>
-              </div>
-              
-              <!-- Row 1 -->
-              <div class="grid grid-cols-12 gap-1.5">
-                <input type="text" id="teacher-custom-name-1" placeholder="Ej. Taller Pedagógico" class="col-span-6 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <input type="number" id="teacher-custom-hr-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-                <input type="number" id="teacher-custom-min-1" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-              </div>
-              
-              <!-- Row 2 -->
-              <div class="grid grid-cols-12 gap-1.5">
-                <input type="text" id="teacher-custom-name-2" placeholder="Ej. Preparación Material" class="col-span-6 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <input type="number" id="teacher-custom-hr-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-                <input type="number" id="teacher-custom-min-2" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-              </div>
-
-              <!-- Row 3 -->
-              <div class="grid grid-cols-12 gap-1.5">
-                <input type="text" id="teacher-custom-name-3" placeholder="Ej. Corrección Pruebas" class="col-span-6 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <input type="number" id="teacher-custom-hr-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-                <input type="number" id="teacher-custom-min-3" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-              </div>
-
-              <!-- Row 4 -->
-              <div class="grid grid-cols-12 gap-1.5">
-                <input type="text" id="teacher-custom-name-4" placeholder="Ej. Atención Alumnos" class="col-span-6 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <input type="number" id="teacher-custom-hr-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-                <input type="number" id="teacher-custom-min-4" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-              </div>
-
-              <!-- Row 5 -->
-              <div class="grid grid-cols-12 gap-1.5">
-                <input type="text" id="teacher-custom-name-5" placeholder="Ej. Trabajo Técnico" class="col-span-6 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
-                <input type="number" id="teacher-custom-hr-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-                <input type="number" id="teacher-custom-min-5" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
-              </div>
-
-              <!-- Horas Administrativas -->
-              <div class="pt-2 mt-1 border-t border-slate-800/50">
-                <div class="flex items-center justify-between mb-1.5">
-                  <h4 class="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Horas Administrativas</h4>
-                  <span class="text-[9px] px-1.5 py-0.5 bg-rose-500/10 text-rose-400 rounded border border-rose-500/30">Descuento Directo</span>
-                </div>
-                <p class="text-[10px] text-slate-500 mb-1.5 leading-tight">Se descuentan directamente del contrato. No son lectivas ni no-lectivas.</p>
-                <div class="grid grid-cols-12 gap-1.5">
-                  <input type="text" id="teacher-admin-name" placeholder="Ej. Coordinación, UTP..." class="col-span-6 bg-slate-950/60 light:bg-white border border-rose-800/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500">
-                  <input type="number" id="teacher-admin-hr" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-800/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
-                  <input type="number" id="teacher-admin-min" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-800/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Submit Buttons -->
-          <div class="flex space-x-3 pt-2">
-            <button type="button" id="cancel-edit-btn" class="hidden w-1/3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 font-semibold py-2 px-4 rounded-xl transition-all text-sm">
-              Cancelar
-            </button>
-            <button type="submit" id="submit-teacher-btn" class="flex-1 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg hover:shadow-brand-500/20 transition-all text-sm flex items-center justify-center space-x-2">
-              <i data-lucide="save" class="w-4 h-4"></i>
-              <span id="submit-btn-text">Guardar Docente</span>
-            </button>
-          </div>
-        </form>
-      </section>
-
-    </div>
-
-    <!-- RIGHT SIDE: Brain Calculations & Visualizations (cols 6 to 12) -->
-    <div class="lg:col-span-7 space-y-6">
-
-      <!-- SECTION 3: MOTOR DE CÁLCULO - LIVE CAPACIDAD CARD -->
-      <section id="capacity-card" class="glass-panel p-6 rounded-2xl shadow-xl transition-all relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500">
-        
+    <!-- Top Action Bar Header -->
+    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between shadow-lg no-print">
+      <div class="flex items-center space-x-4">
         <div>
-          <div class="flex justify-between items-center mb-2">
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Simulación de Capacidad y Estado</h2>
-            <div id="school-vulnerability-indicator" class="hidden text-[10px] font-bold px-2 py-0.5 bg-brand-500/20 text-brand-300 rounded-full border border-brand-500/30 uppercase tracking-wider">
-              Prioritarios &gt;80% Activo
-            </div>
-          </div>
-          
-          <div class="py-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- 1° Cycle Remaining Capacity -->
-            <div class="p-3 bg-slate-950/40 rounded-xl border border-slate-850">
-              <span id="title-cycle1" class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Capacidad Restante 1° Ciclo</span>
-              <div class="flex items-baseline space-x-1">
-                <span id="remaining-hours-cycle1" class="text-2xl font-extrabold text-white font-title">0.00</span>
-                <span class="text-xs text-slate-400">hrs</span>
-              </div>
-              <span class="text-[10px] text-slate-400 block mt-1" id="remaining-blocks-cycle1">0 bloques de clases</span>
-            </div>
-
-            <!-- 2° Cycle Remaining Capacity -->
-            <div class="p-3 bg-slate-950/40 rounded-xl border border-slate-850">
-              <span id="title-cycle2" class="text-[10px] uppercase font-bold text-slate-500 block mb-1">Capacidad Restante 2° Ciclo</span>
-              <div class="flex items-baseline space-x-1">
-                <span id="remaining-hours-cycle2" class="text-2xl font-extrabold text-white font-title">0.00</span>
-                <span class="text-xs text-slate-400">hrs</span>
-              </div>
-              <span class="text-[10px] text-slate-400 block mt-1" id="remaining-blocks-cycle2">0 bloques de clases</span>
-            </div>
-          </div>
-
-          <!-- Admin & Classroom Capacity Details Banner -->
-          <div id="admin-capacity-details" class="hidden p-3 bg-slate-950/60 rounded-xl border border-rose-800/40 text-xs space-y-2 mb-3">
-            <!-- Dynamically populated in JS -->
-          </div>
-        </div>
-
-        <!-- Alert messages container -->
-        <div id="alert-container" class="mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/20 border-emerald-800/40 text-emerald-300">
-          <i data-lucide="check-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-emerald-400"></i>
-          <div>
-            <p class="text-xs font-bold" id="alert-title">Distribución dentro de los límites legales</p>
-            <p class="text-[11px] text-slate-400" id="alert-desc">La carga asignada respeta los topes de la Ley 20.903/21.625.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 4: VISUALIZACIÓN GRÁFICA DEL CONTRATO -->
-      <section class="glass-panel p-6 rounded-2xl shadow-xl transition-all">
-        <h2 class="text-lg font-bold text-white light:text-slate-800 mb-4 font-title flex items-center space-x-2">
-          <div class="p-1.5 bg-indigo-500/10 text-indigo-400 rounded-lg">
-            <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-          </div>
-          <span>Distribución y Permanencia Semanal</span>
-        </h2>
-
-        <!-- SVG Stacked Chart Container -->
-        <div class="w-full bg-slate-900/40 light:bg-slate-50/50 border border-slate-800/80 light:border-slate-200 rounded-2xl p-4 lg:p-6 mb-6">
-          <div class="flex justify-between items-center mb-3">
-            <div>
-              <span class="text-xs text-slate-400">Permanencia en Colegio (Física):</span>
-              <span class="text-sm font-bold text-white light:text-slate-900 font-mono ml-1" id="total-permanence-display">0.0 hrs</span>
-            </div>
-            <span class="text-[10px] font-bold text-slate-500 bg-slate-950 px-2 py-0.5 rounded border border-slate-800 font-mono" id="contract-label">Contrato: 0 hrs</span>
-          </div>
-
-          <!-- SVG Stacked Bar Chart -->
-          <div class="relative w-full h-12 bg-slate-900 rounded-xl overflow-hidden shadow-inner flex">
-            <div id="chart-bar" class="w-full h-full flex rounded-xl overflow-hidden border border-slate-800/50">
-              <!-- Dynamically Filled -->
-            </div>
-          </div>
-
-          <!-- Legend Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800/50 light:border-slate-200">
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-indigo-500 block"></span>
-              <div>
-                <p class="text-[10px] font-bold text-slate-400">Clases (Lect.)</p>
-                <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-lectivas">0.0 hrs</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-cyan-400 block"></span>
-              <div>
-                <p class="text-[10px] font-bold text-slate-400">Horas PIE (Lect.)</p>
-                <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-pie">0.0 hrs</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-violet-500 block"></span>
-              <div>
-                <p class="text-[10px] font-bold text-slate-400">Planif. Real (50%)</p>
-                <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-planif">0.0 hrs</p>
-              </div>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="w-3 h-3 rounded-full bg-emerald-500 block"></span>
-              <div>
-                <p class="text-[10px] font-bold text-slate-400">Recreos Fórmula</p>
-                <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-tiempo-muerto">0.0 hrs</p>
-              </div>
-            </div>
-            <!-- Dynamic Custom Legends -->
-            <div id="legend-custom-container" class="contents"></div>
-          </div>
-        </div>
-
-        <!-- Extra breakdown details (Planificación y No Lectivas Distribuidas) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Card 1: Planificación (50%) -->
-          <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                <span class="text-xs font-bold text-violet-400 uppercase">Planificación (50% NL)</span>
-                <i data-lucide="shield-check" class="w-4 h-4 text-violet-400"></i>
-              </div>
-              <div class="space-y-1 text-sm font-semibold font-mono">
-                <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 text-[11px] font-normal font-sans">
-                  <span>No Lectivas Generadas:</span>
-                  <span id="breakdown-planif-total" class="text-white light:text-slate-950 font-bold font-mono text-xs">0.00 hrs</span>
-                </div>
-                <div class="flex justify-between items-baseline pt-1">
-                  <span class="text-[10px] font-normal text-slate-400">Mín. Inamovible (50%):</span>
-                  <span class="text-white light:text-slate-950" id="breakdown-planif">0.00 hrs</span>
-                </div>
-              </div>
-            </div>
-            <!-- Admin hours deduction display -->
-            <div id="admin-hours-breakdown" class="hidden"></div>
-            <p class="text-[9px] text-slate-500 mt-2 leading-tight">Tiempo individual intocable que se garantiza al 100% bajo la ley.</p>
-          </div>
-
-          <!-- Card 2: Otras Actividades (50% Distribuidas) -->
-          <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-              <span class="text-xs font-bold text-amber-400 uppercase">Otras NL (50% NL)</span>
-              <i data-lucide="clipboard-list" class="w-4 h-4 text-amber-400"></i>
-            </div>
-            <div class="space-y-1 font-mono text-[11px] text-slate-300 light:text-slate-700">
-              <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
-                <span>No Lectivas Generadas:</span>
-                <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
-              </div>
-              <div class="flex justify-between items-baseline text-slate-450 pt-1">
-                <span>Otras NL Máx (50%):</span>
-                <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
-              </div>
-              <!-- Custom Activities Breakdown Container -->
-              <div id="custom-activities-breakdown" class="space-y-1 font-mono text-[11px] text-slate-350 light:text-slate-700">
-                <!-- Dynamically filled -->
-              </div>
-              <div class="flex justify-between items-baseline pt-1 border-t border-slate-800/50 text-emerald-400 font-bold">
-                <span>Restante / Sobra:</span>
-                <span id="breakdown-nolect-balance">0.00 hrs</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3: Recreos Fórmula -->
-          <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                <span class="text-xs font-bold text-emerald-400 uppercase">Recreos Fórmula</span>
-                <i data-lucide="coffee" class="w-4 h-4 text-emerald-400"></i>
-              </div>
-              <div class="space-y-1.5 font-mono text-[11px]">
-                <div class="flex justify-between items-baseline">
-                  <span class="text-slate-400 font-sans text-[10px]">Hrs Contrato (cronológicas):</span>
-                  <span class="text-slate-200 font-semibold" id="breakdown-recess-ped-hrs">0 hrs cron.</span>
-                </div>
-                <div class="flex justify-between items-baseline">
-                  <span class="text-slate-400 font-sans text-[10px]">× 4 min/hr = Recreo:</span>
-                  <span class="text-emerald-400 font-bold" id="breakdown-recess-formula">0 hrs 00 min</span>
-                </div>
-              </div>
-            </div>
-            <p class="text-[9px] text-slate-500 mt-2 leading-tight">4 min de recreo por cada hora cronológica de contrato del docente.</p>
-          </div>
-        </div>
-
-        <!-- DYNAMIC FORMULAS & SUPERVISION CARD: SimoHora 20.903/21.625 -->
-        <div id="legal-formulas-card" class="mt-6 p-5 bg-slate-900/80 light:bg-slate-50 border border-brand-500/30 light:border-slate-300 rounded-2xl space-y-4 shadow-xl">
-          <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
-            <div class="flex items-center space-x-2">
-              <div class="p-1.5 bg-brand-500/10 text-brand-400 rounded-lg">
-                <i data-lucide="scale" class="w-4 h-4"></i>
-              </div>
-              <div>
-                <h3 class="text-xs font-extrabold text-white light:text-slate-900 uppercase tracking-wider">Marco Legal & Fórmulas &mdash; SimoHora 20.903/21.625</h3>
-                <p class="text-[10px] text-slate-400">Resumen pedagógico normativo para fines de supervisión técnica</p>
-              </div>
-            </div>
-            <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 bg-brand-500/20 text-brand-300 rounded-full border border-brand-500/30">Ley 20.903 / 21.625</span>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-            <!-- Item 1: Horas Lectivas (Aula) -->
-            <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
-                  <span class="text-[11px] font-bold text-indigo-400 uppercase">1. Horas Lectivas (Aula)</span>
-                  <span class="text-[9px] text-slate-400 font-mono font-semibold" id="legal-lect-ratio">65% Lectiva</span>
-                </div>
-                <p class="text-[10px] text-slate-400 leading-tight mb-2">Horas dedicadas a clases en aula según horas contratadas.</p>
-                <div class="space-y-1 font-mono text-[11px]">
-                  <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">Máx Lectivo (Contrato):</span>
-                    <span id="legal-lect-max" class="font-bold">0.00 hrs</span>
-                  </div>
-                  <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">Asignado en Aula:</span>
-                    <span id="legal-lect-assigned" class="font-bold text-indigo-300">0.00 hrs</span>
-                  </div>
-                  <div class="flex justify-between text-slate-300 pt-1 border-t border-slate-800/40">
-                    <span class="font-sans text-[10px] text-slate-400">Faltante por Asignar / Disp:</span>
-                    <span id="legal-lect-available" class="font-bold text-emerald-400">0.00 hrs</span>
-                  </div>
-                </div>
-              </div>
-              <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight" id="legal-lect-note">Toda la carga lectiva se debe realizar en aula según contrato.</p>
-            </div>
-
-            <!-- Item 2: Horas No Lectivas (50/50 Split) -->
-            <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
-                  <span class="text-[11px] font-bold text-violet-400 uppercase">2. Horas No Lectivas</span>
-                  <span class="text-[9px] text-slate-400 font-mono font-semibold" id="legal-nolect-ratio">35% No Lectiva</span>
-                </div>
-                <p class="text-[10px] text-slate-400 leading-tight mb-2">Distribución legal del tiempo no lectivo (50% Planif. / 50% Director).</p>
-                <div class="space-y-1 font-mono text-[11px]">
-                  <div class="flex justify-between text-slate-300 border-b border-slate-800/40 pb-1 mb-1">
-                    <span class="font-sans text-[10px] text-slate-400">Total No Lectivas Generadas:</span>
-                    <span id="legal-nolect-total-disp" class="font-bold text-slate-100">0.00 hrs</span>
-                  </div>
-                  <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">Planif. e Inamovible (50%):</span>
-                    <span id="legal-planif-50" class="font-bold text-violet-300">0.00 hrs</span>
-                  </div>
-                  <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">A Disp. Director (50%):</span>
-                    <span id="legal-director-50" class="font-bold text-amber-300">0.00 hrs</span>
-                  </div>
-                </div>
-              </div>
-              <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight">*Previa consulta al Consejo Docente. Trabajo colaborativo libre en horas restantes.</p>
-            </div>
-
-            <!-- Item 3: Recreos Fórmula -->
-            <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
-                  <span class="text-[11px] font-bold text-emerald-400 uppercase">3. Fórmula de Recreos</span>
-                  <i data-lucide="coffee" class="w-3.5 h-3.5 text-emerald-400"></i>
-                </div>
-                <p class="text-[10px] text-slate-400 leading-tight mb-2">4 minutos por hora cronológica de contrato.</p>
-                <div class="space-y-1 font-mono text-[11px]">
-                  <div class="flex justify-between text-slate-300">
-                    <span class="font-sans text-[10px] text-slate-400">Horas Contrato (cronológicas):</span>
-                    <span id="legal-recess-ped" class="font-bold">0 hrs cron.</span>
-                  </div>
-                  <div class="flex justify-between text-emerald-400 pt-1 border-t border-slate-800/40">
-                    <span class="font-sans text-[10px] text-slate-400">× 4 min/hr = Recreo:</span>
-                    <span id="legal-recess-total" class="font-bold">0 hrs 00 min</span>
-                  </div>
-                </div>
-              </div>
-              <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight">Cómputo automático integrado en el marco de la jornada laboral.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-  </main>
-
-  <!-- TABLE SUMMARY: BOTTOM DYNAMIC LIST -->
-  <section class="max-w-[1600px] w-full mx-auto p-4 lg:p-8 pt-0">
-    <div class="glass-panel p-6 rounded-2xl shadow-xl transition-all print-panel">
-      
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 no-print">
-        <div>
-          <h2 class="text-lg font-bold text-white light:text-slate-800 font-title flex items-center space-x-2">
-            <div class="p-1.5 bg-indigo-500/10 text-indigo-400 rounded-lg">
-              <i data-lucide="list" class="w-5 h-5"></i>
-            </div>
-            <span>Resumen del Establecimiento (Planta Docente)</span>
+          <h2 class="text-base font-bold text-white light:text-slate-900 font-title tracking-tight">
+            Planificador de Horarios & Permanencia Real
           </h2>
-          <p class="text-xs text-slate-400">Vista consolidada y cálculos agregados de la planta ingresada.</p>
+          <p class="text-xs text-slate-400 light:text-slate-600">Simulador de Cargas Horarias Ley 20.903 / 21.625</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        
+        <!-- Priority Vulnerability Toggle -->
+        <label class="relative inline-flex items-center cursor-pointer px-3 py-1.5 rounded-xl bg-[#162238] light:bg-white border border-slate-700/60 light:border-slate-200 transition-all hover:border-[#00C49F]/50 shadow-sm">
+          <input type="checkbox" id="global-priority" class="sr-only peer">
+          <div class="w-8 h-4 bg-slate-700 light:bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[8px] after:left-[14px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-[#00C49F]"></div>
+          <span class="ml-2 text-xs font-semibold text-slate-200 light:text-slate-800">&gt;80% Prioritarios (60/40)</span>
+        </label>
+
+        <!-- Theme Switcher Button -->
+        <button id="theme-toggle" class="p-2.5 rounded-xl bg-[#162238] light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-800 transition-all duration-200 border border-slate-700/60 light:border-slate-200 shadow-sm" title="Cambiar tema (Claro / Oscuro)">
+          <i data-lucide="sun" class="w-4 h-4 hidden dark:block text-[#00C49F]"></i>
+          <i data-lucide="moon" class="w-4 h-4 block dark:hidden text-[#00C49F]"></i>
+        </button>
+
+        <!-- Reset App Button -->
+        <button id="reset-app-btn" class="p-2.5 text-rose-400 hover:text-rose-300 bg-rose-950/20 hover:bg-rose-950/40 border border-rose-900/30 rounded-xl transition-all duration-200 shadow-sm" title="Restablecer Simulador">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        </button>
+
+        <!-- User Session Badge & Logout -->
+        <div id="user-header-info" class="flex items-center space-x-2 pl-3 border-l border-slate-700/60 light:border-slate-300">
+          <div class="p-1.5 bg-[#00C49F]/20 text-[#00C49F] rounded-xl border border-[#00C49F]/30">
+            <i data-lucide="user" class="w-4 h-4"></i>
+          </div>
+          <div class="hidden sm:block text-left">
+            <p id="user-display-name" class="text-xs font-bold text-slate-100 light:text-slate-900 leading-none">Invitado</p>
+            <p id="user-display-role" class="text-[10px] text-slate-400 font-mono mt-0.5 leading-none">No Autenticado</p>
+          </div>
+          <button id="logout-btn" onclick="handleLogout()" class="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-950/30 rounded-xl transition-all" title="Cerrar Sesión">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid Canvas -->
+    <main class="flex-1 max-w-[1700px] w-full mx-auto p-4 lg:p-8 space-y-6 animate-fade-in">
+      
+      <!-- WORKSPACE TAB NAVIGATION BAR -->
+      <div class="glass-panel p-2 rounded-2xl flex items-center justify-between overflow-x-auto no-print shadow-lg border border-slate-800/80 light:border-slate-200">
+        <div class="flex space-x-2">
+          <button id="tab-btn-simulator" onclick="switchTab('simulator')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20">
+            <i data-lucide="calculator" class="w-4 h-4"></i>
+            <span>1. Simulación & Planificador Docente</span>
+          </button>
+          <button id="tab-btn-schedule" onclick="switchTab('schedule')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
+            <i data-lucide="calendar" class="w-4 h-4"></i>
+            <span>2. Horario del Establecimiento</span>
+          </button>
+          <button id="tab-btn-roster" onclick="switchTab('roster')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>3. Planta Docente & Consolidado</span>
+          </button>
+          <button id="tab-btn-master" onclick="switchTab('master')" class="hidden tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30">
+            <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
+            <span>👑 4. Página Maestra (Monitoreo Admin)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- TAB 1: SIMULACIÓN & PLANIFICADOR DOCENTE (GRID 6/6) -->
+      <!-- ==================================================== -->
+      <div id="tab-content-simulator" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- LEFT COLUMN: INPUTS & CONFIG (Cols 1-6) -->
+        <div class="lg:col-span-6 space-y-6">
+
+          <!-- SECTION 2: TEACHER DATA ENTRY FORM -->
+          <section id="sec-teacher-form" class="dashboard-card p-6 rounded-2xl relative transition-all duration-300">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+                  <i data-lucide="user-plus" class="w-5 h-5"></i>
+                </div>
+                <h2 class="text-base font-bold text-white light:text-slate-900 font-title tracking-tight" id="form-title">2. Ingreso del Docente</h2>
+              </div>
+              <span id="edit-indicator" class="hidden px-2.5 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">
+                Editando
+              </span>
+            </div>
+
+            <form id="teacher-form" class="space-y-5">
+              <input type="hidden" id="teacher-id" value="">
+              
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-300 light:text-slate-700 mb-1.5">Nombre del Docente</label>
+                  <input type="text" id="teacher-name" required placeholder="Prof. María José Valenzuela" class="w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-semibold text-slate-300 light:text-slate-700 mb-1.5">Contrato (hrs 60m)</label>
+                  <div class="relative flex items-center">
+                    <input type="number" id="teacher-contract" required min="1" max="44" placeholder="44" class="w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all font-semibold">
+                    <span class="absolute right-3.5 text-xs text-slate-500">hrs</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- COURSE ASSIGNMENTS TABLE (16 SLOTS) -->
+              <div id="sec-courses-tbody" class="p-4 bg-slate-900/80 light:bg-slate-50/80 rounded-xl border border-slate-800/80 light:border-slate-200 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                  <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Asignación de Cursos y Horas (16 Espacios)</h3>
+                  <span class="text-[10px] px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">Horas Pedagógicas</span>
+                </div>
+                
+                <div class="max-h-[320px] overflow-y-auto pr-1 border border-slate-800 light:border-slate-250 rounded-xl p-2 bg-slate-950/40">
+                  <table class="w-full text-left text-xs">
+                    <thead>
+                      <tr class="text-slate-400 font-bold border-b border-slate-800/80 pb-1 uppercase text-[9px] tracking-wider">
+                        <th class="pb-2 w-1/4">Curso</th>
+                        <th class="pb-2 w-1/4">Asignatura</th>
+                        <th class="pb-2 w-1/3">Tipo de Carga</th>
+                        <th class="pb-2 w-1/6 text-center">Horas</th>
+                      </tr>
+                    </thead>
+                    <tbody id="course-assignments-tbody">
+                      <!-- Generated 16 rows dynamically in JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- CYCLE CARDS (SUMMARIES) -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 1° Cycle Card -->
+                <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl space-y-3">
+                  <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                    <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Primer Ciclo (1° a 4°)</h3>
+                    <span class="text-[9px] px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30" id="cycle1-ratio-tag">Ratio: 65/35</span>
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-400 mb-1">Clases Asignadas (45 min)</label>
+                    <div class="relative flex items-center">
+                      <input type="number" id="teacher-ped1" min="0" max="50" value="0" class="w-full bg-slate-950/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl pl-3.5 pr-16 py-2 text-sm text-slate-400 light:text-slate-600 focus:outline-none cursor-not-allowed font-semibold" readonly>
+                      <span class="absolute right-3.5 text-xs text-slate-500">hrs ped.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2° Cycle Card -->
+                <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl space-y-3">
+                  <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                    <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Segundo Ciclo / Media</h3>
+                    <span class="text-[9px] px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">Ratio: 65/35</span>
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-400 mb-1">Clases Asignadas (45 min)</label>
+                    <div class="relative flex items-center">
+                      <input type="number" id="teacher-ped2" min="0" max="50" value="0" class="w-full bg-slate-950/60 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl pl-3.5 pr-16 py-2 text-sm text-slate-400 light:text-slate-600 focus:outline-none cursor-not-allowed font-semibold" readonly>
+                      <span class="absolute right-3.5 text-xs text-slate-500">hrs ped.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PIE CARD -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-cyan-800/40 light:border-slate-200 rounded-xl space-y-3">
+                <div class="flex items-center justify-between border-b border-cyan-800/30 pb-2">
+                  <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center space-x-1.5">
+                    <i data-lucide="accessibility" class="w-3.5 h-3.5"></i>
+                    <span>Horas PIE (Co-Docencia)</span>
+                  </h3>
+                  <span class="text-[9px] px-2 py-0.5 bg-cyan-500/10 text-cyan-300 rounded-full border border-cyan-500/30">60 min / hora &mdash; Lectivas</span>
+                </div>
+                <p class="text-[10px] text-slate-400 leading-tight">Ingresa las horas PIE directamente a 60 min (no aplica factor 0.75).</p>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-400 mb-1">PIE 1° Ciclo</label>
+                    <div class="relative flex items-center">
+                      <input type="number" id="teacher-pie1" min="0" max="44" value="0" placeholder="0" class="w-full bg-slate-900/80 light:bg-white border border-cyan-800/50 light:border-slate-300 rounded-xl pl-3 pr-14 py-2 text-sm text-cyan-200 light:text-slate-900 focus:outline-none focus:border-cyan-500 font-semibold">
+                      <span class="absolute right-3 text-xs text-slate-500">hrs</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-[10px] font-semibold text-slate-400 mb-1">PIE 2° Ciclo / Media</label>
+                    <div class="relative flex items-center">
+                      <input type="number" id="teacher-pie2" min="0" max="44" value="0" placeholder="0" class="w-full bg-slate-900/80 light:bg-white border border-cyan-800/50 light:border-slate-300 rounded-xl pl-3 pr-14 py-2 text-sm text-cyan-200 light:text-slate-900 focus:outline-none focus:border-cyan-500 font-semibold">
+                      <span class="absolute right-3 text-xs text-slate-500">hrs</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PRESENCE DAYS -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 rounded-xl border border-slate-800/80 light:border-slate-200">
+                <label class="block text-xs font-semibold text-slate-300 light:text-slate-700 mb-1.5">Días de Presencia Semanal</label>
+                <select id="teacher-presence-days" class="w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                  <option value="5" selected>5 Días (Lunes-Viernes)</option>
+                  <option value="4">4 Días</option>
+                  <option value="3">3 Días</option>
+                  <option value="2">2 Días</option>
+                  <option value="1">1 Día</option>
+                </select>
+              </div>
+
+              <!-- DISTRIBUCIÓN DE HORAS RESTANTES (5 CASILLAS) -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 rounded-xl border border-slate-800/80 light:border-slate-200 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                  <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">3. Distribuir Horas Restantes</h3>
+                  <span class="text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">Opcional (Hrs + Min)</span>
+                </div>
+                
+                <p class="text-[10px] text-slate-400 leading-normal mb-1">
+                  Ingresa el nombre y duración para descontar de las horas restantes no lectivas.
+                </p>
+
+                <div class="space-y-2">
+                  <div class="grid grid-cols-12 gap-1.5 items-center text-[10px] font-bold text-slate-400 uppercase pb-1 border-b border-slate-850">
+                    <span class="col-span-6 pl-1">Nombre Actividad</span>
+                    <span class="col-span-3 text-center">Hrs</span>
+                    <span class="col-span-3 text-center">Min</span>
+                  </div>
+                  
+                  <!-- Rows 1 to 5 -->
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-custom-name-1" placeholder="Ej. Taller Pedagógico" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="teacher-custom-hr-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-1" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                  </div>
+                  
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-custom-name-2" placeholder="Ej. Preparación Material" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="teacher-custom-hr-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-2" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-custom-name-3" placeholder="Ej. Corrección Pruebas" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="teacher-custom-hr-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-3" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-custom-name-4" placeholder="Ej. Atención Alumnos" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="teacher-custom-hr-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-4" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-custom-name-5" placeholder="Ej. Trabajo Técnico" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                    <input type="number" id="teacher-custom-hr-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-5" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                  </div>
+
+                  <!-- Horas Administrativas -->
+                  <div class="pt-2.5 mt-1 border-t border-slate-800/60">
+                    <div class="flex items-center justify-between mb-1.5">
+                      <h4 class="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Horas Administrativas</h4>
+                      <span class="text-[9px] px-2 py-0.5 bg-rose-500/10 text-rose-400 rounded-full border border-rose-500/30">Descuento Directo</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mb-1.5 leading-tight">Se descuentan directamente del contrato antes del desglose.</p>
+                    <div class="grid grid-cols-12 gap-1.5">
+                      <input type="text" id="teacher-admin-name" placeholder="Ej. Coordinación, UTP..." class="col-span-6 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500">
+                      <input type="number" id="teacher-admin-hr" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
+                      <input type="number" id="teacher-admin-min" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SUBMIT BUTTONS -->
+              <div class="flex space-x-3 pt-2">
+                <button type="button" id="cancel-edit-btn" class="hidden w-1/3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 font-semibold py-2.5 px-4 rounded-xl transition-all text-sm">
+                  Cancelar
+                </button>
+                <button type="submit" id="submit-teacher-btn" class="flex-1 bg-gradient-to-r from-[#00C49F] to-teal-700 hover:from-teal-400 hover:to-teal-600 text-white font-bold py-3.5 px-5 rounded-xl shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 active:scale-[0.98] transition-all duration-200 text-sm flex items-center justify-center space-x-2 border border-teal-400/30">
+                  <i data-lucide="save" class="w-4 h-4"></i>
+                  <span id="submit-btn-text">Guardar Docente</span>
+                </button>
+              </div>
+            </form>
+          </section>
+
         </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <div class="relative">
-            <input type="text" id="table-search" placeholder="Buscar docente..." class="bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3 py-1.5 pl-9 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 w-48">
-            <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5"></i>
+        <!-- RIGHT COLUMN: CALCULATIONS & CHARTS (Cols 7-12) -->
+        <div class="lg:col-span-6 space-y-6">
+
+          <!-- SECTION 3: LIVE CAPACITY ENGINE CARD -->
+          <section id="capacity-card" class="dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">3. Simulación de Capacidad y Estado</h2>
+                <div id="school-vulnerability-indicator" class="hidden text-[10px] font-bold px-2.5 py-0.5 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30 uppercase tracking-wider">
+                  Prioritarios &gt;80% Activo
+                </div>
+              </div>
+              
+              <div class="py-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 1° Cycle Remaining Capacity -->
+                <div class="p-4 bg-slate-950/60 light:bg-slate-50 rounded-2xl border border-slate-800/80 light:border-slate-200 transition-all hover:border-teal-500/30">
+                  <span id="title-cycle1" class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Capacidad Restante 1° Ciclo</span>
+                  <div class="flex items-baseline space-x-1.5">
+                    <span id="remaining-hours-cycle1" class="text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0.00</span>
+                    <span class="text-xs text-slate-400">hrs</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400 block mt-1.5" id="remaining-blocks-cycle1">0 bloques de clases</span>
+                </div>
+
+                <!-- 2° Cycle Remaining Capacity -->
+                <div class="p-4 bg-slate-950/60 light:bg-slate-50 rounded-2xl border border-slate-800/80 light:border-slate-200 transition-all hover:border-teal-500/30">
+                  <span id="title-cycle2" class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Capacidad Restante 2° Ciclo</span>
+                  <div class="flex items-baseline space-x-1.5">
+                    <span id="remaining-hours-cycle2" class="text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0.00</span>
+                    <span class="text-xs text-slate-400">hrs</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400 block mt-1.5" id="remaining-blocks-cycle2">0 bloques de clases</span>
+                </div>
+              </div>
+
+              <!-- Admin Capacity Details Banner -->
+              <div id="admin-capacity-details" class="hidden p-3.5 bg-slate-950/60 rounded-xl border border-rose-800/40 text-xs space-y-2 my-3">
+                <!-- Dynamically populated in JS -->
+              </div>
+            </div>
+
+            <!-- Alert messages container -->
+            <div id="alert-container" class="mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/20 border-emerald-800/40 text-emerald-300">
+              <i data-lucide="check-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-emerald-400"></i>
+              <div>
+                <p class="text-xs font-bold" id="alert-title">Distribución dentro de los límites legales</p>
+                <p class="text-[11px] text-slate-400 mt-0.5" id="alert-desc">La carga asignada respeta los topes de la Ley 20.903/21.625.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECTION 4: VISUAL GRAPHICS & CONTRACT BREAKDOWN -->
+          <section id="sec-graphics" class="dashboard-card p-6 rounded-2xl transition-all duration-300">
+            <h2 class="text-base font-bold text-white light:text-slate-900 mb-4 font-title tracking-tight flex items-center space-x-2.5">
+              <div class="p-2 bg-teal-500/10 text-teal-400 rounded-xl border border-teal-500/20">
+                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+              </div>
+              <span>4. Distribución y Permanencia Semanal</span>
+            </h2>
+
+            <!-- SVG STACKED CHART CONTAINER -->
+            <div class="w-full bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-2xl p-5 mb-6">
+              <div class="flex justify-between items-center mb-3">
+                <div>
+                  <span class="text-xs text-slate-400">Permanencia en Colegio (Física):</span>
+                  <span class="text-sm font-bold text-white light:text-slate-900 font-mono ml-1.5" id="total-permanence-display">0.0 hrs</span>
+                </div>
+                <span class="text-[10px] font-bold text-teal-300 bg-teal-950/80 px-2.5 py-1 rounded-lg border border-teal-800/50 font-mono" id="contract-label">Contrato: 0 hrs</span>
+              </div>
+
+              <!-- SVG STACKED BAR CHART -->
+              <div class="relative w-full h-12 bg-slate-950 rounded-xl overflow-hidden shadow-inner flex border border-slate-800">
+                <div id="chart-bar" class="w-full h-full flex rounded-xl overflow-hidden">
+                  <!-- Dynamically Filled in JS -->
+                </div>
+              </div>
+
+              <!-- Legend Grid -->
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800/60 light:border-slate-200">
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-indigo-500 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Clases (Lect.)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-lectivas">0.0 hrs</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-cyan-400 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Horas PIE (Lect.)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-pie">0.0 hrs</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-violet-500 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Planif. Real (50%)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-planif">0.0 hrs</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-emerald-500 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Recreos Fórmula</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-tiempo-muerto">0.0 hrs</p>
+                  </div>
+                </div>
+                <!-- Dynamic Custom Legends -->
+                <div id="legend-custom-container" class="contents"></div>
+              </div>
+            </div>
+
+            <!-- Extra Breakdown Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <!-- Card 1: Planificación (50%) -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                    <span class="text-xs font-bold text-violet-400 uppercase">Planificación (50% NL)</span>
+                    <i data-lucide="shield-check" class="w-4 h-4 text-violet-400"></i>
+                  </div>
+                  <div class="space-y-1 text-sm font-semibold font-mono">
+                    <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 text-[11px] font-normal font-sans">
+                      <span>No Lectivas Generadas:</span>
+                      <span id="breakdown-planif-total" class="text-white light:text-slate-950 font-bold font-mono text-xs">0.00 hrs</span>
+                    </div>
+                    <div class="flex justify-between items-baseline pt-1">
+                      <span class="text-[10px] font-normal text-slate-400">Mín. Inamovible (50%):</span>
+                      <span class="text-white light:text-slate-950" id="breakdown-planif">0.00 hrs</span>
+                    </div>
+                  </div>
+                </div>
+                <div id="admin-hours-breakdown" class="hidden"></div>
+                <p class="text-[9px] text-slate-500 mt-2 leading-tight">Tiempo individual intocable garantizado al 100% bajo la ley.</p>
+              </div>
+
+              <!-- Card 2: Otras Actividades -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                  <span class="text-xs font-bold text-amber-400 uppercase">Otras NL (50% NL)</span>
+                  <i data-lucide="clipboard-list" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div class="space-y-1 font-mono text-[11px] text-slate-300 light:text-slate-700">
+                  <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
+                    <span>No Lectivas Generadas:</span>
+                    <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
+                  </div>
+                  <div class="flex justify-between items-baseline text-slate-400 pt-1">
+                    <span>Otras NL Máx (50%):</span>
+                    <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
+                  </div>
+                  <div id="custom-activities-breakdown" class="space-y-1 font-mono text-[11px] text-slate-300">
+                    <!-- Dynamically filled -->
+                  </div>
+                  <div class="flex justify-between items-baseline pt-1 border-t border-slate-800/50 text-teal-400 font-bold">
+                    <span>Restante / Sobra:</span>
+                    <span id="breakdown-nolect-balance">0.00 hrs</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3: Recreos Fórmula -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                    <span class="text-xs font-bold text-emerald-400 uppercase">Recreos Fórmula</span>
+                    <i data-lucide="coffee" class="w-4 h-4 text-emerald-400"></i>
+                  </div>
+                  <div class="space-y-1.5 font-mono text-[11px]">
+                    <div class="flex justify-between items-baseline">
+                      <span class="text-slate-400 font-sans text-[10px]">Hrs Contrato (cronológicas):</span>
+                      <span class="text-slate-200 font-semibold" id="breakdown-recess-ped-hrs">0 hrs cron.</span>
+                    </div>
+                    <div class="flex justify-between items-baseline">
+                      <span class="text-slate-400 font-sans text-[10px]">× 4 min/hr = Recreo:</span>
+                      <span class="text-emerald-400 font-bold" id="breakdown-recess-formula">0 hrs 00 min</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-[9px] text-slate-500 mt-2 leading-tight">4 min de recreo por cada hora cronológica de contrato.</p>
+              </div>
+            </div>
+
+            <!-- DYNAMIC FORMULAS & SUPERVISION CARD -->
+            <div id="legal-formulas-card" class="mt-6 p-5 bg-slate-900/80 light:bg-slate-50 border border-teal-500/30 light:border-slate-300 rounded-2xl space-y-4 shadow-xl">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-2.5">
+                <div class="flex items-center space-x-2.5">
+                  <div class="p-1.5 bg-teal-500/10 text-teal-400 rounded-lg border border-teal-500/20">
+                    <i data-lucide="scale" class="w-4 h-4"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xs font-extrabold text-white light:text-slate-900 uppercase tracking-wider">Marco Legal & Fórmulas &mdash; SimoHora 20.903/21.625</h3>
+                    <p class="text-[10px] text-slate-400">Resumen pedagógico normativo para fines de supervisión técnica</p>
+                  </div>
+                </div>
+                <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">Ley 20.903 / 21.625</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <!-- Item 1: Horas Lectivas -->
+                <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
+                      <span class="text-[11px] font-bold text-indigo-400 uppercase">1. Horas Lectivas (Aula)</span>
+                      <span class="text-[9px] text-slate-400 font-mono font-semibold" id="legal-lect-ratio">65% Lectiva</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 leading-tight mb-2">Horas dedicadas a clases en aula según contrato.</p>
+                    <div class="space-y-1 font-mono text-[11px]">
+                      <div class="flex justify-between text-slate-300">
+                        <span class="font-sans text-[10px] text-slate-400">Máx Lectivo (Contrato):</span>
+                        <span id="legal-lect-max" class="font-bold">0.00 hrs</span>
+                      </div>
+                      <div class="flex justify-between text-slate-300">
+                        <span class="font-sans text-[10px] text-slate-400">Asignado en Aula:</span>
+                        <span id="legal-lect-assigned" class="font-bold text-indigo-300">0.00 hrs</span>
+                      </div>
+                      <div class="flex justify-between text-slate-300 pt-1 border-t border-slate-800/40">
+                        <span class="font-sans text-[10px] text-slate-400">Faltante por Asignar / Disp:</span>
+                        <span id="legal-lect-available" class="font-bold text-teal-400">0.00 hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight" id="legal-lect-note">Toda la carga lectiva se debe realizar en aula según contrato.</p>
+                </div>
+
+                <!-- Item 2: Horas No Lectivas -->
+                <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
+                      <span class="text-[11px] font-bold text-violet-400 uppercase">2. Horas No Lectivas</span>
+                      <span class="text-[9px] text-slate-400 font-mono font-semibold" id="legal-nolect-ratio">35% No Lectiva</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 leading-tight mb-2">Distribución legal del tiempo no lectivo (50% Planif. / 50% Director).</p>
+                    <div class="space-y-1 font-mono text-[11px]">
+                      <div class="flex justify-between text-slate-300 border-b border-slate-800/40 pb-1 mb-1">
+                        <span class="font-sans text-[10px] text-slate-400">Total No Lectivas Generadas:</span>
+                        <span id="legal-nolect-total-disp" class="font-bold text-slate-100">0.00 hrs</span>
+                      </div>
+                      <div class="flex justify-between text-slate-300">
+                        <span class="font-sans text-[10px] text-slate-400">Planif. e Inamovible (50%):</span>
+                        <span id="legal-planif-50" class="font-bold text-violet-300">0.00 hrs</span>
+                      </div>
+                      <div class="flex justify-between text-slate-300">
+                        <span class="font-sans text-[10px] text-slate-400">A Disp. Director (50%):</span>
+                        <span id="legal-director-50" class="font-bold text-amber-300">0.00 hrs</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight">*Previa consulta al Consejo Docente. Trabajo colaborativo libre en horas restantes.</p>
+                </div>
+
+                <!-- Item 3: Recreos Fórmula -->
+                <div class="p-3 bg-slate-950/60 light:bg-white rounded-xl border border-slate-800/60 light:border-slate-200 space-y-1.5 flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between border-b border-slate-800/40 pb-1 mb-1.5">
+                      <span class="text-[11px] font-bold text-emerald-400 uppercase">3. Fórmula de Recreos</span>
+                      <i data-lucide="coffee" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    </div>
+                    <p class="text-[10px] text-slate-400 leading-tight mb-2">4 minutos por hora cronológica de contrato.</p>
+                    <div class="space-y-1 font-mono text-[11px]">
+                      <div class="flex justify-between text-slate-300">
+                        <span class="font-sans text-[10px] text-slate-400">Horas Contrato (cronológicas):</span>
+                        <span id="legal-recess-ped" class="font-bold">0 hrs cron.</span>
+                      </div>
+                      <div class="flex justify-between text-emerald-400 pt-1 border-t border-slate-800/40">
+                        <span class="font-sans text-[10px] text-slate-400">× 4 min/hr = Recreo:</span>
+                        <span id="legal-recess-total" class="font-bold">0 hrs 00 min</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight">Cómputo automático integrado en el marco de la jornada laboral.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- TAB 2: HORARIO DEL ESTABLECIMIENTO -->
+      <!-- ==================================================== -->
+      <div id="tab-content-schedule" class="hidden max-w-3xl mx-auto space-y-6">
+        <section id="sec-schedule" class="dashboard-card p-6 rounded-2xl relative overflow-hidden transition-all duration-300 shadow-xl">
+          <div class="absolute top-0 right-0 w-28 h-28 bg-teal-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="p-2.5 bg-teal-500/10 text-teal-400 rounded-xl border border-teal-500/20">
+                <i data-lucide="calendar" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-white light:text-slate-900 font-title tracking-tight">Horario Institucional del Establecimiento</h2>
+                <p class="text-xs text-slate-400">Configura la jornada oficial del colegio por día de la semana.</p>
+              </div>
+            </div>
           </div>
 
-          <select id="table-filter" class="bg-slate-900/60 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-300 light:text-slate-800 focus:outline-none">
-            <option value="all">Todos los Docentes</option>
-            <option value="compliant">En Cumplimiento</option>
-            <option value="violated">Con Infracción</option>
-          </select>
+          <div class="space-y-4 pt-2">
+            <div class="grid grid-cols-5 text-center text-[10px] font-bold text-slate-400 uppercase pb-2 border-b border-slate-800/80">
+              <span class="text-left pl-2">Día</span>
+              <span>Entrada</span>
+              <span>Salida</span>
+              <span>Almuerzo (min)</span>
+              <span>Permanencia</span>
+            </div>
 
-          <button id="export-csv-btn" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 font-semibold py-1.5 px-3 rounded-xl transition-all text-xs flex items-center space-x-2">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Exportar CSV</span>
-          </button>
+            <div class="space-y-2.5" id="daily-schedule-container">
+              <!-- Populated dynamically in JS -->
+            </div>
+
+            <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-3">
+              <span class="text-sm text-slate-300 font-semibold">Jornada Presencial Total Establecimiento:</span>
+              <span class="text-base font-extrabold text-[#00C49F] font-mono bg-teal-950/40 px-3 py-1 rounded-xl border border-teal-800/40" id="establishment-weekly-hours">0.0 hrs</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- TAB 3: PLANTA DOCENTE & CONSOLIDADO -->
+      <!-- ==================================================== -->
+      <div id="tab-content-roster" class="hidden space-y-6">
+        <section id="sec-roster" class="w-full">
+        <div class="dashboard-card p-6 rounded-2xl print-panel transition-all duration-300">
           
-          <button id="print-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-1.5 px-3 rounded-xl shadow-lg transition-all text-xs flex items-center space-x-2">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-            <span>Imprimir Informe</span>
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 no-print">
+            <div>
+              <h2 class="text-base font-bold text-white light:text-slate-900 font-title tracking-tight flex items-center space-x-2.5">
+                <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+                  <i data-lucide="list" class="w-5 h-5"></i>
+                </div>
+                <span>5. Resumen del Establecimiento (Planta Docente)</span>
+              </h2>
+              <p class="text-xs text-slate-400">Vista consolidada y cálculos agregados de la planta ingresada.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="relative">
+                <input type="text" id="table-search" placeholder="Buscar docente..." class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3.5 py-2 pl-9 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 w-52">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3"></i>
+              </div>
+
+              <select id="table-filter" class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-300 light:text-slate-800 focus:outline-none">
+                <option value="all">Todos los Docentes</option>
+                <option value="compliant">En Cumplimiento</option>
+                <option value="violated">Con Infracción</option>
+              </select>
+
+              <button id="export-csv-btn" class="bg-slate-900 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 text-slate-300 font-semibold py-2 px-3.5 rounded-xl transition-all text-xs flex items-center space-x-2">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Exportar CSV</span>
+              </button>
+              
+              <button id="print-btn" class="bg-gradient-to-r from-teal-500 to-indigo-600 hover:from-teal-600 hover:to-indigo-700 text-white font-bold py-2 px-3.5 rounded-xl shadow-lg transition-all text-xs flex items-center space-x-2">
+                <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                <span>Imprimir Informe</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Wrapper -->
+          <div class="overflow-x-auto rounded-xl border border-slate-800/80 light:border-slate-200">
+            <table class="w-full text-left border-collapse min-w-[1000px]">
+              <thead>
+                <tr class="bg-slate-900/90 light:bg-slate-100 text-slate-400 light:text-slate-700 text-[10px] uppercase font-bold tracking-wider border-b border-slate-800 light:border-slate-200">
+                  <th class="py-3.5 px-4">Docente</th>
+                  <th class="py-3.5 px-4 text-center">Contrato</th>
+                  <th class="py-3.5 px-4 text-center">Clases 1° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">PIE 1° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">Clases 2° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">PIE 2° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">Recreos</th>
+                  <th class="py-3.5 px-4 text-center">Planif. Real</th>
+                  <th class="py-3.5 px-4 text-center">Otras NL Sobra</th>
+                  <th class="py-3.5 px-4 text-center font-bold">Estado Ley</th>
+                  <th class="py-3.5 px-4 text-center no-print">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="roster-tbody" class="divide-y divide-slate-800/50 light:divide-slate-200 text-xs">
+                <tr>
+                  <td colspan="11" class="py-8 text-center text-slate-500">
+                    <i data-lucide="users" class="w-8 h-8 mx-auto mb-2 opacity-30"></i>
+                    No se han registrado docentes. Comience ingresando datos arriba.
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot id="roster-tfoot" class="bg-slate-900/60 light:bg-slate-50/50 font-semibold border-t border-slate-800 light:border-slate-200">
+                <!-- Filled dynamically in JS -->
+              </tfoot>
+            </table>
+          </div>
+
+        </div>
+      </section>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- TAB 4: PÁGINA MAESTRA DE MONITOREO (MASTER ADMIN) -->
+      <!-- ==================================================== -->
+      <div id="tab-content-master" class="hidden space-y-6">
+        
+        <!-- Metrics Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="dashboard-card p-5 rounded-2xl border-l-4 border-amber-500 flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Usuarios Registrados</p>
+              <p id="master-stat-users" class="text-2xl font-extrabold text-white light:text-slate-900 font-title mt-1">0</p>
+            </div>
+            <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <div class="dashboard-card p-5 rounded-2xl border-l-4 border-[#00C49F] flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Inicios de Sesión Hoy</p>
+              <p id="master-stat-logins-today" class="text-2xl font-extrabold text-white light:text-slate-900 font-title mt-1">0</p>
+            </div>
+            <div class="p-3 bg-[#00C49F]/10 text-[#00C49F] rounded-xl border border-[#00C49F]/20">
+              <i data-lucide="log-in" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <div class="dashboard-card p-5 rounded-2xl border-l-4 border-indigo-500 flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Establecimientos</p>
+              <p id="master-stat-schools" class="text-2xl font-extrabold text-white light:text-slate-900 font-title mt-1">0</p>
+            </div>
+            <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+              <i data-lucide="building" class="w-6 h-6"></i>
+            </div>
+          </div>
+
+          <div class="dashboard-card p-5 rounded-2xl border-l-4 border-cyan-500 flex items-center justify-between">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Auditorías Accesos</p>
+              <p id="master-stat-logs" class="text-2xl font-extrabold text-white light:text-slate-900 font-title mt-1">0</p>
+            </div>
+            <div class="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
+              <i data-lucide="shield" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section A: Log de Auditoría de Entradas en Tiempo Real -->
+        <div class="dashboard-card p-6 rounded-2xl shadow-xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+            <div class="flex items-center space-x-3">
+              <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl border border-amber-500/20">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white light:text-slate-900 font-title">Registro de Auditoría de Entradas y Accesos (Log de Sesiones)</h3>
+                <p class="text-xs text-slate-400">Monitoreo en tiempo real de todos los ingresos de usuarios a la plataforma.</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <input type="text" id="master-audit-search" oninput="renderMasterDashboard()" placeholder="Buscar en log..." class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3.5 py-1.5 pl-8 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-[#00C49F] w-52">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5"></i>
+              </div>
+              <button onclick="clearAuditLogs()" class="px-3 py-1.5 text-xs text-rose-400 hover:text-rose-300 bg-rose-950/30 hover:bg-rose-950/50 border border-rose-900/40 rounded-xl transition-all">
+                Limpiar Log
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800/80 light:border-slate-200">
+            <table class="w-full text-left border-collapse min-w-[900px] text-xs">
+              <thead>
+                <tr class="bg-slate-900/90 light:bg-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+                  <th class="py-3 px-4">Fecha y Hora</th>
+                  <th class="py-3 px-4">Usuario</th>
+                  <th class="py-3 px-4">Correo Electrónico</th>
+                  <th class="py-3 px-4">Rol</th>
+                  <th class="py-3 px-4">Establecimiento</th>
+                  <th class="py-3 px-4">IP / Dispositivo</th>
+                  <th class="py-3 px-4 text-center">Estado Acceso</th>
+                </tr>
+              </thead>
+              <tbody id="master-audit-tbody" class="divide-y divide-slate-800/50 font-mono">
+                <!-- Populated dynamically in JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Section B: Gestión de Usuarios de la Planta -->
+        <div class="dashboard-card p-6 rounded-2xl shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+            <div class="flex items-center space-x-3">
+              <div class="p-2.5 bg-[#00C49F]/10 text-[#00C49F] rounded-xl border border-[#00C49F]/20">
+                <i data-lucide="user-check" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white light:text-slate-900 font-title">Gestión de Cuentas y Accesos Institucionales</h3>
+                <p class="text-xs text-slate-400">Administre los roles, contraseñas y estado de acceso de cada usuario registrado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800/80 light:border-slate-200">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-900/90 light:bg-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
+                  <th class="py-3 px-4">Nombre Usuario</th>
+                  <th class="py-3 px-4">Correo</th>
+                  <th class="py-3 px-4">Establecimiento</th>
+                  <th class="py-3 px-4">Rol</th>
+                  <th class="py-3 px-4">Fecha Registro</th>
+                  <th class="py-3 px-4">Último Ingreso</th>
+                  <th class="py-3 px-4 text-center">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="master-users-tbody" class="divide-y divide-slate-800/50">
+                <!-- Populated dynamically in JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto py-6 border-t border-slate-900 bg-slate-950/90 text-center text-xs text-slate-500 no-print">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p>© 2026 SimoHora 20.903/21.625. Desarrollado para el uso de Jefaturas Técnicas Pedagógicas de Chile.</p>
+        <div class="flex space-x-4">
+          <a href="https://www.leychile.cl/Navegar?idNorma=1087343" target="_blank" rel="noopener noreferrer" class="hover:text-teal-400 underline transition-colors">Ley 20.903 (BCN)</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL DE INICIO DE SESIÓN Y AUTENTICACIÓN -->
+  <!-- ========================================== -->
+  <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0E1726] p-4 overflow-y-auto">
+    <div class="w-full max-w-md bg-[#162238] border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 animate-fade-in relative">
+      
+      <!-- Top Brand -->
+      <div class="text-center space-y-2">
+        <div class="w-14 h-14 bg-gradient-to-br from-[#00C49F] to-teal-700 rounded-2xl flex items-center justify-center mx-auto text-white shadow-xl shadow-teal-500/30">
+          <i data-lucide="scale" class="w-8 h-8"></i>
+        </div>
+        <h2 class="text-2xl font-extrabold text-white font-title tracking-tight">SimoHora 20.903/21.625</h2>
+        <p class="text-xs text-[#00C49F] font-semibold uppercase tracking-wider">Inicio de Sesión e Identificación Institucional</p>
+      </div>
+
+      <!-- Quick Demo Login Presets -->
+      <div class="p-3.5 bg-slate-950/60 rounded-2xl border border-slate-800 space-y-2">
+        <p class="text-[10px] font-bold text-slate-400 uppercase text-center tracking-wider">Acceso Rápido de Prueba (Demo)</p>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="presetLogin('admin@simohora.cl', 'admin123')" class="p-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 rounded-xl text-xs font-bold transition-all text-center">
+            👑 Máster Admin
+          </button>
+          <button type="button" onclick="presetLogin('utp@colegio.cl', 'colegio123')" class="p-2.5 bg-[#00C49F]/10 hover:bg-[#00C49F]/20 border border-[#00C49F]/30 text-[#00C49F] rounded-xl text-xs font-bold transition-all text-center">
+            🏫 Usuario UTP
           </button>
         </div>
       </div>
 
-      <!-- Table Wrapper -->
-      <div class="overflow-x-auto rounded-xl border border-slate-800/80 light:border-slate-200">
-        <table class="w-full text-left border-collapse min-w-[1000px]">
-          <thead>
-            <tr class="bg-slate-900/80 light:bg-slate-100 text-slate-400 light:text-slate-700 text-[10px] uppercase font-bold tracking-wider border-b border-slate-800 light:border-slate-200">
-              <th class="py-3 px-4">Docente</th>
-              <th class="py-3 px-4 text-center">Contrato</th>
-              <th class="py-3 px-4 text-center">Clases 1° Ciclo</th>
-              <th class="py-3 px-4 text-center">PIE 1° Ciclo</th>
-              <th class="py-3 px-4 text-center">Clases 2° Ciclo</th>
-              <th class="py-3 px-4 text-center">PIE 2° Ciclo</th>
-              <th class="py-3 px-4 text-center">Recreos</th>
-              <th class="py-3 px-4 text-center">Planif. Real</th>
-              <th class="py-3 px-4 text-center">Otras NL Sobra</th>
-              <th class="py-3 px-4 text-center font-bold">Estado Ley</th>
-              <th class="py-3 px-4 text-center no-print">Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="roster-tbody" class="divide-y divide-slate-800/50 light:divide-slate-200 text-xs">
-            <tr>
-              <td colspan="11" class="py-8 text-center text-slate-500">
-                <i data-lucide="users" class="w-8 h-8 mx-auto mb-2 opacity-30"></i>
-                No se han registrado docentes. Comience ingresando datos arriba.
-              </td>
-            </tr>
-          </tbody>
-          <tfoot id="roster-tfoot" class="bg-slate-900/60 light:bg-slate-50/50 font-semibold border-t border-slate-800 light:border-slate-200">
-            <!-- Filled dynamically -->
-          </tfoot>
-        </table>
-      </div>
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="executeLogin(event)" class="space-y-4">
+        <div id="login-error-msg" class="hidden p-3 bg-rose-950/40 border border-rose-800/60 rounded-xl text-rose-300 text-xs flex items-center space-x-2">
+          <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
+          <span id="login-error-text">Credenciales inválidas.</span>
+        </div>
 
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico</label>
+          <div class="relative flex items-center">
+            <input type="email" id="login-email" required placeholder="ejemplo@colegio.cl" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
+            <i data-lucide="mail" class="w-4 h-4 text-slate-500 absolute left-3"></i>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Contraseña</label>
+          <div class="relative flex items-center">
+            <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
+            <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3"></i>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-[#00C49F] to-teal-700 hover:from-teal-400 hover:to-teal-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg shadow-teal-500/25 active:scale-[0.98] transition-all text-xs flex items-center justify-center space-x-2">
+          <i data-lucide="log-in" class="w-4 h-4"></i>
+          <span>Ingresar al Sistema</span>
+        </button>
+      </form>
+
+      <p class="text-[11px] text-center text-slate-400">
+        ¿Primera vez? Contacte a la Jefatura Técnica para registrar su cuenta institucional.
+      </p>
     </div>
-  </section>
+  </div>
 
-  <!-- Footer -->
-  <footer class="mt-auto py-6 border-t border-slate-900 bg-slate-950/80 text-center text-xs text-slate-500 no-print">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>© 2026 SimoHora 20.903/21.625. Desarrollado para el uso de Jefaturas Técnicas Pedagógicas de Chile.</p>
-      <div class="flex space-x-4">
-        <a href="https://www.leychile.cl/Navegar?idNorma=1087343" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 underline">Ley 20.903 (BCN)</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Application Logic -->
+  <!-- APPLICATION ENGINE (JS) -->
   <script>
     // --- State Variables ---
     let appState = {
@@ -847,7 +1216,7 @@
 
     function formatHours(hrs) {
       if (isNaN(hrs)) return "0 hrs";
-      const isNegative = hrs < -0.001; // Avoid negative formatting for tiny float imprecisions
+      const isNegative = hrs < -0.001;
       const absHrs = Math.abs(hrs);
       const integerPart = Math.floor(absHrs);
       const decimalPart = absHrs - integerPart;
@@ -872,13 +1241,13 @@
 
       appState.global.schedule.forEach((sched, index) => {
         const row = document.createElement('div');
-        row.className = "grid grid-cols-5 gap-2 items-center text-center py-1 border-b border-slate-900/30";
+        row.className = "grid grid-cols-5 gap-2 items-center text-center py-1 border-b border-slate-800/40";
         row.innerHTML = `
           <span class="text-xs font-semibold text-slate-300 light:text-slate-700 text-left pl-2">${sched.day}</span>
-          <input type="time" value="${sched.entrance}" onchange="updateSchedule(${index}, 'entrance', this.value)" class="bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center">
-          <input type="time" value="${sched.exit}" onchange="updateSchedule(${index}, 'exit', this.value)" class="bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center">
+          <input type="time" value="${sched.entrance}" onchange="updateSchedule(${index}, 'entrance', this.value)" class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center">
+          <input type="time" value="${sched.exit}" onchange="updateSchedule(${index}, 'exit', this.value)" class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center">
           <div class="relative flex items-center justify-center">
-            <input type="number" value="${sched.lunch}" onchange="updateSchedule(${index}, 'lunch', this.value)" class="bg-slate-900/50 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center w-16">
+            <input type="number" value="${sched.lunch}" onchange="updateSchedule(${index}, 'lunch', this.value)" class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg py-1 px-1.5 text-[11px] text-slate-100 light:text-slate-900 focus:outline-none text-center w-16">
           </div>
           <span class="text-[11px] font-mono text-slate-400" id="daily-permanence-${index}">0.0h</span>
         `;
@@ -929,86 +1298,31 @@
       const { priority, blockDuration, apoderadosMins } = globalParams;
       const { contract, ped1, pie1, ped2, pie2 } = teacherInput;
 
-      // Colación por Ley (Ley 20.903): Contratos de 43h y 44h tienen 2h destinadas a colación (se calculan como 41h y 42h efectivas)
       const legalColacionHrs = (contract === 43 || contract === 44) ? 2 : 0;
-
-      // Admin hours: deducted directly from contract before lectiva/no-lectiva split
       const adminHrs = (teacherInput.adminMins || 0) / 60;
       const effectiveContract = Math.max(0, contract - adminHrs - legalColacionHrs);
 
-      // Class hours in chronological time (pedagógica = 45 min = 0.75 chronological hrs)
       const lClass1 = ped1 * 0.75;
-      const pie1Chrono = pie1; // PIE counts as 60 minutes each (1.0 chronological hrs)
+      const pie1Chrono = pie1;
       const lectivas1 = lClass1 + pie1Chrono;
 
       const lClass2 = ped2 * 0.75;
-      const pie2Chrono = pie2; // PIE counts as 60 minutes each (1.0 chronological hrs)
+      const pie2Chrono = pie2;
       const lectivas2 = lClass2 + pie2Chrono;
 
       const lectivasTotal = lectivas1 + lectivas2;
 
-      // Setup proportions under Ley 20.903:
-      // When priority (>80% prioritarios) is active:
-      // Primer Ciclo (1° a 4° Básico): 60% Lectiva / 40% No Lectiva (Ratio 60/40)
-      // Segundo Ciclo y Enseñanza Media: 65% Lectiva / 35% No Lectiva (Ratio 65/35)
-      // When priority is inactive: 65% Lectiva / 35% No Lectiva for all cycles.
-      let fLect = 0.65;
-      let fNoLect = 0.35;
-      let contractRequired = 0;
+      const fLect = priority ? 0.60 : 0.65;
+      const contractRequired = lectivasTotal / fLect;
 
-      if (priority) {
-        if (lectivas1 > 0 && lectivas2 > 0) {
-          // Mixed load: contract required for each cycle's ratio
-          const req1 = lectivas1 / 0.60;
-          const req2 = lectivas2 / 0.65;
-          contractRequired = req1 + req2;
-          fLect = lectivasTotal / contractRequired;
-          fNoLect = 1 - fLect;
-        } else if (lectivas1 > 0) {
-          // Only 1st Cycle assigned
-          fLect = 0.60;
-          fNoLect = 0.40;
-          contractRequired = lectivas1 / 0.60;
-        } else if (lectivas2 > 0) {
-          // Only 2nd Cycle / Media assigned
-          fLect = 0.65;
-          fNoLect = 0.35;
-          contractRequired = lectivas2 / 0.65;
-        } else {
-          // No classes assigned yet
-          fLect = (ped1 > 0 || pie1 > 0) ? 0.60 : 0.65;
-          fNoLect = 1 - fLect;
-          contractRequired = 0;
-        }
-      } else {
-        // Standard non-vulnerable: 65% lectiva / 35% no lectiva for all cycles
-        fLect = 0.65;
-        fNoLect = 0.35;
-        contractRequired = lectivasTotal / 0.65;
-      }
+      const recessHrs = contract * (4 / 60);
 
-      // Recess: 4 minutes per chronological hour of contract (effectiveContract)
-      const totalPedagogicalHours = ped1 + ped2 + (pie1 / 0.75) + (pie2 / 0.75);
-      const recessHrs = (effectiveContract * 4) / 60;
+      const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
-      // Total non-teaching hours = obtenido exclusivamente de las horas de aula asignadas (lectivas)
-      let nlTotal = 0;
-      if (priority) {
-        nlTotal = (lectivas1 * 0.40) + (lectivas2 * 0.35);
-      } else {
-        nlTotal = lectivasTotal * 0.35;
-      }
-
-      // Planificación Inamovible (50% of the actual contract non-teaching portion)
+      const nlTotal = Math.max(0, effectiveContract * (1 - fLect));
       const planningHrsActual = nlTotal * 0.50;
-
-      // Otras No Lectivas budget (50% of the actual contract non-teaching portion)
       const otrasNLBudget = nlTotal * 0.50;
 
-      const consejoVal = 0;
-      const apoderadosVal = 0;
-
-      // Restante / Sobrante: empieza en el 50% de Otras NL y se descuenta a medida que se asignan horas/minutos en "DISTRIBUIR HORAS RESTANTES"
       const customActivity1Mins = parseFloat(teacherInput.customActivity1Mins) || 0;
       const customActivity2Mins = parseFloat(teacherInput.customActivity2Mins) || 0;
       const customActivity3Mins = parseFloat(teacherInput.customActivity3Mins) || 0;
@@ -1024,19 +1338,14 @@
       const totalCustomHrs = custom1Hrs + custom2Hrs + custom3Hrs + custom4Hrs + custom5Hrs;
       const restanteVal = otrasNLBudget - totalCustomHrs;
 
-      // Capacities: Remaining teaching hours available for additional classes under the effective contract
       const capLect = Math.max(0, (effectiveContract * fLect) - lectivasTotal);
-      
-      // Capacities split (uses 0.60 for 1st cycle if priority is active, else 0.65)
       const capLect1 = priority ? Math.max(0, (effectiveContract * 0.60) - lectivasTotal) : Math.max(0, (effectiveContract * 0.65) - lectivasTotal);
       const capLect2 = Math.max(0, (effectiveContract * 0.65) - lectivasTotal);
 
-      const blockHrs = blockDuration / 60; // 90 min = 1.5 hrs
+      const blockHrs = blockDuration / 60;
       const capBlocks1 = Math.floor(capLect1 / blockHrs);
       const capBlocks2 = Math.floor(capLect2 / blockHrs);
 
-      // Validation flags
-      // TRAMO ACEPTABLE (Tolerance of 45 min = 0.75 hrs) before triggering red infraction alert
       const contractDiff = contractRequired - contract;
       const contractExceeded = contractDiff > 0.75; 
       const isConTolerancia = contractDiff > 0.01 && contractDiff <= 0.75;
@@ -1061,7 +1370,7 @@
         nlTotal,
         planningHrsActual,
         otrasNLBudget,
-        consejoVal,
+        consejoVal: 0,
         apoderadosVal: 0,
         colaborativoVal: 0,
         restanteVal,
@@ -1101,29 +1410,28 @@
       
       for (let i = 1; i <= 16; i++) {
         const tr = document.createElement('tr');
-        tr.className = "course-row border-b border-slate-850/30 py-0.5";
+        tr.className = "course-row border-b border-slate-800/40 py-0.5";
         tr.innerHTML = `
           <td class="py-1 pr-2">
-            <input type="text" id="course-name-${i}" placeholder="Curso ${i}" class="course-input-name w-full bg-slate-900/40 light:bg-white border border-slate-850 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
+            <input type="text" id="course-name-${i}" placeholder="Curso ${i}" class="course-input-name w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
           </td>
           <td class="py-1 pr-2">
-            <input type="text" id="course-subject-${i}" placeholder="Asignatura" class="course-input-subject w-full bg-slate-900/40 light:bg-white border border-slate-850 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
+            <input type="text" id="course-subject-${i}" placeholder="Asignatura" class="course-input-subject w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
           </td>
           <td class="py-1 pr-2">
-            <select id="course-type-${i}" class="course-input-type w-full bg-slate-900/40 light:bg-white border border-slate-850 light:border-slate-300 rounded-lg px-1.5 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500">
+            <select id="course-type-${i}" class="course-input-type w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1.5 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
               <option value="ped1">1° Ciclo - Clases (45m)</option>
               <option value="ped2" selected>2° Ciclo - Clases (45m)</option>
               <option value="pedMedia">Enseñanza Media - Clases (45m)</option>
             </select>
           </td>
           <td class="py-1">
-            <input type="number" id="course-hours-${i}" min="0" placeholder="0" class="course-input-hours w-full bg-slate-900/40 light:bg-white border border-slate-850 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-brand-500 text-center">
+            <input type="number" id="course-hours-${i}" min="0" placeholder="0" class="course-input-hours w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center font-semibold">
           </td>
         `;
         tbody.appendChild(tr);
       }
       
-      // Register event listeners
       for (let i = 1; i <= 16; i++) {
         ['course-name-', 'course-subject-', 'course-type-', 'course-hours-'].forEach(prefix => {
           const el = document.getElementById(prefix + i);
@@ -1151,7 +1459,6 @@
 
       document.getElementById('teacher-ped1').value = ped1;
       document.getElementById('teacher-ped2').value = ped2;
-      // pie1 and pie2 are entered directly in the PIE card, not from course slots
     }
 
     function updateCourseAndRecalculate() {
@@ -1159,7 +1466,6 @@
       updateLiveCalculations();
     }
 
-    // Read current form inputs
     function getFormInputs() {
       const courses = [];
       for (let i = 1; i <= 16; i++) {
@@ -1196,7 +1502,6 @@
       };
     }
 
-    // Read current global parameters
     function getGlobalParams() {
       return {
         blockDuration: 90,
@@ -1204,22 +1509,16 @@
       };
     }
 
-    // --- UI Update Functions ---
-
-    // Updates calculations in real-time as user types in the form
     function updateLiveCalculations() {
       const globalParams = getGlobalParams();
       const currentInputs = getFormInputs();
       
-      // Perform calculations
       const metrics = calculateTeacherMetrics(currentInputs, globalParams);
 
-      // Render Capacity Card (Section 3)
       const capCard = document.getElementById('capacity-card');
       const alertContainer = document.getElementById('alert-container');
       const vulIndicator = document.getElementById('school-vulnerability-indicator');
 
-      // Update remaining capacities per cycle
       const hC1Disp = document.getElementById('remaining-hours-cycle1');
       const bC1Disp = document.getElementById('remaining-blocks-cycle1');
       const hC2Disp = document.getElementById('remaining-hours-cycle2');
@@ -1235,12 +1534,11 @@
       }
 
       hC1Disp.textContent = metrics.capLect1.toFixed(2);
-      bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-brand-400 font-mono">${metrics.capBlocks1}</span> bloques.`;
+      bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks1}</span> bloques.`;
       
       hC2Disp.textContent = metrics.capLect2.toFixed(2);
-      bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-brand-400 font-mono">${metrics.capBlocks2}</span> bloques.`;
+      bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks2}</span> bloques.`;
 
-      // Cycle 1 Ratio tag in form
       document.getElementById('cycle1-ratio-tag').textContent = `Ratio: ${Math.round(metrics.fLect1 * 100)}/${Math.round((1-metrics.fLect1)*100)}`;
       if (globalParams.priority) {
         vulIndicator.classList.remove('hidden');
@@ -1248,26 +1546,25 @@
         vulIndicator.classList.add('hidden');
       }
 
-      // Live Alert Message & Card Traffic Light Color
       if (metrics.status === "red") {
-        capCard.className = "glass-panel p-6 rounded-2xl shadow-xl transition-all relative overflow-hidden flex flex-col justify-between border-l-8 border-red-500 ring-2 ring-red-500/20";
-        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/20 border-red-800/40 text-red-300";
+        capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-red-500 ring-2 ring-red-500/20";
+        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/30 border-red-800/40 text-red-300";
         
         alertContainer.innerHTML = `
           <i data-lucide="alert-triangle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-red-400"></i>
           <div>
             <p class="text-xs font-bold text-red-400">Infracción Ley 20.903 (Excede Tolerancia)</p>
             <p class="text-[11px] text-slate-400 mt-1">La carga lectiva asignada requiere un contrato de <span class="text-red-300 font-semibold">${metrics.contractRequired.toFixed(2)} hrs cron.</span> (supera las ${currentInputs.contract} hrs del contrato por más de la tolerancia de 45 min).</p>
-            <div class="mt-1.5 grid grid-cols-2 gap-1 text-[10px] bg-red-950/20 rounded p-1.5 border border-red-900/30">
-              <span class="text-slate-500">Horas Pedagógicas (45m):</span><span class="text-slate-300 font-mono text-right">${currentInputs.ped1 + currentInputs.ped2} hrs ped.</span>
-              <span class="text-slate-500">Horas PIE (60m):</span><span class="text-slate-300 font-mono text-right">${currentInputs.pie1 + currentInputs.pie2} hrs ped.</span>
-              <span class="text-slate-500">Total Cronólogico:</span><span class="text-red-300 font-mono font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+            <div class="mt-2 grid grid-cols-2 gap-1 text-[10px] bg-red-950/40 rounded-lg p-2 border border-red-900/30">
+              <span class="text-slate-400">Horas Pedagógicas (45m):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped1 + currentInputs.ped2} hrs ped.</span>
+              <span class="text-slate-400">Horas PIE (60m):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie1 + currentInputs.pie2} hrs ped.</span>
+              <span class="text-slate-400 font-bold">Total Cronólogico:</span><span class="text-red-300 font-mono font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
             </div>
           </div>
         `;
       } else if (metrics.status === "yellow") {
-        capCard.className = "glass-panel p-6 rounded-2xl shadow-xl transition-all relative overflow-hidden flex flex-col justify-between border-l-8 border-amber-500 ring-2 ring-amber-500/20";
-        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-amber-950/20 border-amber-800/40 text-amber-300";
+        capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-amber-500 ring-2 ring-amber-500/20";
+        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-amber-950/30 border-amber-800/40 text-amber-300";
         
         if (metrics.isConTolerancia) {
           alertContainer.innerHTML = `
@@ -1287,26 +1584,25 @@
           `;
         }
       } else {
-        capCard.className = "glass-panel p-6 rounded-2xl shadow-xl transition-all relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500";
-        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/20 border-emerald-800/40 text-emerald-300";
+        capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500";
+        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/30 border-emerald-800/40 text-emerald-300";
         
         alertContainer.innerHTML = `
           <i data-lucide="check-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-emerald-400"></i>
           <div class="flex-1">
             <p class="text-xs font-bold text-emerald-400">Distribución en norma legal</p>
             <p class="text-[11px] text-slate-400 mt-1">La carga asignada respeta los topes y las proporciones lectivas / no lectivas.</p>
-            <div class="mt-1.5 grid grid-cols-2 gap-x-3 gap-y-0.5 text-[10px] bg-emerald-950/20 rounded p-1.5 border border-emerald-900/30">
-              <span class="text-slate-500">Clases 1° Ciclo (45m/hr):</span><span class="text-slate-300 font-mono text-right">${currentInputs.ped1} h ped. = ${(currentInputs.ped1 * 0.75).toFixed(2)} h cron.</span>
-              <span class="text-slate-500">PIE 1° Ciclo (60m/hr):</span><span class="text-slate-300 font-mono text-right">${currentInputs.pie1} h ped. = ${currentInputs.pie1.toFixed(2)} h cron.</span>
-              <span class="text-slate-500">Clases 2° Ciclo (45m/hr):</span><span class="text-slate-300 font-mono text-right">${currentInputs.ped2} h ped. = ${(currentInputs.ped2 * 0.75).toFixed(2)} h cron.</span>
-              <span class="text-slate-500">PIE 2° Ciclo (60m/hr):</span><span class="text-slate-300 font-mono text-right">${currentInputs.pie2} h ped. = ${currentInputs.pie2.toFixed(2)} h cron.</span>
-              <span class="text-slate-400 font-bold border-t border-emerald-900/30 pt-0.5">Total Lectivas:</span><span class="text-emerald-300 font-mono font-bold text-right border-t border-emerald-900/30 pt-0.5">${metrics.lectivasTotal.toFixed(2)} h cron.</span>
+            <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-emerald-950/40 rounded-lg p-2 border border-emerald-900/30">
+              <span class="text-slate-400">Clases 1° Ciclo (45m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped1} h ped. = ${(currentInputs.ped1 * 0.75).toFixed(2)} h cron.</span>
+              <span class="text-slate-400">PIE 1° Ciclo (60m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie1} h ped. = ${currentInputs.pie1.toFixed(2)} h cron.</span>
+              <span class="text-slate-400">Clases 2° Ciclo (45m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped2} h ped. = ${(currentInputs.ped2 * 0.75).toFixed(2)} h cron.</span>
+              <span class="text-slate-400">PIE 2° Ciclo (60m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie2} h ped. = ${currentInputs.pie2.toFixed(2)} h cron.</span>
+              <span class="text-slate-300 font-bold border-t border-emerald-900/30 pt-1">Total Lectivas:</span><span class="text-emerald-300 font-mono font-bold text-right border-t border-emerald-900/30 pt-1">${metrics.lectivasTotal.toFixed(2)} h cron.</span>
             </div>
           </div>
         `;
       }
 
-      // Render Admin & Classroom Capacity Details Banner in Section 3
       const adminCapEl = document.getElementById('admin-capacity-details');
       if (adminCapEl) {
         if (metrics.adminHrs > 0) {
@@ -1340,7 +1636,7 @@
               </div>
             </div>
             <p class="text-[9px] text-slate-400 font-sans leading-tight border-t border-slate-800/40 pt-1 mt-1">
-              Las ${formatHours(metrics.adminHrs)} administrativas se descuentan directamente del contrato. El máximo de aula (${maxAulaChrono.toFixed(2)} hrs cron / ${maxAulaPed.toFixed(1)} hrs ped) y las capacidades se calculan sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).
+              Las ${formatHours(metrics.adminHrs)} administrativas se descuentan directamente del contrato. El máximo de aula (${maxAulaChrono.toFixed(2)} hrs cron / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).
             </p>
           `;
           adminCapEl.classList.remove('hidden');
@@ -1350,15 +1646,12 @@
         }
       }
 
-      // Render Bar Chart (Section 4)
       try {
         renderStackedChart(currentInputs, metrics);
       } catch (e) {
         console.error("Error rendering stacked chart:", e);
       }
 
-      // Render Extra breakdown details (Section 4 bottom)
-      // Calculate weekly permanence based on establishment schedule for the days present
       let presenceTotal = 0;
       appState.global.schedule.forEach((sched, index) => {
         if (index < currentInputs.presenceDays) {
@@ -1373,11 +1666,9 @@
       document.getElementById('breakdown-planif-total').textContent = formatHours(metrics.nlTotal);
       document.getElementById('breakdown-planif').textContent = formatHours(metrics.planningHrsActual);
       
-      // Update Otras NL Card Breakdown values
       document.getElementById('breakdown-nolect-total').textContent = formatHours(metrics.nlTotal);
       document.getElementById('breakdown-nolect-budget').textContent = formatHours(metrics.otrasNLBudget);
       
-      // Populate custom activities breakdown
       const customBreakdownContainer = document.getElementById('custom-activities-breakdown');
       if (customBreakdownContainer) {
         customBreakdownContainer.innerHTML = '';
@@ -1408,18 +1699,14 @@
       noLectBalEl.textContent = formatHours(metrics.restanteVal);
       if (metrics.restanteVal < 0) {
         noLectBalEl.className = "text-rose-400 font-bold animate-pulse";
-      } else if (metrics.restanteVal < 0.01) {
-        noLectBalEl.className = "text-emerald-400 font-bold";
       } else {
-        noLectBalEl.className = "text-emerald-400 font-bold text-emerald-300 animate-pulse";
+        noLectBalEl.className = "text-teal-400 font-bold";
       }
 
-      // Update recess card with formula display
       const recessPedEl = document.getElementById('breakdown-recess-ped-hrs');
       if (recessPedEl) recessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
       document.getElementById('breakdown-recess-formula').textContent = formatHours(metrics.recessHrs);
 
-      // Update Dynamic Legal Formulas & Supervision Card (SimoHora 20.903/21.625)
       const fLectPct = Math.round(metrics.fLect1 * 100);
       const fNoLectPct = Math.round((1 - metrics.fLect1) * 100);
       
@@ -1437,7 +1724,7 @@
         const lectAvail = metrics.capLect;
         if (lectAvail > 0) {
           legLectAvailEl.textContent = `${lectAvail.toFixed(2)} hrs dispon.`;
-          legLectAvailEl.className = "font-bold text-emerald-400 font-mono";
+          legLectAvailEl.className = "font-bold text-teal-400 font-mono";
         } else {
           legLectAvailEl.textContent = `0.00 hrs (Completa)`;
           legLectAvailEl.className = "font-bold text-amber-400 font-mono";
@@ -1462,7 +1749,6 @@
       const legRecessTotalEl = document.getElementById('legal-recess-total');
       if (legRecessTotalEl) legRecessTotalEl.textContent = formatHours(metrics.recessHrs);
 
-      // Show admin hours deduction if present
       const adminBreakdownEl = document.getElementById('admin-hours-breakdown');
       if (adminBreakdownEl) {
         if (metrics.adminHrs > 0) {
@@ -1486,7 +1772,6 @@
       lucide.createIcons();
     }
 
-    // Render interactive SVG-style stacked bar chart
     function renderStackedChart(inputs, metrics) {
       const barContainer = document.getElementById('chart-bar');
       if (!barContainer) return;
@@ -1499,7 +1784,6 @@
 
       const total = inputs.contract;
       
-      // Segments
       const pctLect = (metrics.lectivasTotal / total) * 100;
       const pctPlan = (metrics.planningHrsActual / total) * 100;
       const pctConsejo = (metrics.consejoVal / total) * 100;
@@ -1511,7 +1795,6 @@
         { label: 'Consejo de Profesores (60m)', pct: pctConsejo, bg: 'bg-amber-500 hover:bg-amber-600', val: metrics.consejoVal }
       ];
 
-      // Add custom activities to segments dynamically
       const customColors = [
         'bg-teal-500 hover:bg-teal-600',
         'bg-pink-500 hover:bg-pink-600',
@@ -1542,20 +1825,16 @@
         }
       });
 
-      // Recess
       segments.push({ label: 'Recreos Proporcionales', pct: pctRecess, bg: 'bg-emerald-500 hover:bg-emerald-600', val: metrics.recessHrs });
       
-      // Restante (Only if positive)
       const pctRestante = (metrics.restanteVal > 0 ? metrics.restanteVal : 0) / total * 100;
       segments.push({ label: 'Horas NL Sobrantes / Restante', pct: pctRestante, bg: 'bg-slate-600 hover:bg-slate-700', val: Math.max(0, metrics.restanteVal) });
 
-      // Unassigned capacity
       let totalAllocatedHrs = metrics.lectivasTotal + metrics.planningHrsActual + metrics.recessHrs + metrics.consejoVal + (metrics.totalCustomHrs || 0) + (metrics.restanteVal > 0 ? metrics.restanteVal : 0);
       const remainingContractHrs = Math.max(0, total - totalAllocatedHrs);
       const pctRemContract = (remainingContractHrs / total) * 100;
       segments.push({ label: 'Sin Asignar (Capacidad)', pct: pctRemContract, bg: 'bg-slate-800 hover:bg-slate-900', val: remainingContractHrs });
 
-      // Exceso / Overdraft (if contractRequired > contract or if restanteVal < 0)
       const excessNLHrs = metrics.restanteVal < 0 ? Math.abs(metrics.restanteVal) : 0;
       const excessHrs = (metrics.contractRequired > total ? (metrics.contractRequired - total) : 0) + excessNLHrs;
       const pctExcess = excessHrs > 0 ? (excessHrs / total) * 100 : 0;
@@ -1570,9 +1849,9 @@
           div.className = `${seg.bg} h-full transition-all duration-300 relative group cursor-help border-r border-slate-900/30`;
           
           div.innerHTML = `
-            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-slate-900 border border-slate-800 p-2.5 rounded-lg text-[10px] text-slate-300 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 z-50 leading-normal">
+            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-48 bg-slate-900 border border-slate-800 p-2.5 rounded-xl text-[10px] text-slate-300 shadow-2xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 z-50 leading-normal">
               <p class="font-bold text-white">${seg.label}</p>
-              <p class="font-mono text-indigo-400 text-[11px] mt-0.5">${formatHours(seg.val)}</p>
+              <p class="font-mono text-teal-400 text-[11px] mt-0.5">${formatHours(seg.val)}</p>
               <p class="text-slate-500 mt-0.5">Equivale al ${((seg.val / total) * 100).toFixed(1)}% del contrato</p>
             </div>
           `;
@@ -1580,19 +1859,17 @@
         }
       });
 
-      // Update legends numbers
       document.getElementById('legend-lectivas').textContent = formatHoursAbbr(inputs.ped1 * 0.75 + inputs.ped2 * 0.75);
       document.getElementById('legend-pie').textContent = formatHoursAbbr(inputs.pie1 + inputs.pie2);
       document.getElementById('legend-planif').textContent = formatHoursAbbr(metrics.planningHrsActual);
       document.getElementById('legend-tiempo-muerto').textContent = formatHoursAbbr(metrics.recessHrs);
 
-      // Populate custom legends
       const legendCustomContainer = document.getElementById('legend-custom-container');
       if (legendCustomContainer) {
         legendCustomContainer.innerHTML = '';
         customs.forEach((c, idx) => {
           if (c.mins > 0) {
-            const colorClass = customColors[idx % customColors.length].split(' ')[0]; // just 'bg-teal-500'
+            const colorClass = customColors[idx % customColors.length].split(' ')[0];
             const div = document.createElement('div');
             div.className = "flex items-center space-x-2";
             const displayName = c.name.trim() || c.defaultName;
@@ -1609,7 +1886,6 @@
       }
     }
 
-    // Refresh Roster Table and aggregated totals
     function renderRosterTable() {
       const tbody = document.getElementById('roster-tbody');
       const tfoot = document.getElementById('roster-tfoot');
@@ -1619,7 +1895,6 @@
       const filter = document.getElementById('table-filter').value;
       const search = document.getElementById('table-search').value.toLowerCase();
 
-      // Filtered list
       let filtered = appState.teachers.map(t => {
         const metrics = calculateTeacherMetrics(t, appState.global);
         return { ...t, metrics };
@@ -1649,7 +1924,6 @@
         return;
       }
 
-      // Aggregates totals
       let totalContract = 0;
       let totalPed1 = 0;
       let totalPIE1 = 0;
@@ -1670,14 +1944,13 @@
         totalNoLectLeftover += m.restanteVal;
         if (!m.isInfraccion) totalCompliant++;
 
-        // Status Badge HTML
         let statusBadge = '';
         if (m.status === "red") {
-          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span><span>Infracción Ley</span></span>`;
+          statusBadge = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span><span>Infracción Ley</span></span>`;
         } else if (m.status === "yellow") {
-          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Tolerancia/Límite</span></span>`;
+          statusBadge = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Tolerancia/Límite</span></span>`;
         } else {
-          statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>Cumple Ley</span></span>`;
+          statusBadge = `<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1 justify-center w-28"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>Cumple Ley</span></span>`;
         }
 
         const isMixed = t.ped1 > 0 && t.ped2 > 0;
@@ -1712,7 +1985,7 @@
           `;
         }
 
-        const restValClass = m.restanteVal < -0.001 ? 'text-rose-450 text-rose-400 font-bold' : 'text-emerald-400';
+        const restValClass = m.restanteVal < -0.001 ? 'text-rose-400 font-bold' : 'text-emerald-400';
 
         const tr = document.createElement('tr');
         tr.className = "hover:bg-slate-900/40 light:hover:bg-slate-50 transition-colors";
@@ -1720,7 +1993,7 @@
           <td class="py-3.5 px-4 font-medium text-slate-200 light:text-slate-800">
             <div>${t.name}</div>
             <div class="flex flex-wrap items-center gap-1 mt-0.5">
-              <span class="text-[9px] px-1 bg-slate-800 text-slate-400 rounded border border-slate-700 inline-block">${cycleType}</span>
+              <span class="text-[9px] px-1.5 bg-slate-800 text-slate-400 rounded border border-slate-700 inline-block">${cycleType}</span>
             </div>
             ${courseBadgesHtml}
             ${customDetailsHtml}
@@ -1736,10 +2009,10 @@
           <td class="py-3.5 px-4 text-center flex items-center justify-center py-5">${statusBadge}</td>
           <td class="py-3.5 px-4 text-center no-print">
             <div class="flex items-center justify-center space-x-2">
-              <button onclick="editTeacher('${t.id}')" class="p-1 hover:bg-slate-800 light:hover:bg-slate-200 rounded text-slate-400 hover:text-white light:hover:text-slate-800 transition-colors" title="Editar">
+              <button onclick="editTeacher('${t.id}')" class="p-1.5 hover:bg-slate-800 light:hover:bg-slate-200 rounded-lg text-slate-400 hover:text-white light:hover:text-slate-800 transition-colors" title="Editar">
                 <i data-lucide="edit-3" class="w-4 h-4"></i>
               </button>
-              <button onclick="deleteTeacher('${t.id}')" class="p-1 hover:bg-rose-950/30 rounded text-slate-400 hover:text-rose-400 transition-colors" title="Eliminar">
+              <button onclick="deleteTeacher('${t.id}')" class="p-1.5 hover:bg-rose-950/30 rounded-lg text-slate-400 hover:text-rose-400 transition-colors" title="Eliminar">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </div>
@@ -1748,7 +2021,6 @@
         tbody.appendChild(tr);
       });
 
-      // Total calculations footer
       const complianceRate = (totalCompliant / filtered.length) * 100;
       if (tfoot) {
         tfoot.innerHTML = `
@@ -1761,9 +2033,9 @@
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE2} hrs ped.</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalRecess.toFixed(2)} hrs</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">-</td>
-            <td class="py-4 px-4 text-center font-mono text-emerald-400 font-bold">${totalNoLectLeftover.toFixed(1)} hrs</td>
+            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">${totalNoLectLeftover.toFixed(1)} hrs</td>
             <td class="py-4 px-4 text-center flex items-center justify-center py-4">
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
                 Cumplimiento: ${complianceRate.toFixed(0)}%
               </span>
             </td>
@@ -1775,15 +2047,11 @@
       lucide.createIcons();
     }
 
-    // --- Action Handlers ---
-
-    // Submit teacher form (Create or Update)
     function handleFormSubmit(e) {
       e.preventDefault();
       
       const inputs = getFormInputs();
 
-      // Validations
       if (inputs.contract <= 0) {
         alert("Ingrese horas de contrato válidas.");
         return;
@@ -1810,11 +2078,9 @@
         appState.teachers.push(newTeacher);
       }
 
-      // Reset form
       document.getElementById('teacher-form').reset();
       document.getElementById('teacher-id').value = '';
       
-      // Reset defaults
       document.getElementById('teacher-contract').value = '';
       document.getElementById('teacher-ped1').value = '0';
       document.getElementById('teacher-pie1').value = '0';
@@ -1841,7 +2107,6 @@
       updateLiveCalculations();
     }
 
-    // Load teacher data into form for editing
     window.editTeacher = function(id) {
       const teacher = appState.teachers.find(t => t.id === id);
       if (!teacher) return;
@@ -1857,7 +2122,6 @@
       document.getElementById('teacher-pie2').value = teacher.pie2;
       document.getElementById('teacher-presence-days').value = teacher.presenceDays || 5;
 
-      // Clear courses first
       for (let i = 1; i <= 16; i++) {
         document.getElementById(`course-name-${i}`).value = '';
         document.getElementById(`course-subject-${i}`).value = '';
@@ -1865,7 +2129,6 @@
         document.getElementById(`course-hours-${i}`).value = '';
       }
 
-      // Populate saved courses
       if (teacher.courses && Array.isArray(teacher.courses)) {
         teacher.courses.forEach((c, idx) => {
           if (idx < 16) {
@@ -1887,7 +2150,6 @@
         document.getElementById(`teacher-custom-min-${i}`).value = savedMins || '';
       }
 
-      // Admin hours
       const adminTotalMins = teacher.adminMins || 0;
       document.getElementById('teacher-admin-name').value = teacher.adminName || '';
       document.getElementById('teacher-admin-hr').value = Math.floor(adminTotalMins / 60) || '';
@@ -1903,7 +2165,6 @@
       updateLiveCalculations();
     };
 
-    // Cancel edit mode
     document.getElementById('cancel-edit-btn').addEventListener('click', () => {
       appState.editingId = null;
       document.getElementById('teacher-form').reset();
@@ -1913,7 +2174,6 @@
       document.getElementById('edit-indicator').classList.add('hidden');
       document.getElementById('form-title').textContent = "2. Ingreso del Docente";
 
-      // Reset defaults
       document.getElementById('teacher-ped1').value = '0';
       document.getElementById('teacher-pie1').value = '0';
       document.getElementById('teacher-ped2').value = '0';
@@ -1937,7 +2197,6 @@
       updateLiveCalculations();
     });
 
-    // Delete teacher from list
     window.deleteTeacher = function(id) {
       if (confirm("¿Está seguro de eliminar este docente de la simulación?")) {
         appState.teachers = appState.teachers.filter(t => t.id !== id);
@@ -1955,7 +2214,6 @@
       }
     };
 
-    // Export table data to CSV format
     function exportToCSV() {
       if (appState.teachers.length === 0) {
         alert("No hay docentes registrados para exportar.");
@@ -1993,7 +2251,6 @@
       document.body.removeChild(link);
     }
 
-    // Reset app state
     function resetApp() {
       if (confirm("¿Estás seguro de restablecer todos los parámetros e historial de docentes? Esta acción no se puede deshacer.")) {
         localStorage.removeItem(STORAGE_KEY);
@@ -2050,7 +2307,6 @@
       }
     }
 
-    // --- Theme Switcher ---
     const themeToggleBtn = document.getElementById('theme-toggle');
     themeToggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('light');
@@ -2066,11 +2322,289 @@
       }
     });
 
-    // --- Event Listeners Setup ---
+    window.switchTab = function(tabName) {
+      const tabs = ['simulator', 'schedule', 'roster', 'master'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-btn-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        
+        if (t === tabName) {
+          if (content) content.classList.remove('hidden');
+          if (btn) {
+            if (t === 'master') {
+              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
+            } else {
+              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20";
+            }
+          }
+        } else {
+          if (content) content.classList.add('hidden');
+          if (btn) {
+            if (t === 'master') {
+              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20";
+            } else {
+              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900";
+            }
+          }
+        }
+      });
+      if (tabName === 'master') {
+        renderMasterDashboard();
+      }
+      lucide.createIcons();
+    };
+
+    // --- AUTHENTICATION & MASTER AUDIT ENGINE ---
+    const USERS_STORAGE_KEY = 'simohora_users';
+    const SESSION_STORAGE_KEY = 'simohora_current_user';
+    const AUDIT_STORAGE_KEY = 'simohora_access_logs';
+
+    const INITIAL_USERS = [
+      {
+        id: 'usr-admin-01',
+        email: 'admin@simohora.cl',
+        password: 'admin123',
+        name: 'SuperAdministrador Máster',
+        role: 'admin',
+        school: 'Dirección Nacional UTP',
+        createdAt: '2026-01-01 08:00',
+        lastLogin: '2026-08-11 16:30',
+        status: 'activo'
+      },
+      {
+        id: 'usr-utp-02',
+        email: 'utp@colegio.cl',
+        password: 'colegio123',
+        name: 'Directora María José Valenzuela',
+        role: 'user',
+        school: 'Liceo San Francisco',
+        createdAt: '2026-02-15 10:30',
+        lastLogin: '2026-08-11 15:45',
+        status: 'activo'
+      }
+    ];
+
+    function getUsers() {
+      const stored = localStorage.getItem(USERS_STORAGE_KEY);
+      if (!stored) {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(INITIAL_USERS));
+        return INITIAL_USERS;
+      }
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return INITIAL_USERS;
+      }
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+    }
+
+    function getCurrentUser() {
+      const stored = localStorage.getItem(SESSION_STORAGE_KEY);
+      if (!stored) return null;
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function getAuditLogs() {
+      const stored = localStorage.getItem(AUDIT_STORAGE_KEY);
+      if (!stored) return [];
+      try {
+        return JSON.parse(stored);
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function logAccessAttempt(email, userName, role, school, status) {
+      const logs = getAuditLogs();
+      const now = new Date();
+      const formattedDate = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      
+      const newLog = {
+        id: 'log-' + Date.now(),
+        timestamp: formattedDate,
+        email: email,
+        name: userName || email.split('@')[0],
+        role: role || 'user',
+        school: school || 'Establecimiento General',
+        device: 'Chrome Windows (Navegador Web)',
+        status: status
+      };
+
+      logs.unshift(newLog);
+      if (logs.length > 200) logs.pop();
+      localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(logs));
+    }
+
+    window.presetLogin = function(email, pass) {
+      document.getElementById('login-email').value = email;
+      document.getElementById('login-password').value = pass;
+      document.getElementById('login-password').focus();
+    };
+
+    window.executeLogin = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const pass = document.getElementById('login-password').value;
+      const errorMsg = document.getElementById('login-error-msg');
+
+      const users = getUsers();
+      const foundUser = users.find(u => u.email.toLowerCase() === email && u.password === pass);
+
+      if (foundUser) {
+        if (foundUser.status === 'suspendido') {
+          document.getElementById('login-error-text').textContent = "Esta cuenta ha sido suspendida. Contacte al administrador.";
+          errorMsg.classList.remove('hidden');
+          logAccessAttempt(email, foundUser.name, foundUser.role, foundUser.school, 'Fallido (Suspendido)');
+          return;
+        }
+
+        errorMsg.classList.add('hidden');
+        const now = new Date();
+        foundUser.lastLogin = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        saveUsers(users);
+
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(foundUser));
+        logAccessAttempt(foundUser.email, foundUser.name, foundUser.role, foundUser.school, 'Éxito');
+        
+        applyUserSession(foundUser);
+        document.getElementById('login-modal').classList.add('hidden');
+      } else {
+        document.getElementById('login-error-text').textContent = "Correo o contraseña incorrectos.";
+        errorMsg.classList.remove('hidden');
+        logAccessAttempt(email, 'Usuario Desconocido', 'desconocido', 'N/A', 'Fallido');
+      }
+    };
+
+    window.handleLogout = function() {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      document.getElementById('login-modal').classList.remove('hidden');
+      applyUserSession(null);
+    };
+
+    function applyUserSession(user) {
+      const nameEl = document.getElementById('user-display-name');
+      const roleEl = document.getElementById('user-display-role');
+      const sidebarMasterBtn = document.getElementById('sidebar-btn-master');
+      const tabMasterBtn = document.getElementById('tab-btn-master');
+
+      if (user) {
+        if (nameEl) nameEl.textContent = user.name;
+        if (roleEl) roleEl.textContent = user.role === 'admin' ? '👑 SuperAdmin' : `🏫 ${user.school}`;
+        
+        if (user.role === 'admin') {
+          if (sidebarMasterBtn) sidebarMasterBtn.classList.remove('hidden');
+          if (tabMasterBtn) tabMasterBtn.classList.remove('hidden');
+        } else {
+          if (sidebarMasterBtn) sidebarMasterBtn.classList.add('hidden');
+          if (tabMasterBtn) tabMasterBtn.classList.add('hidden');
+          const masterContent = document.getElementById('tab-content-master');
+          if (masterContent && !masterContent.classList.contains('hidden')) {
+            switchTab('simulator');
+          }
+        }
+      } else {
+        if (nameEl) nameEl.textContent = "Invitado";
+        if (roleEl) roleEl.textContent = "No Autenticado";
+        if (sidebarMasterBtn) sidebarMasterBtn.classList.add('hidden');
+        if (tabMasterBtn) tabMasterBtn.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    window.clearAuditLogs = function() {
+      if (confirm("¿Está seguro de borrar todo el historial de auditoría de accesos?")) {
+        localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify([]));
+        renderMasterDashboard();
+      }
+    };
+
+    function renderMasterDashboard() {
+      const users = getUsers();
+      const logs = getAuditLogs();
+      const search = (document.getElementById('master-audit-search')?.value || '').toLowerCase();
+
+      const statUsers = document.getElementById('master-stat-users');
+      if (statUsers) statUsers.textContent = users.length;
+      
+      const todayStr = new Date().toISOString().split('T')[0];
+      const loginsToday = logs.filter(l => l.timestamp.startsWith(todayStr) && l.status === 'Éxito').length;
+      const statLogins = document.getElementById('master-stat-logins-today');
+      if (statLogins) statLogins.textContent = loginsToday;
+
+      const schools = new Set(users.map(u => u.school)).size;
+      const statSchools = document.getElementById('master-stat-schools');
+      if (statSchools) statSchools.textContent = schools;
+
+      const statLogs = document.getElementById('master-stat-logs');
+      if (statLogs) statLogs.textContent = logs.length;
+
+      // Render Audit Logs Table
+      const auditTbody = document.getElementById('master-audit-tbody');
+      if (auditTbody) {
+        auditTbody.innerHTML = '';
+        let filteredLogs = logs;
+        if (search) {
+          filteredLogs = logs.filter(l => l.email.toLowerCase().includes(search) || l.name.toLowerCase().includes(search) || l.school.toLowerCase().includes(search));
+        }
+
+        if (filteredLogs.length === 0) {
+          auditTbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-500 font-sans">No se encontraron registros de auditoría de entrada.</td></tr>`;
+        } else {
+          filteredLogs.forEach(l => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-900/40 transition-colors";
+            const isSuccess = l.status === 'Éxito';
+            const statusBadge = isSuccess ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">Éxito</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">${l.status}</span>`;
+            
+            tr.innerHTML = `
+              <td class="py-2.5 px-4 text-slate-300">${l.timestamp}</td>
+              <td class="py-2.5 px-4 text-white font-semibold font-sans">${l.name}</td>
+              <td class="py-2.5 px-4 text-indigo-300">${l.email}</td>
+              <td class="py-2.5 px-4 text-slate-400 capitalize font-sans">${l.role}</td>
+              <td class="py-2.5 px-4 text-slate-300 font-sans">${l.school}</td>
+              <td class="py-2.5 px-4 text-slate-400 text-[11px]">${l.device}</td>
+              <td class="py-2.5 px-4 text-center font-sans">${statusBadge}</td>
+            `;
+            auditTbody.appendChild(tr);
+          });
+        }
+      }
+
+      // Render Users Management Table
+      const usersTbody = document.getElementById('master-users-tbody');
+      if (usersTbody) {
+        usersTbody.innerHTML = '';
+        users.forEach(u => {
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-900/40 transition-colors";
+          const isActivo = u.status === 'activo';
+          const roleBadge = u.role === 'admin' ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">👑 Admin</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">🏫 Usuario UTP</span>`;
+          const statusBadge = isActivo ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">Activo</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">Suspendido</span>`;
+
+          tr.innerHTML = `
+            <td class="py-3 px-4 text-white font-bold">${u.name}</td>
+            <td class="py-3 px-4 font-mono text-indigo-300">${u.email}</td>
+            <td class="py-3 px-4 text-slate-300">${u.school}</td>
+            <td class="py-3 px-4">${roleBadge}</td>
+            <td class="py-3 px-4 text-slate-400 font-mono text-[11px]">${u.createdAt}</td>
+            <td class="py-3 px-4 text-slate-300 font-mono text-[11px]">${u.lastLogin || 'Nunca'}</td>
+            <td class="py-3 px-4 text-center">${statusBadge}</td>
+          `;
+          usersTbody.appendChild(tr);
+        });
+      }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       loadState();
       
-      // Inputs event listeners for real-time reactivity
       const formInputs = [
         'teacher-name', 'teacher-contract', 'teacher-ped1', 'teacher-pie1',
         'teacher-ped2', 'teacher-pie2', 'teacher-presence-days',
@@ -2096,21 +2630,31 @@
         renderRosterTable();
       });
 
-      // Form submission
       document.getElementById('teacher-form').addEventListener('submit', handleFormSubmit);
 
-      // Table controls
       document.getElementById('table-search').addEventListener('input', renderRosterTable);
       document.getElementById('table-filter').addEventListener('change', renderRosterTable);
       document.getElementById('export-csv-btn').addEventListener('click', exportToCSV);
       document.getElementById('print-btn').addEventListener('click', () => window.print());
       document.getElementById('reset-app-btn').addEventListener('click', resetApp);
 
-      // Initial loads
       renderScheduleInputs();
       renderCourseSlots();
       updateLiveCalculations();
       renderRosterTable();
+
+      // Always land on Inicio (Login Modal) when opening the application link
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      applyUserSession(null);
+      document.getElementById('login-modal').classList.remove('hidden');
+
+      const loginEmailEl = document.getElementById('login-email');
+      const loginPassEl = document.getElementById('login-password');
+      if (loginEmailEl) loginEmailEl.value = '';
+      if (loginPassEl) loginPassEl.value = '';
+
+      // Default active tab
+      switchTab('simulator');
     });
   </script>
 </body>
