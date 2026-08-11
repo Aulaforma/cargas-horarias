@@ -2457,8 +2457,10 @@
 
     window.switchTab = function(tabName) {
       const currentUser = getCurrentUser();
-      // SECURITY GUARD: Only Master Admin role (admin@simohora.cl) can EVER access 'master' tab
-      if (tabName === 'master' && (!currentUser || currentUser.role !== 'admin')) {
+      const isAdmin = currentUser && currentUser.role === 'admin' && currentUser.email.toLowerCase() === 'admin@simohora.cl';
+      
+      // STRICT SECURITY GUARD: Only admin@simohora.cl can EVER access 'master' tab
+      if (tabName === 'master' && !isAdmin) {
         tabName = 'simulator';
       }
 
@@ -2488,7 +2490,7 @@
         }
       });
 
-      if (tabName === 'master' && currentUser && currentUser.role === 'admin') {
+      if (tabName === 'master' && isAdmin) {
         renderMasterDashboard();
       }
 
@@ -2535,15 +2537,23 @@
 
     function getUsers() {
       const stored = localStorage.getItem(USERS_STORAGE_KEY);
-      if (!stored) {
-        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(INITIAL_USERS));
-        return INITIAL_USERS;
+      let users = INITIAL_USERS;
+      if (stored) {
+        try {
+          users = JSON.parse(stored);
+        } catch (e) {
+          users = INITIAL_USERS;
+        }
       }
-      try {
-        return JSON.parse(stored);
-      } catch (e) {
-        return INITIAL_USERS;
-      }
+      // HARDEN SECURITY: Ensure ONLY admin@simohora.cl has role 'admin'
+      users.forEach(u => {
+        if (u.email.toLowerCase() !== 'admin@simohora.cl') {
+          u.role = 'user';
+        } else {
+          u.role = 'admin';
+        }
+      });
+      return users;
     }
 
     function saveUsers(users) {
@@ -2774,27 +2784,21 @@
       const roleEl = document.getElementById('user-display-role');
       const sidebarMasterBtn = document.getElementById('sidebar-btn-master');
       const tabMasterBtn = document.getElementById('tab-btn-master');
+      const masterContent = document.getElementById('tab-content-master');
 
-      if (user) {
+      const isAdmin = user && user.role === 'admin' && user.email.toLowerCase() === 'admin@simohora.cl';
+
+      if (isAdmin) {
         if (nameEl) nameEl.textContent = user.name;
-        if (roleEl) roleEl.textContent = user.role === 'admin' ? '👑 SuperAdmin' : `🏫 ${user.school}`;
-        
-        if (user.role === 'admin') {
-          if (sidebarMasterBtn) sidebarMasterBtn.classList.remove('hidden');
-          if (tabMasterBtn) tabMasterBtn.classList.remove('hidden');
-        } else {
-          if (sidebarMasterBtn) sidebarMasterBtn.classList.add('hidden');
-          if (tabMasterBtn) tabMasterBtn.classList.add('hidden');
-          const masterContent = document.getElementById('tab-content-master');
-          if (masterContent && !masterContent.classList.contains('hidden')) {
-            switchTab('simulator');
-          }
-        }
+        if (roleEl) roleEl.textContent = '👑 SuperAdmin';
+        if (sidebarMasterBtn) sidebarMasterBtn.classList.remove('hidden');
+        if (tabMasterBtn) tabMasterBtn.classList.remove('hidden');
       } else {
-        if (nameEl) nameEl.textContent = "Invitado";
-        if (roleEl) roleEl.textContent = "No Autenticado";
+        if (nameEl) nameEl.textContent = user ? user.name : "Invitado";
+        if (roleEl) roleEl.textContent = user ? `🏫 ${user.school}` : "No Autenticado";
         if (sidebarMasterBtn) sidebarMasterBtn.classList.add('hidden');
         if (tabMasterBtn) tabMasterBtn.classList.add('hidden');
+        if (masterContent) masterContent.classList.add('hidden');
       }
       lucide.createIcons();
     }
