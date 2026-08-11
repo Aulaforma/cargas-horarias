@@ -1038,31 +1038,42 @@
           </div>
         </div>
 
-        <!-- Section B: Gestión de Usuarios de la Planta -->
+        <!-- Section B: Base de Datos de Establecimientos y Usuarios -->
         <div class="dashboard-card p-6 rounded-2xl shadow-xl space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
             <div class="flex items-center space-x-3">
-              <div class="p-2.5 bg-[#00C49F]/10 text-[#00C49F] rounded-xl border border-[#00C49F]/20">
-                <i data-lucide="user-check" class="w-5 h-5"></i>
+              <div class="p-2.5 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
+                <i data-lucide="database" class="w-5 h-5"></i>
               </div>
               <div>
-                <h3 class="text-base font-bold text-white light:text-slate-900 font-title">Gestión de Cuentas y Accesos Institucionales</h3>
-                <p class="text-xs text-slate-400">Administre los roles, contraseñas y estado de acceso de cada usuario registrado.</p>
+                <h3 class="text-base font-bold text-white light:text-slate-900 font-title">Base de Datos de Colegios y Cuentas Registradas</h3>
+                <p class="text-xs text-slate-400">Directorio completo de establecimientos. Administre claves, suspenda/active cuentas o exporte la base de datos.</p>
               </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <div class="relative">
+                <input type="text" id="master-school-search" oninput="renderMasterDashboard()" placeholder="Buscar colegio o correo..." class="bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl px-3.5 py-1.5 pl-8 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-[#00C49F] w-56">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5"></i>
+              </div>
+              <button onclick="exportSchoolsDatabaseCSV()" class="px-3 py-1.5 text-xs text-emerald-300 hover:text-white bg-emerald-950/40 hover:bg-emerald-900/50 border border-emerald-800/50 rounded-xl transition-all flex items-center space-x-1.5 shadow-sm">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Exportar Base CSV</span>
+              </button>
             </div>
           </div>
 
           <div class="overflow-x-auto rounded-xl border border-slate-800/80 light:border-slate-200">
-            <table class="w-full text-left border-collapse text-xs">
+            <table class="w-full text-left border-collapse text-xs min-w-[950px]">
               <thead>
                 <tr class="bg-slate-900/90 light:bg-slate-100 text-slate-400 uppercase text-[10px] font-bold tracking-wider border-b border-slate-800">
-                  <th class="py-3 px-4">Nombre Usuario</th>
-                  <th class="py-3 px-4">Correo</th>
-                  <th class="py-3 px-4">Establecimiento</th>
+                  <th class="py-3 px-4">Establecimiento / Colegio</th>
+                  <th class="py-3 px-4">Usuario Responsable</th>
+                  <th class="py-3 px-4">Correo Acceso</th>
                   <th class="py-3 px-4">Rol</th>
                   <th class="py-3 px-4">Fecha Registro</th>
                   <th class="py-3 px-4">Último Ingreso</th>
                   <th class="py-3 px-4 text-center">Estado</th>
+                  <th class="py-3 px-4 text-center">Acciones Máster</th>
                 </tr>
               </thead>
               <tbody id="master-users-tbody" class="divide-y divide-slate-800/50">
@@ -2810,10 +2821,70 @@
       }
     };
 
+    window.toggleUserStatus = function(userId) {
+      const users = getUsers();
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+
+      if (user.email.toLowerCase() === 'admin@simohora.cl') {
+        alert("La cuenta de SuperAdministrador Máster no puede ser suspendida.");
+        return;
+      }
+
+      const newStatus = user.status === 'activo' ? 'suspendido' : 'activo';
+      user.status = newStatus;
+      saveUsers(users);
+      logAccessAttempt(user.email, user.name, user.role, user.school, `Acción Admin: Cuenta ${newStatus}`);
+      renderMasterDashboard();
+    };
+
+    window.resetUserPassword = function(userId) {
+      const users = getUsers();
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+
+      const newPass = prompt(`Ingrese la nueva contraseña para el colegio ${user.school} (${user.email}):`, "simohora2026");
+      if (!newPass) return;
+
+      user.password = newPass;
+      saveUsers(users);
+      logAccessAttempt(user.email, user.name, user.role, user.school, `Acción Admin: Clave Restablecida`);
+      alert(`¡Contraseña de ${user.school} actualizada exitosamente a: ${newPass}!`);
+      renderMasterDashboard();
+    };
+
+    window.exportSchoolsDatabaseCSV = function() {
+      const users = getUsers();
+      let csvContent = "data:text/csv;charset=utf-8,ID,Establecimiento,Usuario Responsable,Correo,Rol,Fecha Registro,Ultimo Ingreso,Estado\n";
+
+      users.forEach(u => {
+        const row = [
+          `"${u.id}"`,
+          `"${u.school.replace(/"/g, '""')}"`,
+          `"${u.name.replace(/"/g, '""')}"`,
+          `"${u.email}"`,
+          `"${u.role}"`,
+          `"${u.createdAt}"`,
+          `"${u.lastLogin || 'Nunca'}"`,
+          `"${u.status}"`
+        ].join(",");
+        csvContent += row + "\n";
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `Base_de_Datos_Colegios_SimoHora_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
     function renderMasterDashboard() {
       const users = getUsers();
       const logs = getAuditLogs();
-      const search = (document.getElementById('master-audit-search')?.value || '').toLowerCase();
+      const auditSearch = (document.getElementById('master-audit-search')?.value || '').toLowerCase();
+      const schoolSearch = (document.getElementById('master-school-search')?.value || '').toLowerCase();
 
       const statUsers = document.getElementById('master-stat-users');
       if (statUsers) statUsers.textContent = users.length;
@@ -2835,8 +2906,8 @@
       if (auditTbody) {
         auditTbody.innerHTML = '';
         let filteredLogs = logs;
-        if (search) {
-          filteredLogs = logs.filter(l => l.email.toLowerCase().includes(search) || l.name.toLowerCase().includes(search) || l.school.toLowerCase().includes(search));
+        if (auditSearch) {
+          filteredLogs = logs.filter(l => l.email.toLowerCase().includes(auditSearch) || l.name.toLowerCase().includes(auditSearch) || l.school.toLowerCase().includes(auditSearch));
         }
 
         if (filteredLogs.length === 0) {
@@ -2845,8 +2916,8 @@
           filteredLogs.forEach(l => {
             const tr = document.createElement('tr');
             tr.className = "hover:bg-slate-900/40 transition-colors";
-            const isSuccess = l.status === 'Éxito';
-            const statusBadge = isSuccess ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">Éxito</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">${l.status}</span>`;
+            const isSuccess = l.status === 'Éxito' || l.status.startsWith('Éxito');
+            const statusBadge = isSuccess ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">${l.status}</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">${l.status}</span>`;
             
             tr.innerHTML = `
               <td class="py-2.5 px-4 text-slate-300">${l.timestamp}</td>
@@ -2862,29 +2933,55 @@
         }
       }
 
-      // Render Users Management Table
+      // Render Schools Database Table
       const usersTbody = document.getElementById('master-users-tbody');
       if (usersTbody) {
         usersTbody.innerHTML = '';
-        users.forEach(u => {
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-900/40 transition-colors";
-          const isActivo = u.status === 'activo';
-          const roleBadge = u.role === 'admin' ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">👑 Admin</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">🏫 Usuario UTP</span>`;
-          const statusBadge = isActivo ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">Activo</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">Suspendido</span>`;
+        let filteredUsers = users;
+        if (schoolSearch) {
+          filteredUsers = users.filter(u => u.school.toLowerCase().includes(schoolSearch) || u.name.toLowerCase().includes(schoolSearch) || u.email.toLowerCase().includes(schoolSearch));
+        }
 
-          tr.innerHTML = `
-            <td class="py-3 px-4 text-white font-bold">${u.name}</td>
-            <td class="py-3 px-4 font-mono text-indigo-300">${u.email}</td>
-            <td class="py-3 px-4 text-slate-300">${u.school}</td>
-            <td class="py-3 px-4">${roleBadge}</td>
-            <td class="py-3 px-4 text-slate-400 font-mono text-[11px]">${u.createdAt}</td>
-            <td class="py-3 px-4 text-slate-300 font-mono text-[11px]">${u.lastLogin || 'Nunca'}</td>
-            <td class="py-3 px-4 text-center">${statusBadge}</td>
-          `;
-          usersTbody.appendChild(tr);
-        });
+        if (filteredUsers.length === 0) {
+          usersTbody.innerHTML = `<tr><td colspan="8" class="py-6 text-center text-slate-500 font-sans">No se encontraron colegios registrados en la base de datos.</td></tr>`;
+        } else {
+          filteredUsers.forEach(u => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-900/40 transition-colors";
+            const isActivo = u.status === 'activo';
+            const roleBadge = u.role === 'admin' ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">👑 Admin</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30">🏫 Usuario UTP</span>`;
+            const statusBadge = isActivo ? `<span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 rounded-full border border-emerald-500/30">Activo</span>` : `<span class="px-2 py-0.5 text-[10px] font-bold bg-rose-500/20 text-rose-300 rounded-full border border-rose-500/30">Suspendido</span>`;
+            
+            const actionButtons = u.role === 'admin' ? 
+              `<span class="text-slate-500 italic text-[11px]">Propietario Máster</span>` :
+              `<div class="flex items-center justify-center space-x-1.5">
+                <button onclick="resetUserPassword('${u.id}')" class="px-2.5 py-1 text-[11px] font-semibold bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 border border-amber-500/30 rounded-lg transition-all flex items-center space-x-1" title="Resetear Contraseña del Colegio">
+                  <i data-lucide="key" class="w-3 h-3"></i>
+                  <span>Resetear Clave</span>
+                </button>
+                <button onclick="toggleUserStatus('${u.id}')" class="px-2.5 py-1 text-[11px] font-semibold ${isActivo ? 'bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 border border-rose-500/30' : 'bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20 border border-emerald-500/30'} rounded-lg transition-all" title="${isActivo ? 'Suspender Acceso del Colegio' : 'Activar Acceso del Colegio'}">
+                  ${isActivo ? 'Suspender' : 'Activar'}
+                </button>
+              </div>`;
+
+            tr.innerHTML = `
+              <td class="py-3 px-4 font-bold text-white flex items-center space-x-2">
+                <i data-lucide="building" class="w-4 h-4 text-indigo-400 flex-shrink-0"></i>
+                <span>${u.school}</span>
+              </td>
+              <td class="py-3 px-4 text-slate-200 font-medium">${u.name}</td>
+              <td class="py-3 px-4 font-mono text-indigo-300">${u.email}</td>
+              <td class="py-3 px-4">${roleBadge}</td>
+              <td class="py-3 px-4 text-slate-400 font-mono text-[11px]">${u.createdAt}</td>
+              <td class="py-3 px-4 text-slate-300 font-mono text-[11px]">${u.lastLogin || 'Nunca'}</td>
+              <td class="py-3 px-4 text-center">${statusBadge}</td>
+              <td class="py-3 px-4 text-center">${actionButtons}</td>
+            `;
+            usersTbody.appendChild(tr);
+          });
+        }
       }
+      lucide.createIcons();
     }
 
     document.addEventListener("DOMContentLoaded", () => {
