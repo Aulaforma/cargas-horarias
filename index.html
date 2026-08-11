@@ -1197,17 +1197,23 @@
         </button>
       </form>
 
-      <!-- FORM 3: RECOVER (RECUPERAR CONTRASEÑA) -->
+      <!-- FORM 3: RECOVER (RECUPERAR CONTRASEÑA - 2 PASOS) -->
       <form id="recover-form" onsubmit="executePasswordRecovery(event)" class="hidden space-y-4">
         <div class="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl text-indigo-200 text-xs leading-relaxed">
-          Ingrese su correo institucional registrado para establecer una nueva contraseña de acceso.
+          Ingrese su correo institucional registrado para solicitar la recuperación de su contraseña.
         </div>
 
         <div id="recover-error-msg" class="hidden p-3 bg-rose-950/40 border border-rose-800/60 rounded-xl text-rose-300 text-xs flex items-center space-x-2">
           <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
-          <span id="recover-error-text">Error al restablecer contraseña.</span>
+          <span id="recover-error-text">Error al verificar el correo.</span>
         </div>
 
+        <div id="recover-success-msg" class="hidden p-3 bg-emerald-950/40 border border-emerald-800/60 rounded-xl text-emerald-300 text-xs flex items-center space-x-2">
+          <i data-lucide="check-circle" class="w-4 h-4 flex-shrink-0 text-emerald-400"></i>
+          <span id="recover-success-text">Correo verificado. Ingrese su nueva contraseña abajo.</span>
+        </div>
+
+        <!-- STEP 1: EMAIL INPUT -->
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-1.5">Correo Electrónico Registrado</label>
           <div class="relative flex items-center">
@@ -1216,20 +1222,23 @@
           </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nueva Contraseña</label>
-          <div class="relative flex items-center">
-            <input type="password" id="recover-new-password" required minlength="4" placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
-            <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none"></i>
-            <button type="button" onclick="togglePasswordVisibility('recover-new-password', 'toggle-rec-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors" title="Mostrar/Ocultar Contraseña">
-              <i id="toggle-rec-pass-icon" data-lucide="eye" class="w-4 h-4"></i>
-            </button>
+        <!-- STEP 2: NEW PASSWORD (HIDDEN UNTIL EMAIL IS VERIFIED) -->
+        <div id="recover-step-2" class="hidden space-y-4 pt-2 border-t border-slate-800">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nueva Contraseña</label>
+            <div class="relative flex items-center">
+              <input type="password" id="recover-new-password" minlength="4" placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
+              <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none"></i>
+              <button type="button" onclick="togglePasswordVisibility('recover-new-password', 'toggle-rec-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors" title="Mostrar/Ocultar Contraseña">
+                <i id="toggle-rec-pass-icon" data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
         </div>
 
-        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3.5 px-5 rounded-xl shadow-lg shadow-amber-500/25 active:scale-[0.98] transition-all text-xs flex items-center justify-center space-x-2">
-          <i data-lucide="key-round" class="w-4 h-4"></i>
-          <span>Restablecer Contraseña e Ingresar</span>
+        <button type="submit" id="recover-submit-btn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3.5 px-5 rounded-xl shadow-lg shadow-amber-500/25 active:scale-[0.98] transition-all text-xs flex items-center justify-center space-x-2">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          <span id="recover-btn-text">Verificar Correo</span>
         </button>
 
         <div class="text-center pt-1">
@@ -2605,6 +2614,23 @@
         if (loginForm) loginForm.classList.add('hidden');
         if (regForm) regForm.classList.add('hidden');
         if (recForm) recForm.classList.remove('hidden');
+        
+        // Reset Step 2 state when switching to recover tab
+        const step2 = document.getElementById('recover-step-2');
+        const err = document.getElementById('recover-error-msg');
+        const succ = document.getElementById('recover-success-msg');
+        const btnText = document.getElementById('recover-btn-text');
+        const newPassInput = document.getElementById('recover-new-password');
+        
+        if (step2) step2.classList.add('hidden');
+        if (err) err.classList.add('hidden');
+        if (succ) succ.classList.add('hidden');
+        if (btnText) btnText.textContent = "Verificar Correo";
+        if (newPassInput) {
+          newPassInput.removeAttribute('required');
+          newPassInput.value = '';
+        }
+
         if (loginTabBtn) loginTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white";
         if (regTabBtn) regTabBtn.className = "flex-1 py-2 rounded-xl text-xs font-bold transition-all text-slate-400 hover:text-white";
       }
@@ -2614,8 +2640,11 @@
     window.executePasswordRecovery = function(e) {
       e.preventDefault();
       const email = document.getElementById('recover-email').value.trim().toLowerCase();
-      const newPass = document.getElementById('recover-new-password').value;
+      const newPassInput = document.getElementById('recover-new-password');
+      const step2 = document.getElementById('recover-step-2');
       const errorMsg = document.getElementById('recover-error-msg');
+      const successMsg = document.getElementById('recover-success-msg');
+      const btnText = document.getElementById('recover-btn-text');
 
       const users = getUsers();
       const user = users.find(u => u.email.toLowerCase() === email);
@@ -2623,18 +2652,36 @@
       if (!user) {
         document.getElementById('recover-error-text').textContent = "El correo electrónico no se encuentra registrado en el sistema.";
         errorMsg.classList.remove('hidden');
+        successMsg.classList.add('hidden');
         logAccessAttempt(email, 'Usuario Desconocido', 'desconocido', 'N/A', 'Fallido (Recuperación)');
         return;
       }
 
-      // Update User Password
+      // STEP 1 COMPLETE: Email verified! Reveal Step 2 if not yet visible
+      if (step2.classList.contains('hidden')) {
+        errorMsg.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+        document.getElementById('recover-success-text').textContent = `✅ Correo ${email} verificado. Ingrese su nueva contraseña a continuación.`;
+        step2.classList.remove('hidden');
+        newPassInput.setAttribute('required', 'required');
+        newPassInput.focus();
+        btnText.textContent = "Guardar Nueva Contraseña e Ingresar";
+        return;
+      }
+
+      // STEP 2 COMPLETE: User submitted new password
+      const newPass = newPassInput.value;
+      if (!newPass || newPass.length < 4) {
+        document.getElementById('recover-error-text').textContent = "La contraseña debe tener al menos 4 caracteres.";
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
       user.password = newPass;
       saveUsers(users);
 
-      // Log audit
       logAccessAttempt(user.email, user.name, user.role, user.school, 'Éxito (Restableció Clave)');
 
-      // Log in automatically with updated password
       localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
       applyUserSession(user);
       document.getElementById('login-modal').classList.add('hidden');
