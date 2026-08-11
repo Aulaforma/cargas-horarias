@@ -1673,7 +1673,17 @@
         vulIndicator.classList.add('hidden');
       }
 
-      if (metrics.status === "red") {
+      if (currentInputs.contract === 0 && metrics.lectivasTotal === 0) {
+        capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-slate-700";
+        alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-slate-900/60 border-slate-800 text-slate-300";
+        alertContainer.innerHTML = `
+          <i data-lucide="info" class="w-5 h-5 mt-0.5 flex-shrink-0 text-indigo-400"></i>
+          <div>
+            <p class="text-xs font-bold text-slate-200">En espera de datos de carga horaria</p>
+            <p class="text-[11px] text-slate-400 mt-1">Ingrese las horas de contrato y seleccione el tipo de carga / horas en las casillas para simular la capacidad y el estado legal en tiempo real.</p>
+          </div>
+        `;
+      } else if (metrics.status === "red") {
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-red-500 ring-2 ring-red-500/20";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/30 border-red-800/40 text-red-300";
         
