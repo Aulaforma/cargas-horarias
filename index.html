@@ -683,14 +683,14 @@
                   </div>
                 </div>
                 <div id="admin-hours-breakdown" class="hidden"></div>
-                <p class="text-[9px] text-slate-500 mt-2 leading-tight">Preparación de clases y evaluación (50% intocable según Ley 20.903).</p>
+                <p class="text-[9px] text-slate-500 mt-2 leading-tight">Mitad inamovible para preparación de clases y evaluación (Ley 20.903).</p>
               </div>
 
-              <!-- Card 2: Otras Actividades (50% Presupuesto) -->
+              <!-- Card 2: Dirección y Consejo (50% Presupuesto) -->
               <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                  <span class="text-xs font-bold text-amber-400 uppercase">2. Otras Actividades (50%)</span>
-                  <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">50% Presupuesto</span>
+                  <span class="text-xs font-bold text-amber-400 uppercase">2. Dirección & Consejo (50%)</span>
+                  <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">50% Dirección</span>
                 </div>
                 <div class="space-y-1 font-mono text-[11px] text-slate-300 light:text-slate-700">
                   <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
@@ -698,7 +698,7 @@
                     <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
                   </div>
                   <div class="flex justify-between items-baseline text-slate-400 pt-1">
-                    <span>Otras Actividades 50%:</span>
+                    <span>Disponible Dirección (50%):</span>
                     <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
                   </div>
                   <div id="custom-activities-breakdown" class="space-y-1 font-mono text-[11px] text-slate-300">
@@ -1430,21 +1430,24 @@
       const pie2Chrono = pie2;
       const lectivas2 = lClass2 + pie2Chrono;
 
+      // Horas Lectivas Totales Cronológicas (Clases Aula 45m -> 60m + PIE 60m)
       const lectivasTotal = lectivas1 + lectivas2;
 
       const fLect = priority ? 0.60 : 0.65;
-      const fNoLect = priority ? 0.40 : 0.35;
+      const ratioNoLect = priority ? 0.40 : 0.35;
       const contractRequired = lectivasTotal / fLect;
 
       const recessHrs = contract * (4 / 60);
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
-      // Horas No Lectivas totales correspondientes al 35% o 40% del contrato (según ratio 65/35 o 60/40)
-      const nlTotal = Math.max(0, effectiveContract * fNoLect);
+      // Horas No Lectivas obtenidas como el 35% o 40% del total de Horas Lectivas Cronológicas (Aula + PIE)
+      const nlTotal = Math.max(0, lectivasTotal * ratioNoLect);
 
-      // Desglose del 50% para Planificación / Evaluación y 50% para Otras Actividades
+      // 50% Inamovible (Planificación y Evaluación)
       const planningHrsActual = nlTotal * 0.50;
+
+      // 50% A disposición Dirección previa consulta Consejo de Profesores
       const otrasNLBudget = nlTotal * 0.50;
 
       const customActivity1Mins = parseFloat(teacherInput.customActivity1Mins) || 0;
