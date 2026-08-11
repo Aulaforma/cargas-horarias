@@ -1439,7 +1439,8 @@
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
-      const nlTotal = Math.max(0, effectiveContract * (1 - fLect));
+      // Horas No Lectivas reales obtenidas descontando de las horas cronológicas de contrato las lectivas (Clases + PIE)
+      const nlTotal = Math.max(0, effectiveContract - lectivasTotal);
       const planningHrsActual = nlTotal * 0.50;
       const otrasNLBudget = nlTotal * 0.50;
 
