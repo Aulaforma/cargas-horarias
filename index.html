@@ -1433,14 +1433,17 @@
       const lectivasTotal = lectivas1 + lectivas2;
 
       const fLect = priority ? 0.60 : 0.65;
+      const fNoLect = priority ? 0.40 : 0.35;
       const contractRequired = lectivasTotal / fLect;
 
       const recessHrs = contract * (4 / 60);
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
-      // Horas No Lectivas reales obtenidas descontando de las horas cronológicas de contrato las lectivas (Clases + PIE)
-      const nlTotal = Math.max(0, effectiveContract - lectivasTotal);
+      // Horas No Lectivas totales correspondientes al 35% o 40% del contrato (según ratio 65/35 o 60/40)
+      const nlTotal = Math.max(0, effectiveContract * fNoLect);
+
+      // Desglose del 50% para Planificación / Evaluación y 50% para Otras Actividades
       const planningHrsActual = nlTotal * 0.50;
       const otrasNLBudget = nlTotal * 0.50;
 
