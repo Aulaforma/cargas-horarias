@@ -173,15 +173,15 @@
     }
   </style>
 </head>
-<body class="bg-[#0E1726] text-slate-100 min-h-screen flex transition-colors duration-300 dark antialiased overflow-x-hidden light:bg-[#F0F4F8]">
+<body class="bg-[#0E1726] text-slate-100 min-h-screen flex flex-col lg:flex-row transition-colors duration-300 dark antialiased overflow-x-hidden light:bg-[#F0F4F8]">
+
+  <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
+  <div id="mobile-sidebar-backdrop" onclick="toggleMobileSidebar()" class="hidden fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm lg:hidden transition-opacity"></div>
 
   <!-- ========================================== -->
-  <!-- LEFT DASHBOARD SIDEBAR (HIXME ADMIN STYLE) -->
+  <!-- LEFT DASHBOARD SIDEBAR (RESPONSIVE MOBILE DRAWER) -->
   <!-- ========================================== -->
-  <!-- ========================================== -->
-  <!-- LEFT DASHBOARD SIDEBAR (HIXME ADMIN STYLE) -->
-  <!-- ========================================== -->
-  <aside id="sidebar" class="w-64 bg-[#162238] border-r border-slate-800/80 flex flex-col flex-shrink-0 min-h-screen sticky top-0 z-50 transition-all duration-300 no-print shadow-xl">
+  <aside id="sidebar" class="fixed lg:sticky inset-y-0 left-0 z-50 w-64 bg-[#162238] border-r border-slate-800/80 flex flex-col flex-shrink-0 min-h-screen transition-transform duration-300 transform -translate-x-full lg:translate-x-0 no-print shadow-xl">
     
     <!-- Chilean Institutional Top Accent Line -->
     <div class="h-1 w-full flex">
@@ -257,13 +257,18 @@
   <div class="flex-1 flex flex-col min-w-0 bg-[#0E1726] light:bg-[#F0F4F8] transition-colors">
 
     <!-- Top Action Bar Header -->
-    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-6 py-3.5 flex items-center justify-between shadow-lg no-print">
-      <div class="flex items-center space-x-4">
+    <header class="glass-panel sticky top-0 z-40 border-b border-slate-800/80 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-lg no-print">
+      <div class="flex items-center space-x-3 sm:space-x-4">
+        <!-- Mobile Menu Hamburger Button -->
+        <button onclick="toggleMobileSidebar()" class="lg:hidden p-2 rounded-xl bg-slate-800/80 text-slate-200 hover:text-[#00C49F] hover:bg-slate-800 transition-all border border-slate-700/60" title="Menú de Navegación">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+
         <div>
-          <h2 class="text-base font-bold text-white light:text-slate-900 font-title tracking-tight">
+          <h2 class="text-sm sm:text-base font-bold text-white light:text-slate-900 font-title tracking-tight truncate max-w-[180px] sm:max-w-none">
             Planificador de Horarios & Permanencia Real
           </h2>
-          <p class="text-xs text-slate-400 light:text-slate-600">Simulador de Cargas Horarias Ley 20.903 / 21.625</p>
+          <p class="text-[10px] sm:text-xs text-slate-400 light:text-slate-600 truncate">Simulador Ley 20.903 / 21.625</p>
         </div>
       </div>
 
@@ -306,22 +311,22 @@
     <!-- Main Content Grid Canvas -->
     <main class="flex-1 max-w-[1700px] w-full mx-auto p-4 lg:p-8 space-y-6 animate-fade-in">
       
-      <!-- WORKSPACE TAB NAVIGATION BAR -->
-      <div class="glass-panel p-2 rounded-2xl flex items-center justify-between overflow-x-auto no-print shadow-lg border border-slate-800/80 light:border-slate-200">
-        <div class="flex space-x-2">
-          <button id="tab-btn-simulator" onclick="switchTab('simulator')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20">
+      <!-- WORKSPACE TAB NAVIGATION BAR (TOUCH SCROLLABLE FOR MOBILE) -->
+      <div class="glass-panel p-2 rounded-2xl flex items-center justify-between overflow-x-auto no-print shadow-lg border border-slate-800/80 light:border-slate-200 scrollbar-none">
+        <div class="flex space-x-2 min-w-max">
+          <button id="tab-btn-simulator" onclick="switchTab('simulator')" class="tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20">
             <i data-lucide="calculator" class="w-4 h-4"></i>
             <span>1. Simulación & Planificador Docente</span>
           </button>
-          <button id="tab-btn-schedule" onclick="switchTab('schedule')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
+          <button id="tab-btn-schedule" onclick="switchTab('schedule')" class="tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
             <i data-lucide="calendar" class="w-4 h-4"></i>
             <span>2. Horario del Establecimiento</span>
           </button>
-          <button id="tab-btn-roster" onclick="switchTab('roster')" class="tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
+          <button id="tab-btn-roster" onclick="switchTab('roster')" class="tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900">
             <i data-lucide="users" class="w-4 h-4"></i>
             <span>3. Planta Docente & Consolidado</span>
           </button>
-          <button id="tab-btn-master" onclick="switchTab('master')" class="hidden tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30">
+          <button id="tab-btn-master" onclick="switchTab('master')" class="hidden tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30">
             <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
             <span>👑 4. Página Maestra (Monitoreo Admin)</span>
           </button>
@@ -2364,6 +2369,15 @@
       }
     });
 
+    window.toggleMobileSidebar = function() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (sidebar && backdrop) {
+        sidebar.classList.toggle('-translate-x-full');
+        backdrop.classList.toggle('hidden');
+      }
+    };
+
     window.switchTab = function(tabName) {
       const tabs = ['simulator', 'schedule', 'roster', 'master'];
       tabs.forEach(t => {
@@ -2374,18 +2388,18 @@
           if (content) content.classList.remove('hidden');
           if (btn) {
             if (t === 'master') {
-              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
+              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
             } else {
-              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20";
+              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20";
             }
           }
         } else {
           if (content) content.classList.add('hidden');
           if (btn) {
             if (t === 'master') {
-              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20";
+              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20";
             } else {
-              btn.className = "tab-btn px-5 py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900";
+              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900";
             }
           }
         }
@@ -2393,6 +2407,15 @@
       if (tabName === 'master') {
         renderMasterDashboard();
       }
+
+      // Auto-close mobile menu drawer if open
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+      if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+        sidebar.classList.add('-translate-x-full');
+        if (backdrop) backdrop.classList.add('hidden');
+      }
+
       lucide.createIcons();
     };
 
