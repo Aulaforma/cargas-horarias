@@ -535,6 +535,56 @@
                 </div>
               </div>
 
+              <!-- DISTRIBUIR NO LECTIVAS DIRECCIÓN & CONSEJO (50%) -->
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 rounded-xl border border-amber-500/30 light:border-slate-200 space-y-3">
+                <div class="flex items-center justify-between border-b border-amber-500/30 pb-2">
+                  <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">4. Distribuir Dirección & Consejo (50%)</h3>
+                  <span class="text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">Presupuesto 50%</span>
+                </div>
+                
+                <p class="text-[10px] text-slate-400 leading-normal mb-1">
+                  Distribuye en horas y minutos las actividades pertenecientes al 50% no lectivo a disposición de la Dirección (Consejo de Profesores, apoderados, GPT, etc.).
+                </p>
+
+                <div class="space-y-2">
+                  <div class="grid grid-cols-12 gap-1.5 items-center text-[10px] font-bold text-slate-400 uppercase pb-1 border-b border-slate-850">
+                    <span class="col-span-6 pl-1">Actividad Dirección</span>
+                    <span class="col-span-3 text-center">Hrs</span>
+                    <span class="col-span-3 text-center">Min</span>
+                  </div>
+                  
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-dir-name-1" placeholder="Ej. Consejo de Profesores" class="col-span-6 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500">
+                    <input type="number" id="teacher-dir-hr-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                    <input type="number" id="teacher-dir-min-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                  </div>
+                  
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-dir-name-2" placeholder="Ej. Atención a Apoderados" class="col-span-6 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500">
+                    <input type="number" id="teacher-dir-hr-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                    <input type="number" id="teacher-dir-min-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-dir-name-3" placeholder="Ej. Trabajo Colaborativo GPT" class="col-span-6 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500">
+                    <input type="number" id="teacher-dir-hr-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                    <input type="number" id="teacher-dir-min-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-dir-name-4" placeholder="Ej. Gestión Técnica / UTP" class="col-span-6 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500">
+                    <input type="number" id="teacher-dir-hr-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                    <input type="number" id="teacher-dir-min-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                  </div>
+
+                  <div class="grid grid-cols-12 gap-1.5">
+                    <input type="text" id="teacher-dir-name-5" placeholder="Ej. Actividad Dirección 5" class="col-span-6 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500">
+                    <input type="number" id="teacher-dir-hr-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                    <input type="number" id="teacher-dir-min-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-amber-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-amber-500 text-center">
+                  </div>
+                </div>
+              </div>
+
               <!-- SUBMIT BUTTONS -->
               <div class="flex space-x-3 pt-2">
                 <button type="button" id="cancel-edit-btn" class="hidden w-1/3 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 font-semibold py-2.5 px-4 rounded-xl transition-all text-sm">
@@ -687,19 +737,28 @@
               </div>
 
               <!-- Card 2: Dirección y Consejo (50% Presupuesto) -->
-              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl">
-                <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                  <span class="text-xs font-bold text-amber-400 uppercase">2. Dirección & Consejo (50%)</span>
-                  <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">50% Dirección</span>
-                </div>
-                <div class="space-y-1 font-mono text-[11px] text-slate-300 light:text-slate-700">
-                  <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
-                    <span>No Lectivas Totales:</span>
-                    <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
+              <div class="p-4 bg-slate-900/60 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                    <span class="text-xs font-bold text-amber-400 uppercase">2. Dirección & Consejo (50%)</span>
+                    <span class="px-2 py-0.5 text-[9px] font-bold bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">50% Dirección</span>
                   </div>
-                  <div class="flex justify-between items-baseline text-slate-400 pt-1">
-                    <span>Disponible Dirección (50%):</span>
-                    <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
+                  <div class="space-y-1.5 font-mono text-[11px] text-slate-300 light:text-slate-700">
+                    <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
+                      <span>No Lectivas Totales:</span>
+                      <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
+                    </div>
+                    <div class="flex justify-between items-baseline text-slate-400 pb-1 border-b border-slate-800/30">
+                      <span>Disponible Dirección (50%):</span>
+                      <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
+                    </div>
+                    <div id="dir-custom-activities-breakdown" class="space-y-1 py-1 font-sans text-[10px]">
+                      <!-- Dynamically populated in JS -->
+                    </div>
+                    <div class="flex justify-between items-baseline pt-1.5 border-t border-slate-800/40 font-sans">
+                      <span class="text-slate-400 text-[10px]">Disponible Restante Dirección:</span>
+                      <span id="breakdown-dir-remaining" class="font-bold text-amber-400 font-mono text-xs">0 hrs 00 min</span>
+                    </div>
                   </div>
                 </div>
                 <p class="text-[9px] text-slate-500 mt-2 leading-tight">Actividades técnicas, trabajo colaborativo o atención de apoderados (Ley 20.903).</p>
@@ -1526,6 +1585,18 @@
         customActivity5Name: teacherInput.customActivity5Name,
         customActivity5Mins: teacherInput.customActivity5Mins,
         totalCustomHrs,
+        dirCustomActivity1Name: teacherInput.dirCustomActivity1Name,
+        dirCustomActivity1Mins: teacherInput.dirCustomActivity1Mins,
+        dirCustomActivity2Name: teacherInput.dirCustomActivity2Name,
+        dirCustomActivity2Mins: teacherInput.dirCustomActivity2Mins,
+        dirCustomActivity3Name: teacherInput.dirCustomActivity3Name,
+        dirCustomActivity3Mins: teacherInput.dirCustomActivity3Mins,
+        dirCustomActivity4Name: teacherInput.dirCustomActivity4Name,
+        dirCustomActivity4Mins: teacherInput.dirCustomActivity4Mins,
+        dirCustomActivity5Name: teacherInput.dirCustomActivity5Name,
+        dirCustomActivity5Mins: teacherInput.dirCustomActivity5Mins,
+        totalDirCustomHrs: ((teacherInput.dirCustomActivity1Mins || 0) + (teacherInput.dirCustomActivity2Mins || 0) + (teacherInput.dirCustomActivity3Mins || 0) + (teacherInput.dirCustomActivity4Mins || 0) + (teacherInput.dirCustomActivity5Mins || 0)) / 60,
+        dirRemainingHrs: otrasNLBudget - (((teacherInput.dirCustomActivity1Mins || 0) + (teacherInput.dirCustomActivity2Mins || 0) + (teacherInput.dirCustomActivity3Mins || 0) + (teacherInput.dirCustomActivity4Mins || 0) + (teacherInput.dirCustomActivity5Mins || 0)) / 60),
         adminName: teacherInput.adminName,
         adminMins: teacherInput.adminMins
       };
@@ -1625,6 +1696,16 @@
         customActivity4Mins: (parseFloat(document.getElementById('teacher-custom-hr-4').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-custom-min-4').value) || 0),
         customActivity5Name: document.getElementById('teacher-custom-name-5').value.trim(),
         customActivity5Mins: (parseFloat(document.getElementById('teacher-custom-hr-5').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-custom-min-5').value) || 0),
+        dirCustomActivity1Name: document.getElementById('teacher-dir-name-1').value.trim(),
+        dirCustomActivity1Mins: (parseFloat(document.getElementById('teacher-dir-hr-1').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-dir-min-1').value) || 0),
+        dirCustomActivity2Name: document.getElementById('teacher-dir-name-2').value.trim(),
+        dirCustomActivity2Mins: (parseFloat(document.getElementById('teacher-dir-hr-2').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-dir-min-2').value) || 0),
+        dirCustomActivity3Name: document.getElementById('teacher-dir-name-3').value.trim(),
+        dirCustomActivity3Mins: (parseFloat(document.getElementById('teacher-dir-hr-3').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-dir-min-3').value) || 0),
+        dirCustomActivity4Name: document.getElementById('teacher-dir-name-4').value.trim(),
+        dirCustomActivity4Mins: (parseFloat(document.getElementById('teacher-dir-hr-4').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-dir-min-4').value) || 0),
+        dirCustomActivity5Name: document.getElementById('teacher-dir-name-5').value.trim(),
+        dirCustomActivity5Mins: (parseFloat(document.getElementById('teacher-dir-hr-5').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-dir-min-5').value) || 0),
         adminName: document.getElementById('teacher-admin-name').value.trim(),
         adminMins: (parseFloat(document.getElementById('teacher-admin-hr').value) || 0) * 60 + (parseFloat(document.getElementById('teacher-admin-min').value) || 0)
       };
@@ -1828,6 +1909,49 @@
       
       document.getElementById('breakdown-nolect-total').textContent = formatHours(metrics.nlTotal);
       document.getElementById('breakdown-nolect-budget').textContent = formatHours(metrics.otrasNLBudget);
+
+      const dirBreakdownContainer = document.getElementById('dir-custom-activities-breakdown');
+      if (dirBreakdownContainer) {
+        dirBreakdownContainer.innerHTML = '';
+        const dirCustoms = [
+          { name: currentInputs.dirCustomActivity1Name, mins: currentInputs.dirCustomActivity1Mins, defaultName: 'Consejo de Profesores' },
+          { name: currentInputs.dirCustomActivity2Name, mins: currentInputs.dirCustomActivity2Mins, defaultName: 'Atención a Apoderados' },
+          { name: currentInputs.dirCustomActivity3Name, mins: currentInputs.dirCustomActivity3Mins, defaultName: 'Trabajo Colaborativo (GPT)' },
+          { name: currentInputs.dirCustomActivity4Name, mins: currentInputs.dirCustomActivity4Mins, defaultName: 'Gestión Técnica / UTP' },
+          { name: currentInputs.dirCustomActivity5Name, mins: currentInputs.dirCustomActivity5Mins, defaultName: 'Actividad Dirección 5' }
+        ];
+
+        let hasDirAllocations = false;
+        dirCustoms.forEach(c => {
+          if (c.mins > 0) {
+            hasDirAllocations = true;
+            const displayName = c.name.trim() || c.defaultName;
+            const div = document.createElement('div');
+            div.className = "flex justify-between items-baseline text-slate-300 light:text-slate-700";
+            div.innerHTML = `
+              <span class="truncate pr-2">• ${displayName}:</span>
+              <span class="font-mono text-amber-400 font-semibold flex-shrink-0">${formatHours(c.mins / 60)}</span>
+            `;
+            dirBreakdownContainer.appendChild(div);
+          }
+        });
+
+        if (!hasDirAllocations) {
+          dirBreakdownContainer.innerHTML = `<p class="text-[9px] text-slate-500 italic">Sin actividades de Dirección asignadas aún.</p>`;
+        }
+      }
+
+      const dirRemainingEl = document.getElementById('breakdown-dir-remaining');
+      if (dirRemainingEl) {
+        dirRemainingEl.textContent = formatHours(metrics.dirRemainingHrs);
+        if (metrics.dirRemainingHrs < -0.01) {
+          dirRemainingEl.className = "font-bold text-rose-400 font-mono text-xs";
+        } else if (metrics.totalDirCustomHrs > 0) {
+          dirRemainingEl.className = "font-bold text-emerald-400 font-mono text-xs";
+        } else {
+          dirRemainingEl.className = "font-bold text-amber-400 font-mono text-xs";
+        }
+      }
       
       const recessPedEl = document.getElementById('breakdown-recess-ped-hrs');
       if (recessPedEl) recessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
@@ -2225,6 +2349,9 @@
         document.getElementById(`teacher-custom-name-${i}`).value = '';
         document.getElementById(`teacher-custom-hr-${i}`).value = '';
         document.getElementById(`teacher-custom-min-${i}`).value = '';
+        document.getElementById(`teacher-dir-name-${i}`).value = '';
+        document.getElementById(`teacher-dir-hr-${i}`).value = '';
+        document.getElementById(`teacher-dir-min-${i}`).value = '';
       }
       document.getElementById('teacher-admin-name').value = '';
       document.getElementById('teacher-admin-hr').value = '';
@@ -2276,6 +2403,13 @@
         document.getElementById(`teacher-custom-name-${i}`).value = teacher[`customActivity${i}Name`] || '';
         document.getElementById(`teacher-custom-hr-${i}`).value = savedHrs || '';
         document.getElementById(`teacher-custom-min-${i}`).value = savedMins || '';
+
+        const dirMins = teacher[`dirCustomActivity${i}Mins`] || 0;
+        const dirHrs = Math.floor(dirMins / 60);
+        const dirRemMins = dirMins % 60;
+        document.getElementById(`teacher-dir-name-${i}`).value = teacher[`dirCustomActivity${i}Name`] || '';
+        document.getElementById(`teacher-dir-hr-${i}`).value = dirHrs || '';
+        document.getElementById(`teacher-dir-min-${i}`).value = dirRemMins || '';
       }
 
       const adminTotalMins = teacher.adminMins || 0;
@@ -2317,6 +2451,9 @@
         document.getElementById(`teacher-custom-name-${i}`).value = '';
         document.getElementById(`teacher-custom-hr-${i}`).value = '';
         document.getElementById(`teacher-custom-min-${i}`).value = '';
+        document.getElementById(`teacher-dir-name-${i}`).value = '';
+        document.getElementById(`teacher-dir-hr-${i}`).value = '';
+        document.getElementById(`teacher-dir-min-${i}`).value = '';
       }
       document.getElementById('teacher-admin-name').value = '';
       document.getElementById('teacher-admin-hr').value = '';
@@ -2418,6 +2555,9 @@
           document.getElementById(`teacher-custom-name-${i}`).value = '';
           document.getElementById(`teacher-custom-hr-${i}`).value = '';
           document.getElementById(`teacher-custom-min-${i}`).value = '';
+          document.getElementById(`teacher-dir-name-${i}`).value = '';
+          document.getElementById(`teacher-dir-hr-${i}`).value = '';
+          document.getElementById(`teacher-dir-min-${i}`).value = '';
         }
         document.getElementById('teacher-admin-name').value = '';
         document.getElementById('teacher-admin-hr').value = '';
@@ -3003,6 +3143,11 @@
         'teacher-custom-name-3', 'teacher-custom-hr-3', 'teacher-custom-min-3',
         'teacher-custom-name-4', 'teacher-custom-hr-4', 'teacher-custom-min-4',
         'teacher-custom-name-5', 'teacher-custom-hr-5', 'teacher-custom-min-5',
+        'teacher-dir-name-1', 'teacher-dir-hr-1', 'teacher-dir-min-1',
+        'teacher-dir-name-2', 'teacher-dir-hr-2', 'teacher-dir-min-2',
+        'teacher-dir-name-3', 'teacher-dir-hr-3', 'teacher-dir-min-3',
+        'teacher-dir-name-4', 'teacher-dir-hr-4', 'teacher-dir-min-4',
+        'teacher-dir-name-5', 'teacher-dir-hr-5', 'teacher-dir-min-5',
         'teacher-admin-name', 'teacher-admin-hr', 'teacher-admin-min'
       ];
       formInputs.forEach(id => {
