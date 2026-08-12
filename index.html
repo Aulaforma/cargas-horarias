@@ -470,15 +470,15 @@
                 </select>
               </div>
 
-              <!-- DISTRIBUCIÓN DE HORAS RESTANTES (5 CASILLAS) -->
+              <!-- DISTRIBUIR HORAS RESTANTES -->
               <div class="p-4 bg-slate-900/60 light:bg-slate-50 rounded-xl border border-slate-800/80 light:border-slate-200 space-y-3">
                 <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
                   <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">3. Distribuir Horas Restantes</h3>
-                  <span class="text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30">Opcional (Hrs + Min)</span>
+                  <span class="text-[9px] px-2 py-0.5 bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">Opcional (Hrs + Min)</span>
                 </div>
                 
                 <p class="text-[10px] text-slate-400 leading-normal mb-1">
-                  Ingresa el nombre y duración para descontar de las horas restantes no lectivas.
+                  Ingresa las actividades para aprovechar aquellas horas que no se realizan en aula ni como administrativas. Estas horas no reducen las horas no lectivas legales, sino que se descuentan directamente de la Capacidad Restante en la Simulación de Capacidad y Estado.
                 </p>
 
                 <div class="space-y-2">
@@ -492,31 +492,31 @@
                   <div class="grid grid-cols-12 gap-1.5">
                     <input type="text" id="teacher-custom-name-1" placeholder="Ej. Taller Pedagógico" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
                     <input type="number" id="teacher-custom-hr-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
-                    <input type="number" id="teacher-custom-min-1" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-1" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
                   
                   <div class="grid grid-cols-12 gap-1.5">
                     <input type="text" id="teacher-custom-name-2" placeholder="Ej. Preparación Material" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
                     <input type="number" id="teacher-custom-hr-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
-                    <input type="number" id="teacher-custom-min-2" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-2" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
 
                   <div class="grid grid-cols-12 gap-1.5">
                     <input type="text" id="teacher-custom-name-3" placeholder="Ej. Corrección Pruebas" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
                     <input type="number" id="teacher-custom-hr-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
-                    <input type="number" id="teacher-custom-min-3" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-3" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
 
                   <div class="grid grid-cols-12 gap-1.5">
                     <input type="text" id="teacher-custom-name-4" placeholder="Ej. Atención Alumnos" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
                     <input type="number" id="teacher-custom-hr-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
-                    <input type="number" id="teacher-custom-min-4" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-4" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
 
                   <div class="grid grid-cols-12 gap-1.5">
                     <input type="text" id="teacher-custom-name-5" placeholder="Ej. Trabajo Técnico" class="col-span-6 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
                     <input type="number" id="teacher-custom-hr-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
-                    <input type="number" id="teacher-custom-min-5" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
+                    <input type="number" id="teacher-custom-min-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
 
                   <!-- Horas Administrativas -->
@@ -529,7 +529,7 @@
                     <div class="grid grid-cols-12 gap-1.5">
                       <input type="text" id="teacher-admin-name" placeholder="Ej. Coordinación, UTP..." class="col-span-6 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500">
                       <input type="number" id="teacher-admin-hr" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
-                      <input type="number" id="teacher-admin-min" min="0" max="59" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
+                      <input type="number" id="teacher-admin-min" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
                     </div>
                   </div>
                 </div>
@@ -701,14 +701,8 @@
                     <span>Disponible Dirección (50%):</span>
                     <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
                   </div>
-                  <div id="custom-activities-breakdown" class="space-y-1 font-mono text-[11px] text-slate-300">
-                    <!-- Dynamically filled -->
-                  </div>
-                  <div class="flex justify-between items-baseline pt-1 border-t border-slate-800/50 text-teal-400 font-bold">
-                    <span>Saldo Restante:</span>
-                    <span id="breakdown-nolect-balance">0.00 hrs</span>
-                  </div>
                 </div>
+                <p class="text-[9px] text-slate-500 mt-2 leading-tight">Actividades técnicas, trabajo colaborativo o atención de apoderados (Ley 20.903).</p>
               </div>
 
               <!-- Card 3: Recreos Fórmula -->
@@ -759,7 +753,7 @@
                     <p class="text-[10px] text-slate-400 leading-tight mb-2">Horas dedicadas a clases en aula según contrato.</p>
                     <div class="space-y-1 font-mono text-[11px]">
                       <div class="flex justify-between text-slate-300">
-                        <span class="font-sans text-[10px] text-slate-400">Máx Lectivo (Contrato):</span>
+                        <span class="font-sans text-[10px] text-slate-400">Máx Lectivo (Contrato Efectivo):</span>
                         <span id="legal-lect-max" class="font-bold">0.00 hrs</span>
                       </div>
                       <div class="flex justify-between text-slate-300">
@@ -1420,6 +1414,21 @@
 
       const legalColacionHrs = (contract === 43 || contract === 44) ? 2 : 0;
       const adminHrs = (teacherInput.adminMins || 0) / 60;
+
+      const customActivity1Mins = parseFloat(teacherInput.customActivity1Mins) || 0;
+      const customActivity2Mins = parseFloat(teacherInput.customActivity2Mins) || 0;
+      const customActivity3Mins = parseFloat(teacherInput.customActivity3Mins) || 0;
+      const customActivity4Mins = parseFloat(teacherInput.customActivity4Mins) || 0;
+      const customActivity5Mins = parseFloat(teacherInput.customActivity5Mins) || 0;
+
+      const custom1Hrs = customActivity1Mins / 60;
+      const custom2Hrs = customActivity2Mins / 60;
+      const custom3Hrs = customActivity3Mins / 60;
+      const custom4Hrs = customActivity4Mins / 60;
+      const custom5Hrs = customActivity5Mins / 60;
+
+      const totalCustomHrs = custom1Hrs + custom2Hrs + custom3Hrs + custom4Hrs + custom5Hrs;
+      const fixedHrs = adminHrs + totalCustomHrs;
       const effectiveContract = Math.max(0, contract - adminHrs - legalColacionHrs);
 
       const lClass1 = ped1 * 0.75;
@@ -1435,7 +1444,9 @@
 
       const fLect = priority ? 0.60 : 0.65;
       const ratioNoLect = priority ? 0.40 : 0.35;
-      const contractRequired = lectivasTotal / fLect;
+
+      const totalLectivasYFijadas = lectivasTotal;
+      const contractRequired = (lectivasTotal / fLect) + adminHrs + legalColacionHrs + totalCustomHrs;
 
       const recessHrs = contract * (4 / 60);
 
@@ -1447,27 +1458,16 @@
       // 50% Inamovible (Planificación y Evaluación)
       const planningHrsActual = nlTotal * 0.50;
 
-      // 50% A disposición Dirección previa consulta Consejo de Profesores
+      // 50% A disposición Dirección previa consulta Consejo de Profesores (Intacto: 50% de No Lectivas sin descontar actividades personalizadas)
       const otrasNLBudget = nlTotal * 0.50;
+      const restanteVal = otrasNLBudget;
 
-      const customActivity1Mins = parseFloat(teacherInput.customActivity1Mins) || 0;
-      const customActivity2Mins = parseFloat(teacherInput.customActivity2Mins) || 0;
-      const customActivity3Mins = parseFloat(teacherInput.customActivity3Mins) || 0;
-      const customActivity4Mins = parseFloat(teacherInput.customActivity4Mins) || 0;
-      const customActivity5Mins = parseFloat(teacherInput.customActivity5Mins) || 0;
-
-      const custom1Hrs = customActivity1Mins / 60;
-      const custom2Hrs = customActivity2Mins / 60;
-      const custom3Hrs = customActivity3Mins / 60;
-      const custom4Hrs = customActivity4Mins / 60;
-      const custom5Hrs = customActivity5Mins / 60;
-
-      const totalCustomHrs = custom1Hrs + custom2Hrs + custom3Hrs + custom4Hrs + custom5Hrs;
-      const restanteVal = otrasNLBudget - totalCustomHrs;
-
-      const capLect = Math.max(0, (effectiveContract * fLect) - lectivasTotal);
-      const capLect1 = priority ? Math.max(0, (effectiveContract * 0.60) - lectivasTotal) : Math.max(0, (effectiveContract * 0.65) - lectivasTotal);
-      const capLect2 = Math.max(0, (effectiveContract * 0.65) - lectivasTotal);
+      // Las actividades fijadas en la sección 3 se descuentan 1 a 1 directamente del total restante de bloques de clases
+      const capLect = Math.max(0, (effectiveContract * fLect) - lectivasTotal - totalCustomHrs);
+      const capLect1 = priority 
+        ? Math.max(0, (effectiveContract * 0.60) - lectivasTotal - totalCustomHrs) 
+        : Math.max(0, (effectiveContract * 0.65) - lectivasTotal - totalCustomHrs);
+      const capLect2 = Math.max(0, (effectiveContract * 0.65) - lectivasTotal - totalCustomHrs);
 
       const blockHrs = blockDuration / 60;
       const capBlocks1 = Math.floor(capLect1 / blockHrs);
@@ -1513,6 +1513,7 @@
         fLect1: fLect,
         legalColacionHrs,
         adminHrs,
+        fixedHrs,
         effectiveContract,
         customActivity1Name: teacherInput.customActivity1Name,
         customActivity1Mins: teacherInput.customActivity1Mins,
@@ -1660,11 +1661,13 @@
         titleC2.textContent = "Capacidad Restante 2° Ciclo (65/35)";
       }
 
+      const customTag = metrics.totalCustomHrs > 0 ? `<span class="text-amber-400 font-semibold block text-[10px] mt-0.5">(-${formatHours(metrics.totalCustomHrs)} descontadas en Simulación de Capacidad)</span>` : '';
+
       hC1Disp.textContent = metrics.capLect1.toFixed(2);
-      bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks1}</span> bloques.`;
+      bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks1}</span> bloques. ${customTag}`;
       
       hC2Disp.textContent = metrics.capLect2.toFixed(2);
-      bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks2}</span> bloques.`;
+      bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks2}</span> bloques. ${customTag}`;
 
       document.getElementById('cycle1-ratio-tag').textContent = `Ratio: ${Math.round(metrics.fLect1 * 100)}/${Math.round((1-metrics.fLect1)*100)}`;
       if (globalParams.priority) {
@@ -1687,15 +1690,19 @@
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-red-500 ring-2 ring-red-500/20";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/30 border-red-800/40 text-red-300";
         
+        const fixedInfo = metrics.fixedHrs > 0 ? ` (incluye ${formatHours(metrics.fixedHrs)} fijadas/admin descontadas)` : '';
+        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+        
         alertContainer.innerHTML = `
           <i data-lucide="alert-triangle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-red-400"></i>
-          <div>
-            <p class="text-xs font-bold text-red-400">Infracción Ley 20.903 (Excede Tolerancia)</p>
-            <p class="text-[11px] text-slate-400 mt-1">La carga lectiva asignada requiere un contrato de <span class="text-red-300 font-semibold">${metrics.contractRequired.toFixed(2)} hrs cron.</span> (supera las ${currentInputs.contract} hrs del contrato por más de la tolerancia de 45 min).</p>
-            <div class="mt-2 grid grid-cols-2 gap-1 text-[10px] bg-red-950/40 rounded-lg p-2 border border-red-900/30">
-              <span class="text-slate-400">Horas Pedagógicas (45m):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped1 + currentInputs.ped2} hrs ped.</span>
-              <span class="text-slate-400">Horas PIE (60m):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie1 + currentInputs.pie2} hrs ped.</span>
-              <span class="text-slate-400 font-bold">Total Cronólogico:</span><span class="text-red-300 font-mono font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+          <div class="flex-1">
+            <p class="text-xs font-bold text-red-400">Infracción Ley 20.903 (Excede Tolerancia del Contrato)</p>
+            <p class="text-[11px] text-slate-400 mt-1">La carga asignada requiere un contrato de <span class="text-red-300 font-semibold">${metrics.contractRequired.toFixed(2)} hrs cron.</span>${fixedInfo}, superando las ${currentInputs.contract} hrs del contrato por más de la tolerancia de 45 min.</p>
+            <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-red-950/40 rounded-lg p-2 border border-red-900/30 font-mono">
+              <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
+              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula} hrs</span>
+              <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-red-300 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+              <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
             </div>
           </div>
         `;
@@ -1703,20 +1710,35 @@
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-amber-500 ring-2 ring-amber-500/20";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-amber-950/30 border-amber-800/40 text-amber-300";
         
+        const fixedInfo = metrics.fixedHrs > 0 ? ` (Contrato efectivo descontando fijadas/admin: ${metrics.effectiveContract.toFixed(2)} hrs)` : '';
+        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+        
         if (metrics.isConTolerancia) {
           alertContainer.innerHTML = `
             <i data-lucide="alert-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-400"></i>
-            <div>
+            <div class="flex-1">
               <p class="text-xs font-bold text-amber-400">Desviación Tolerable (Menor a 45 min)</p>
-              <p class="text-[11px] text-slate-400 mt-1">La carga lectiva excede el contrato por ${(metrics.contractDiff * 60).toFixed(0)} minutos. Está en zona de tolerancia y no gatilla infracción.</p>
+              <p class="text-[11px] text-slate-400 mt-1">La carga asignada excede el contrato por ${(metrics.contractDiff * 60).toFixed(0)} minutos. Está en zona de tolerancia. ${fixedInfo}</p>
+              <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-amber-950/40 rounded-lg p-2 border border-amber-900/30 font-mono">
+                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula} hrs</span>
+                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
+              </div>
             </div>
           `;
         } else {
           alertContainer.innerHTML = `
             <i data-lucide="alert-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-400"></i>
-            <div>
-              <p class="text-xs font-bold text-amber-400">Carga completa o sin margen</p>
-              <p class="text-[11px] text-slate-400 mt-1">El docente tiene asignado casi el total de sus horas lectivas. No se pueden agregar más bloques.</p>
+            <div class="flex-1">
+              <p class="text-xs font-bold text-amber-400">Carga completa o sin margen de nuevos bloques</p>
+              <p class="text-[11px] text-slate-400 mt-1">El docente ha alcanzado el tope del contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs, descontando ${formatHours(metrics.fixedHrs)} de horas fijadas/admin). No se pueden agregar más bloques.</p>
+              <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-amber-950/40 rounded-lg p-2 border border-amber-900/30 font-mono">
+                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula} hrs</span>
+                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
+              </div>
             </div>
           `;
         }
@@ -1724,17 +1746,18 @@
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/30 border-emerald-800/40 text-emerald-300";
         
+        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+
         alertContainer.innerHTML = `
           <i data-lucide="check-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-emerald-400"></i>
           <div class="flex-1">
             <p class="text-xs font-bold text-emerald-400">Distribución en norma legal</p>
-            <p class="text-[11px] text-slate-400 mt-1">La carga asignada respeta los topes y las proporciones lectivas / no lectivas.</p>
-            <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-emerald-950/40 rounded-lg p-2 border border-emerald-900/30">
-              <span class="text-slate-400">Clases 1° Ciclo (45m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped1} h ped. = ${(currentInputs.ped1 * 0.75).toFixed(2)} h cron.</span>
-              <span class="text-slate-400">PIE 1° Ciclo (60m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie1} h ped. = ${currentInputs.pie1.toFixed(2)} h cron.</span>
-              <span class="text-slate-400">Clases 2° Ciclo (45m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.ped2} h ped. = ${(currentInputs.ped2 * 0.75).toFixed(2)} h cron.</span>
-              <span class="text-slate-400">PIE 2° Ciclo (60m/hr):</span><span class="text-slate-200 font-mono text-right">${currentInputs.pie2} h ped. = ${currentInputs.pie2.toFixed(2)} h cron.</span>
-              <span class="text-slate-300 font-bold border-t border-emerald-900/30 pt-1">Total Lectivas:</span><span class="text-emerald-300 font-mono font-bold text-right border-t border-emerald-900/30 pt-1">${metrics.lectivasTotal.toFixed(2)} h cron.</span>
+            <p class="text-[11px] text-slate-400 mt-1">La carga asignada respeta los topes y la proporción sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).</p>
+            <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-emerald-950/40 rounded-lg p-2 border border-emerald-900/30 font-mono">
+              <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
+              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula} hrs</span>
+              <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-emerald-300 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+              <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
             </div>
           </div>
         `;
@@ -1742,7 +1765,7 @@
 
       const adminCapEl = document.getElementById('admin-capacity-details');
       if (adminCapEl) {
-        if (metrics.adminHrs > 0) {
+        if (metrics.fixedHrs > 0) {
           const maxAulaChrono = metrics.effectiveContract * metrics.fLect1;
           const maxAulaPed = maxAulaChrono / 0.75;
           const adminName = currentInputs.adminName || 'Horas Administrativas';
@@ -1750,9 +1773,9 @@
           adminCapEl.innerHTML = `
             <div class="flex items-center justify-between border-b border-rose-800/30 pb-1.5">
               <span class="font-bold text-rose-300 uppercase text-[11px] flex items-center space-x-1">
-                <span>📋 Ajuste por Horas Administrativas: ${adminName}</span>
+                <span>📋 Ajuste por Horas Fijadas / Administrativas del Contrato</span>
               </span>
-              <span class="text-[10px] font-mono text-rose-400 font-semibold">-${formatHours(metrics.adminHrs)} del Contrato</span>
+              <span class="text-[10px] font-mono text-rose-400 font-semibold">-${formatHours(metrics.fixedHrs)} del Contrato</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono pt-1">
               <div>
@@ -1760,8 +1783,8 @@
                 <span class="text-slate-200 font-bold">${currentInputs.contract} hrs</span>
               </div>
               <div>
-                <span class="text-slate-400 font-sans block text-[10px]">Descuento Admin:</span>
-                <span class="text-rose-400 font-bold">-${formatHours(metrics.adminHrs)}</span>
+                <span class="text-slate-400 font-sans block text-[10px]">Descuento Fijadas/Admin:</span>
+                <span class="text-rose-400 font-bold">-${formatHours(metrics.fixedHrs)}</span>
               </div>
               <div>
                 <span class="text-slate-400 font-sans block text-[10px]">Contrato Efectivo:</span>
@@ -1773,7 +1796,7 @@
               </div>
             </div>
             <p class="text-[9px] text-slate-400 font-sans leading-tight border-t border-slate-800/40 pt-1 mt-1">
-              Las ${formatHours(metrics.adminHrs)} administrativas se descuentan directamente del contrato. El máximo de aula (${maxAulaChrono.toFixed(2)} hrs cron / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).
+              Las ${formatHours(metrics.fixedHrs)} fijadas/administrativas se descuentan directamente del contrato. El máximo de aula (${maxAulaChrono.toFixed(2)} hrs cron / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).
             </p>
           `;
           adminCapEl.classList.remove('hidden');
@@ -1806,40 +1829,6 @@
       document.getElementById('breakdown-nolect-total').textContent = formatHours(metrics.nlTotal);
       document.getElementById('breakdown-nolect-budget').textContent = formatHours(metrics.otrasNLBudget);
       
-      const customBreakdownContainer = document.getElementById('custom-activities-breakdown');
-      if (customBreakdownContainer) {
-        customBreakdownContainer.innerHTML = '';
-        
-        const customs = [
-          { name: currentInputs.customActivity1Name, mins: currentInputs.customActivity1Mins, defaultName: 'Actividad 1' },
-          { name: currentInputs.customActivity2Name, mins: currentInputs.customActivity2Mins, defaultName: 'Actividad 2' },
-          { name: currentInputs.customActivity3Name, mins: currentInputs.customActivity3Mins, defaultName: 'Actividad 3' },
-          { name: currentInputs.customActivity4Name, mins: currentInputs.customActivity4Mins, defaultName: 'Actividad 4' },
-          { name: currentInputs.customActivity5Name, mins: currentInputs.customActivity5Mins, defaultName: 'Actividad 5' }
-        ];
-
-        customs.forEach(c => {
-          if (c.mins > 0) {
-            const div = document.createElement('div');
-            div.className = "flex justify-between items-baseline text-slate-350";
-            const displayName = c.name.trim() || c.defaultName;
-            div.innerHTML = `
-              <span>- ${displayName} (${c.mins}m):</span>
-              <span>${formatHours(c.mins / 60)}</span>
-            `;
-            customBreakdownContainer.appendChild(div);
-          }
-        });
-      }
-      
-      const noLectBalEl = document.getElementById('breakdown-nolect-balance');
-      noLectBalEl.textContent = formatHours(metrics.restanteVal);
-      if (metrics.restanteVal < 0) {
-        noLectBalEl.className = "text-rose-400 font-bold animate-pulse";
-      } else {
-        noLectBalEl.className = "text-teal-400 font-bold";
-      }
-
       const recessPedEl = document.getElementById('breakdown-recess-ped-hrs');
       if (recessPedEl) recessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
       document.getElementById('breakdown-recess-formula').textContent = formatHours(metrics.recessHrs);
@@ -1889,11 +1878,10 @@
       const adminBreakdownEl = document.getElementById('admin-hours-breakdown');
       if (adminBreakdownEl) {
         if (metrics.adminHrs > 0) {
-          const adminLabel = metrics.adminName || 'Horas Administrativas';
           adminBreakdownEl.innerHTML = `
             <div class="flex justify-between items-baseline pt-1 border-t border-rose-800/30 text-rose-400">
-              <span class="text-[10px]">&#128203; ${adminLabel}:</span>
-              <span class="font-bold font-mono">${formatHours(metrics.adminHrs)}</span>
+              <span class="text-[10px]">&#128203; Descuento Horas Administrativas:</span>
+              <span class="font-bold font-mono">-${formatHours(metrics.adminHrs)}</span>
             </div>
             <div class="flex justify-between items-baseline text-slate-500 text-[10px]">
               <span>Contrato efectivo:</span>
@@ -1967,7 +1955,7 @@
       const pctRestante = (metrics.restanteVal > 0 ? metrics.restanteVal : 0) / total * 100;
       segments.push({ label: 'Horas NL Sobrantes / Restante', pct: pctRestante, bg: 'bg-slate-600 hover:bg-slate-700', val: Math.max(0, metrics.restanteVal) });
 
-      let totalAllocatedHrs = metrics.lectivasTotal + metrics.planningHrsActual + metrics.recessHrs + metrics.consejoVal + (metrics.totalCustomHrs || 0) + (metrics.restanteVal > 0 ? metrics.restanteVal : 0);
+      let totalAllocatedHrs = metrics.lectivasTotal + metrics.planningHrsActual + metrics.recessHrs + metrics.consejoVal + (metrics.totalCustomHrs || 0) + (metrics.adminHrs || 0) + (metrics.legalColacionHrs || 0) + (metrics.restanteVal > 0 ? metrics.restanteVal : 0);
       const remainingContractHrs = Math.max(0, total - totalAllocatedHrs);
       const pctRemContract = (remainingContractHrs / total) * 100;
       segments.push({ label: 'Sin Asignar (Capacidad)', pct: pctRemContract, bg: 'bg-slate-800 hover:bg-slate-900', val: remainingContractHrs });
@@ -2135,7 +2123,10 @@
             ${courseBadgesHtml}
             ${customDetailsHtml}
           </td>
-          <td class="py-3.5 px-4 text-center font-mono font-medium">${t.contract} hrs</td>
+          <td class="py-3.5 px-4 text-center font-mono font-medium">
+            ${t.contract} hrs
+            ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${m.effectiveContract.toFixed(1)}h (-${m.fixedHrs.toFixed(1)}h)</span>` : ''}
+          </td>
           <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped1 * 0.75).toFixed(1)}h chron)</span></td>
           <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie1).toFixed(1)}h chron)</span></td>
           <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped2 * 0.75).toFixed(1)}h chron)</span></td>
