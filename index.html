@@ -724,13 +724,14 @@
                   <div class="space-y-1 text-sm font-semibold font-mono">
                     <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 text-[11px] font-normal font-sans">
                       <span>No Lectivas Totales:</span>
-                      <span id="breakdown-planif-total" class="text-white light:text-slate-950 font-bold font-mono text-xs">0.00 hrs</span>
+                      <span id="breakdown-planif-total" class="text-white light:text-slate-950 font-bold font-mono text-xs">0 hrs 00 min</span>
                     </div>
                     <div class="flex justify-between items-baseline pt-1">
                       <span class="text-[10px] font-normal text-slate-400">Planificación 50%:</span>
-                      <span class="text-white light:text-slate-950" id="breakdown-planif">0.00 hrs</span>
+                      <span class="text-white light:text-slate-950" id="breakdown-planif">0 hrs 00 min</span>
                     </div>
                   </div>
+                  <div id="applied-ratio-tag-card1" class="text-[9px] text-violet-400 font-sans font-semibold mt-2 pt-1 border-t border-slate-800/40">Ratio 65/35 (2° Ciclo / Media)</div>
                 </div>
                 <div id="admin-hours-breakdown" class="hidden"></div>
                 <p class="text-[9px] text-slate-500 mt-2 leading-tight">Mitad inamovible para preparación de clases y evaluación (Ley 20.903).</p>
@@ -746,11 +747,11 @@
                   <div class="space-y-1.5 font-mono text-[11px] text-slate-300 light:text-slate-700">
                     <div class="flex justify-between items-baseline text-slate-400 border-b border-slate-800/30 pb-1 mb-1 font-sans">
                       <span>No Lectivas Totales:</span>
-                      <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0.00 hrs</span>
+                      <span id="breakdown-nolect-total" class="text-white light:text-slate-950 font-bold text-xs">0 hrs 00 min</span>
                     </div>
                     <div class="flex justify-between items-baseline text-slate-400 pb-1 border-b border-slate-800/30">
                       <span>Disponible Dirección (50%):</span>
-                      <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0.00 hrs</span>
+                      <span id="breakdown-nolect-budget" class="text-white light:text-slate-950 font-bold">0 hrs 00 min</span>
                     </div>
                     <div id="dir-custom-activities-breakdown" class="space-y-1 py-1 font-sans text-[10px]">
                       <!-- Dynamically populated in JS -->
@@ -760,6 +761,7 @@
                       <span id="breakdown-dir-remaining" class="font-bold text-amber-400 font-mono text-xs">0 hrs 00 min</span>
                     </div>
                   </div>
+                  <div id="applied-ratio-tag-card2" class="text-[9px] text-amber-400 font-sans font-semibold mt-2 pt-1 border-t border-slate-800/40">Ratio 65/35 (2° Ciclo / Media)</div>
                 </div>
                 <p class="text-[9px] text-slate-500 mt-2 leading-tight">Actividades técnicas, trabajo colaborativo o atención de apoderados (Ley 20.903).</p>
               </div>
@@ -1612,12 +1614,30 @@
       // Horas Lectivas Totales Cronológicas (Clases Aula 45m -> 60m + PIE 60m)
       const lectivasTotal = lectivas1 + lectivas2;
 
-      // Datos oficiales MINEDUC según tabla oficial (65/35 o 60/40)
-      const mineducOfficial1 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, priority);
+      // Determinación del ciclo de clases asignadas:
+      // - 2° Ciclo y Media SIEMPRE usan 65/35 (independiente de si el colegio tiene flag prioritario).
+      // - 1° Ciclo usa 60/40 solo si el colegio es prioritario (>80%).
+      const hasOnly2ndCycleOrMedia = (lectivas2 > 0 && lectivas1 === 0);
+      const hasOnly1stCycle = (lectivas1 > 0 && lectivas2 === 0);
+      const isMixed = (lectivas1 > 0 && lectivas2 > 0);
+
+      const isEffectivePriority = priority && !hasOnly2ndCycleOrMedia;
+
+      // Datos oficiales MINEDUC según tabla correspondiente
+      const mineducOfficial1 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, isEffectivePriority);
       const mineducOfficial2 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, false);
 
       const recessHrs = mineducOfficial1.recHrs;
-      const nlTotal = mineducOfficial1.nlHrs;
+      let nlTotal = mineducOfficial1.nlHrs;
+
+      if (isMixed && priority) {
+        // Carga Mixta: 1° Ciclo (60/40) + 2° Ciclo/Media (65/35)
+        const r1 = lectivas1 / lectivasTotal;
+        const r2 = lectivas2 / lectivasTotal;
+        nlTotal = (mineducOfficial1.nlHrs * r1) + (mineducOfficial2.nlHrs * r2);
+      } else if (hasOnly2ndCycleOrMedia) {
+        nlTotal = mineducOfficial2.nlHrs;
+      }
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
@@ -1691,6 +1711,10 @@
         isInfraccion,
         status,
         fLect1: fLect,
+        hasOnly1stCycle,
+        hasOnly2ndCycleOrMedia,
+        isMixed,
+        isEffectivePriority,
         legalColacionHrs,
         adminHrs,
         fixedHrs,
@@ -2073,6 +2097,20 @@
           dirRemainingEl.className = "font-bold text-amber-400 font-mono text-xs";
         }
       }
+
+      // Actualizar etiquetas de Proporción Aplicada en Tarjetas
+      const ratioTagCard1 = document.getElementById('applied-ratio-tag-card1');
+      const ratioTagCard2 = document.getElementById('applied-ratio-tag-card2');
+      
+      let ratioLabel = "Ratio 65/35 (2° Ciclo / Media)";
+      if (metrics.hasOnly1stCycle && globalParams.priority) {
+        ratioLabel = "Ratio 60/40 (1° Ciclo Prioritario >80%)";
+      } else if (metrics.isMixed && globalParams.priority) {
+        ratioLabel = "Ratio Mixto (1° Ciclo 60/40 + 2° Ciclo 65/35)";
+      }
+      
+      if (ratioTagCard1) ratioTagCard1.textContent = ratioLabel;
+      if (ratioTagCard2) ratioTagCard2.textContent = ratioLabel;
       
       const recessPedEl = document.getElementById('breakdown-recess-ped-hrs');
       if (recessPedEl) recessPedEl.textContent = `${metrics.effectiveContract} hrs cron.`;
