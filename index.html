@@ -1466,6 +1466,117 @@
       if (weeklyHoursEl) weeklyHoursEl.textContent = `${totalSchoolHours.toFixed(1)} hrs`;
     }
 
+    // --- TABLAS OFICIALES MINEDUC (LEY 20.903 - PROPORCIÓN 65/35 Y 60/40) ---
+    const MINEDUC_TABLE_65_35 = {
+      44: { ha: 38, hcMins: 1710, recMins: 180, nlMins: 750 },
+      43: { ha: 37, hcMins: 1665, recMins: 176, nlMins: 739 },
+      42: { ha: 36, hcMins: 1620, recMins: 172, nlMins: 728 },
+      41: { ha: 35, hcMins: 1575, recMins: 168, nlMins: 717 },
+      40: { ha: 35, hcMins: 1575, recMins: 164, nlMins: 661 },
+      39: { ha: 34, hcMins: 1530, recMins: 160, nlMins: 650 },
+      38: { ha: 33, hcMins: 1485, recMins: 155, nlMins: 640 },
+      37: { ha: 32, hcMins: 1440, recMins: 151, nlMins: 629 },
+      36: { ha: 31, hcMins: 1395, recMins: 147, nlMins: 618 },
+      35: { ha: 30, hcMins: 1350, recMins: 143, nlMins: 607 },
+      34: { ha: 29, hcMins: 1305, recMins: 139, nlMins: 596 },
+      33: { ha: 29, hcMins: 1305, recMins: 135, nlMins: 540 },
+      32: { ha: 28, hcMins: 1260, recMins: 131, nlMins: 529 },
+      31: { ha: 27, hcMins: 1215, recMins: 127, nlMins: 518 },
+      30: { ha: 26, hcMins: 1170, recMins: 123, nlMins: 507 },
+      29: { ha: 25, hcMins: 1125, recMins: 119, nlMins: 496 },
+      28: { ha: 24, hcMins: 1080, recMins: 115, nlMins: 485 },
+      27: { ha: 23, hcMins: 1035, recMins: 110, nlMins: 475 },
+      26: { ha: 22, hcMins: 990,  recMins: 106, nlMins: 464 },
+      25: { ha: 22, hcMins: 990,  recMins: 102, nlMins: 408 },
+      24: { ha: 21, hcMins: 945,  recMins: 98,  nlMins: 397 },
+      23: { ha: 20, hcMins: 900,  recMins: 94,  nlMins: 386 },
+      22: { ha: 19, hcMins: 855,  recMins: 90,  nlMins: 375 },
+      21: { ha: 18, hcMins: 810,  recMins: 86,  nlMins: 364 },
+      20: { ha: 17, hcMins: 765,  recMins: 82,  nlMins: 353 },
+      19: { ha: 16, hcMins: 720,  recMins: 78,  nlMins: 342 },
+      18: { ha: 16, hcMins: 720,  recMins: 74,  nlMins: 286 },
+      17: { ha: 15, hcMins: 675,  recMins: 70,  nlMins: 275 },
+      16: { ha: 14, hcMins: 630,  recMins: 65,  nlMins: 265 },
+      15: { ha: 13, hcMins: 585,  recMins: 61,  nlMins: 254 },
+      14: { ha: 12, hcMins: 540,  recMins: 57,  nlMins: 243 },
+      13: { ha: 11, hcMins: 495,  recMins: 53,  nlMins: 232 },
+      12: { ha: 10, hcMins: 450,  recMins: 49,  nlMins: 221 },
+      11: { ha: 10, hcMins: 450,  recMins: 45,  nlMins: 165 },
+      10: { ha: 9,  hcMins: 405,  recMins: 41,  nlMins: 154 },
+      9:  { ha: 8,  hcMins: 360,  recMins: 37,  nlMins: 143 },
+      8:  { ha: 7,  hcMins: 315,  recMins: 33,  nlMins: 132 },
+      7:  { ha: 6,  hcMins: 270,  recMins: 29,  nlMins: 121 },
+      6:  { ha: 5,  hcMins: 225,  recMins: 25,  nlMins: 110 },
+      5:  { ha: 4,  hcMins: 180,  recMins: 20,  nlMins: 100 },
+      4:  { ha: 3,  hcMins: 135,  recMins: 16,  nlMins: 89 },
+      3:  { ha: 3,  hcMins: 135,  recMins: 12,  nlMins: 33 },
+      2:  { ha: 2,  hcMins: 90,   recMins: 8,   nlMins: 22 },
+      1:  { ha: 1,  hcMins: 45,   recMins: 4,   nlMins: 11 }
+    };
+
+    const MINEDUC_TABLE_60_40 = {
+      44: { ha: 35, hcMins: 1575, recMins: 180, nlMins: 885 },
+      43: { ha: 34, hcMins: 1530, recMins: 176, nlMins: 874 },
+      42: { ha: 33, hcMins: 1485, recMins: 172, nlMins: 863 },
+      41: { ha: 33, hcMins: 1485, recMins: 168, nlMins: 807 },
+      40: { ha: 32, hcMins: 1440, recMins: 164, nlMins: 796 },
+      39: { ha: 31, hcMins: 1395, recMins: 160, nlMins: 785 },
+      38: { ha: 30, hcMins: 1350, recMins: 155, nlMins: 775 },
+      37: { ha: 29, hcMins: 1305, recMins: 151, nlMins: 764 },
+      36: { ha: 29, hcMins: 1305, recMins: 147, nlMins: 708 },
+      35: { ha: 28, hcMins: 1260, recMins: 143, nlMins: 697 },
+      34: { ha: 27, hcMins: 1215, recMins: 139, nlMins: 686 },
+      33: { ha: 26, hcMins: 1170, recMins: 135, nlMins: 675 },
+      32: { ha: 25, hcMins: 1125, recMins: 131, nlMins: 664 },
+      31: { ha: 25, hcMins: 1125, recMins: 127, nlMins: 608 },
+      30: { ha: 24, hcMins: 1080, recMins: 123, nlMins: 597 },
+      29: { ha: 23, hcMins: 1035, recMins: 119, nlMins: 586 },
+      28: { ha: 22, hcMins: 990,  recMins: 115, nlMins: 575 },
+      27: { ha: 21, hcMins: 945,  recMins: 110, nlMins: 565 },
+      26: { ha: 21, hcMins: 945,  recMins: 106, nlMins: 509 },
+      25: { ha: 20, hcMins: 900,  recMins: 102, nlMins: 498 },
+      24: { ha: 19, hcMins: 855,  recMins: 98,  nlMins: 487 },
+      23: { ha: 18, hcMins: 810,  recMins: 94,  nlMins: 476 },
+      22: { ha: 18, hcMins: 810,  recMins: 90,  nlMins: 420 },
+      21: { ha: 17, hcMins: 765,  recMins: 86,  nlMins: 409 },
+      20: { ha: 16, hcMins: 720,  recMins: 82,  nlMins: 398 },
+      19: { ha: 15, hcMins: 675,  recMins: 78,  nlMins: 387 },
+      18: { ha: 14, hcMins: 630,  recMins: 74,  nlMins: 376 },
+      17: { ha: 14, hcMins: 630,  recMins: 70,  nlMins: 320 },
+      16: { ha: 13, hcMins: 585,  recMins: 65,  nlMins: 310 },
+      15: { ha: 12, hcMins: 540,  recMins: 61,  nlMins: 299 },
+      14: { ha: 11, hcMins: 495,  recMins: 57,  nlMins: 288 },
+      13: { ha: 10, hcMins: 450,  recMins: 53,  nlMins: 277 },
+      12: { ha: 10, hcMins: 450,  recMins: 49,  nlMins: 221 },
+      11: { ha: 9,  hcMins: 405,  recMins: 45,  nlMins: 210 },
+      10: { ha: 8,  hcMins: 360,  recMins: 41,  nlMins: 199 },
+      9:  { ha: 7,  hcMins: 315,  recMins: 37,  nlMins: 188 },
+      8:  { ha: 6,  hcMins: 270,  recMins: 33,  nlMins: 177 },
+      7:  { ha: 6,  hcMins: 270,  recMins: 29,  nlMins: 121 },
+      6:  { ha: 5,  hcMins: 225,  recMins: 25,  nlMins: 110 },
+      5:  { ha: 4,  hcMins: 180,  recMins: 20,  nlMins: 100 },
+      4:  { ha: 3,  hcMins: 135,  recMins: 16,  nlMins: 89 },
+      3:  { ha: 2,  hcMins: 90,   recMins: 12,  nlMins: 78 },
+      2:  { ha: 1,  hcMins: 45,   recMins: 8,   nlMins: 67 },
+      1:  { ha: 1,  hcMins: 45,   recMins: 4,   nlMins: 11 }
+    };
+
+    function getMineducOfficialData(contractHrs, isPriority) {
+      const table = isPriority ? MINEDUC_TABLE_60_40 : MINEDUC_TABLE_65_35;
+      const cRound = Math.min(44, Math.max(1, Math.round(contractHrs)));
+      const row = table[cRound] || (isPriority ? { ha: Math.floor(contractHrs * 0.8), hcMins: Math.floor(contractHrs * 0.8 * 45), recMins: contractHrs * 4, nlMins: Math.floor(contractHrs * 0.40 * 60) } : { ha: Math.floor(contractHrs * 13 / 15), hcMins: Math.floor(contractHrs * 13 / 15 * 45), recMins: contractHrs * 4, nlMins: Math.floor(contractHrs * 0.35 * 60) });
+      
+      return {
+        ha: row.ha,
+        hcHrs: row.hcMins / 60,
+        recHrs: row.recMins / 60,
+        nlHrs: row.nlMins / 60,
+        hcMins: row.hcMins,
+        recMins: row.recMins,
+        nlMins: row.nlMins
+      };
+    }
+
     // Calculate all teacher metrics under Ley 20.903
     function calculateTeacherMetrics(teacherInput, globalParams) {
       const { priority, blockDuration, apoderadosMins } = globalParams;
@@ -1501,41 +1612,51 @@
       // Horas Lectivas Totales Cronológicas (Clases Aula 45m -> 60m + PIE 60m)
       const lectivasTotal = lectivas1 + lectivas2;
 
-      const fLect = priority ? 0.60 : 0.65;
-      const ratioNoLect = priority ? 0.40 : 0.35;
+      // Datos oficiales MINEDUC según tabla oficial (65/35 o 60/40)
+      const mineducOfficial1 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, priority);
+      const mineducOfficial2 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, false);
 
-      const totalLectivasYFijadas = lectivasTotal;
-      const contractRequired = (lectivasTotal / fLect) + adminHrs + legalColacionHrs + totalCustomHrs;
-
-      const recessHrs = contract * (4 / 60);
+      const recessHrs = mineducOfficial1.recHrs;
+      const nlTotal = mineducOfficial1.nlHrs;
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
-
-      // Horas No Lectivas obtenidas como el 35% o 40% del total de Horas Lectivas Cronológicas (Aula + PIE)
-      const nlTotal = Math.max(0, lectivasTotal * ratioNoLect);
 
       // 50% Inamovible (Planificación y Evaluación)
       const planningHrsActual = nlTotal * 0.50;
 
-      // 50% A disposición Dirección previa consulta Consejo de Profesores (Intacto: 50% de No Lectivas sin descontar actividades personalizadas)
+      // 50% A disposición Dirección previa consulta Consejo de Profesores
       const otrasNLBudget = nlTotal * 0.50;
       const restanteVal = otrasNLBudget;
 
-      // Las actividades fijadas en la sección 3 se descuentan 1 a 1 directamente del total restante de bloques de clases
-      const capLect = Math.max(0, (effectiveContract * fLect) - lectivasTotal - totalCustomHrs);
-      const capLect1 = priority 
-        ? Math.max(0, (effectiveContract * 0.60) - lectivasTotal - totalCustomHrs) 
-        : Math.max(0, (effectiveContract * 0.65) - lectivasTotal - totalCustomHrs);
-      const capLect2 = Math.max(0, (effectiveContract * 0.65) - lectivasTotal - totalCustomHrs);
+      // Capacidad restante obtenida desde el tope legal oficial de Horas Lectivas MINEDUC
+      const capLect1 = Math.max(0, mineducOfficial1.hcHrs - lectivasTotal - totalCustomHrs);
+      const capLect2 = Math.max(0, mineducOfficial2.hcHrs - lectivasTotal - totalCustomHrs);
+      const capLect = capLect1;
 
       const blockHrs = blockDuration / 60;
       const capBlocks1 = Math.floor(capLect1 / blockHrs);
       const capBlocks2 = Math.floor(capLect2 / blockHrs);
 
+      const fLect = priority ? 0.60 : 0.65;
+      let contractRequired = contract;
+      if (lectivasTotal > mineducOfficial1.hcHrs) {
+        const table = priority ? MINEDUC_TABLE_60_40 : MINEDUC_TABLE_65_35;
+        let reqC = contract;
+        for (let c = 1; c <= 44; c++) {
+          if ((table[c].hcMins / 60) >= lectivasTotal - 0.001) {
+            reqC = c;
+            break;
+          }
+        }
+        if (reqC === contract && lectivasTotal > (table[44].hcMins / 60)) {
+          reqC = (lectivasTotal / fLect);
+        }
+        contractRequired = reqC + adminHrs + legalColacionHrs + totalCustomHrs;
+      }
+
       const contractDiff = contractRequired - contract;
       const contractExceeded = contractDiff > 0.75; 
       const isConTolerancia = contractDiff > 0.01 && contractDiff <= 0.75;
-
       const isInfraccion = contractExceeded;
 
       let status = "green";
