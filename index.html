@@ -679,33 +679,61 @@
               </div>
 
               <!-- Legend Grid -->
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800/60 light:border-slate-200">
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800/60 light:border-slate-200">
                 <div class="flex items-center space-x-2">
                   <span class="w-3 h-3 rounded-full bg-indigo-500 block"></span>
                   <div>
-                    <p class="text-[10px] font-bold text-slate-400">Clases (Lect.)</p>
-                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-lectivas">0.0 hrs</p>
+                    <p class="text-[10px] font-bold text-slate-400">Clases 1° Ciclo (cron.)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-c1-lect">0 hrs 00 min</p>
                   </div>
                 </div>
                 <div class="flex items-center space-x-2">
                   <span class="w-3 h-3 rounded-full bg-cyan-400 block"></span>
                   <div>
-                    <p class="text-[10px] font-bold text-slate-400">Horas PIE (Lect.)</p>
-                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-pie">0.0 hrs</p>
+                    <p class="text-[10px] font-bold text-slate-400">PIE 1° Ciclo (60m)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-c1-pie">0 hrs 00 min</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-blue-500 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Clases 2° Ciclo (cron.)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-c2-lect">0 hrs 00 min</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-teal-400 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">PIE 2° Ciclo (60m)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-c2-pie">0 hrs 00 min</p>
                   </div>
                 </div>
                 <div class="flex items-center space-x-2">
                   <span class="w-3 h-3 rounded-full bg-violet-500 block"></span>
                   <div>
                     <p class="text-[10px] font-bold text-slate-400">Planif. Real (50%)</p>
-                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-planif">0.0 hrs</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-planif">0 hrs 00 min</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-amber-500 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">Dirección/Consejo (50%)</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-dir-50">0 hrs 00 min</p>
                   </div>
                 </div>
                 <div class="flex items-center space-x-2">
                   <span class="w-3 h-3 rounded-full bg-emerald-500 block"></span>
                   <div>
                     <p class="text-[10px] font-bold text-slate-400">Recreos Fórmula</p>
-                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-tiempo-muerto">0.0 hrs</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-tiempo-muerto">0 hrs 00 min</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="w-3 h-3 rounded-full bg-teal-300 block"></span>
+                  <div>
+                    <p class="text-[10px] font-bold text-slate-400">No Lectivas Totales</p>
+                    <p class="text-xs font-semibold font-mono text-white light:text-slate-900" id="legend-nolect-total">0 hrs 00 min</p>
                   </div>
                 </div>
                 <!-- Dynamic Custom Legends -->
@@ -2276,10 +2304,29 @@
         }
       });
 
-      document.getElementById('legend-lectivas').textContent = formatHours(inputs.ped1 * 0.75 + inputs.ped2 * 0.75);
-      document.getElementById('legend-pie').textContent = formatHours(inputs.pie1 + inputs.pie2);
-      document.getElementById('legend-planif').textContent = formatHours(metrics.planningHrsActual);
-      document.getElementById('legend-tiempo-muerto').textContent = formatHours(metrics.recessHrs);
+      const elC1Lect = document.getElementById('legend-c1-lect');
+      if (elC1Lect) elC1Lect.textContent = formatHours(inputs.ped1 * 0.75);
+
+      const elC1Pie = document.getElementById('legend-c1-pie');
+      if (elC1Pie) elC1Pie.textContent = formatHours(inputs.pie1);
+
+      const elC2Lect = document.getElementById('legend-c2-lect');
+      if (elC2Lect) elC2Lect.textContent = formatHours(inputs.ped2 * 0.75);
+
+      const elC2Pie = document.getElementById('legend-c2-pie');
+      if (elC2Pie) elC2Pie.textContent = formatHours(inputs.pie2);
+
+      const elPlanif = document.getElementById('legend-planif');
+      if (elPlanif) elPlanif.textContent = formatHours(metrics.planningHrsActual);
+
+      const elDir50 = document.getElementById('legend-dir-50');
+      if (elDir50) elDir50.textContent = formatHours(metrics.otrasNLBudget);
+
+      const elTiempoMuerto = document.getElementById('legend-tiempo-muerto');
+      if (elTiempoMuerto) elTiempoMuerto.textContent = formatHours(metrics.recessHrs);
+
+      const elNoLectTotal = document.getElementById('legend-nolect-total');
+      if (elNoLectTotal) elNoLectTotal.textContent = formatHours(metrics.nlTotal);
 
       const legendCustomContainer = document.getElementById('legend-custom-container');
       if (legendCustomContainer) {
