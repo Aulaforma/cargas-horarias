@@ -1926,17 +1926,17 @@
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/30 border-red-800/40 text-red-300";
         
         const fixedInfo = metrics.fixedHrs > 0 ? ` (incluye ${formatHours(metrics.fixedHrs)} fijadas/admin descontadas)` : '';
-        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+        const maxAula = formatHours(metrics.effectiveContract * metrics.fLect1);
         
         alertContainer.innerHTML = `
           <i data-lucide="alert-triangle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-red-400"></i>
           <div class="flex-1">
             <p class="text-xs font-bold text-red-400">Infracción Ley 20.903 (Excede Tolerancia del Contrato)</p>
-            <p class="text-[11px] text-slate-400 mt-1">La carga asignada requiere un contrato de <span class="text-red-300 font-semibold">${metrics.contractRequired.toFixed(2)} hrs cron.</span>${fixedInfo}, superando las ${currentInputs.contract} hrs del contrato por más de la tolerancia de 45 min.</p>
+            <p class="text-[11px] text-slate-400 mt-1">La carga asignada requiere un contrato de <span class="text-red-300 font-semibold">${formatHours(metrics.contractRequired)}</span>${fixedInfo}, superando las ${currentInputs.contract} hrs del contrato por más de la tolerancia de 45 min.</p>
             <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-red-950/40 rounded-lg p-2 border border-red-900/30 font-mono">
-              <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
-              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula} hrs</span>
-              <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-red-300 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+              <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${formatHours(metrics.effectiveContract)}</span>
+              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula}</span>
+              <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-red-300 font-bold text-right">${formatHours(metrics.lectivasTotal)}</span>
               <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
             </div>
           </div>
@@ -1945,8 +1945,8 @@
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-amber-500 ring-2 ring-amber-500/20";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-amber-950/30 border-amber-800/40 text-amber-300";
         
-        const fixedInfo = metrics.fixedHrs > 0 ? ` (Contrato efectivo descontando fijadas/admin: ${metrics.effectiveContract.toFixed(2)} hrs)` : '';
-        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+        const fixedInfo = metrics.fixedHrs > 0 ? ` (Contrato efectivo descontando fijadas/admin: ${formatHours(metrics.effectiveContract)})` : '';
+        const maxAula = formatHours(metrics.effectiveContract * metrics.fLect1);
         
         if (metrics.isConTolerancia) {
           alertContainer.innerHTML = `
@@ -1955,9 +1955,9 @@
               <p class="text-xs font-bold text-amber-400">Desviación Tolerable (Menor a 45 min)</p>
               <p class="text-[11px] text-slate-400 mt-1">La carga asignada excede el contrato por ${(metrics.contractDiff * 60).toFixed(0)} minutos. Está en zona de tolerancia. ${fixedInfo}</p>
               <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-amber-950/40 rounded-lg p-2 border border-amber-900/30 font-mono">
-                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
-                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula} hrs</span>
-                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${formatHours(metrics.effectiveContract)}</span>
+                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-amber-300 font-bold text-right">${maxAula}</span>
+                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${formatHours(metrics.lectivasTotal)}</span>
                 <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
               </div>
             </div>
@@ -1967,11 +1967,11 @@
             <i data-lucide="alert-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-400"></i>
             <div class="flex-1">
               <p class="text-xs font-bold text-amber-400">Carga completa o sin margen de nuevos bloques</p>
-              <p class="text-[11px] text-slate-400 mt-1">El docente ha alcanzado el tope del contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs, descontando ${formatHours(metrics.fixedHrs)} de horas fijadas/admin). No se pueden agregar más bloques.</p>
+              <p class="text-[11px] text-slate-400 mt-1">El docente ha alcanzado el tope del contrato efectivo (${formatHours(metrics.effectiveContract)}, descontando ${formatHours(metrics.fixedHrs)} de horas fijadas/admin). No se pueden agregar más bloques.</p>
               <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-amber-950/40 rounded-lg p-2 border border-amber-900/30 font-mono">
-                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
-                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula} hrs</span>
-                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
+                <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${formatHours(metrics.effectiveContract)}</span>
+                <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula}</span>
+                <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-slate-200 font-bold text-right">${formatHours(metrics.lectivasTotal)}</span>
                 <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
               </div>
             </div>
@@ -2023,15 +2023,15 @@
               </div>
               <div>
                 <span class="text-slate-400 font-sans block text-[10px]">Contrato Efectivo:</span>
-                <span class="text-indigo-300 font-bold">${metrics.effectiveContract.toFixed(2)} hrs</span>
+                <span class="text-indigo-300 font-bold">${formatHours(metrics.effectiveContract)}</span>
               </div>
               <div>
                 <span class="text-slate-400 font-sans block text-[10px]">Máx Aula (${Math.round(metrics.fLect1*100)}%):</span>
-                <span class="text-emerald-400 font-bold">${maxAulaChrono.toFixed(2)} h (${maxAulaPed.toFixed(1)} h ped)</span>
+                <span class="text-emerald-400 font-bold">${formatHours(maxAulaChrono)} (${maxAulaPed.toFixed(1)} hrs ped)</span>
               </div>
             </div>
             <p class="text-[9px] text-slate-400 font-sans leading-tight border-t border-slate-800/40 pt-1 mt-1">
-              Las ${formatHours(metrics.fixedHrs)} fijadas/administrativas se descuentan directamente del contrato. El máximo de aula (${maxAulaChrono.toFixed(2)} hrs cron / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).
+              Las ${formatHours(metrics.fixedHrs)} fijadas/administrativas se descuentan directamente del contrato. El máximo de aula (${formatHours(maxAulaChrono)} / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${formatHours(metrics.effectiveContract)}).
             </p>
           `;
           adminCapEl.classList.remove('hidden');
@@ -2132,19 +2132,19 @@
       if (legRatioLectEl) legRatioLectEl.textContent = `${fLectPct}% Lectiva`;
       
       const legLectMaxEl = document.getElementById('legal-lect-max');
-      if (legLectMaxEl) legLectMaxEl.textContent = `${(metrics.effectiveContract * metrics.fLect1).toFixed(2)} hrs`;
+      if (legLectMaxEl) legLectMaxEl.textContent = formatHours(metrics.effectiveContract * metrics.fLect1);
       
       const legLectAssignedEl = document.getElementById('legal-lect-assigned');
-      if (legLectAssignedEl) legLectAssignedEl.textContent = `${metrics.lectivasTotal.toFixed(2)} hrs`;
+      if (legLectAssignedEl) legLectAssignedEl.textContent = formatHours(metrics.lectivasTotal);
       
       const legLectAvailEl = document.getElementById('legal-lect-available');
       if (legLectAvailEl) {
         const lectAvail = metrics.capLect;
         if (lectAvail > 0) {
-          legLectAvailEl.textContent = `${lectAvail.toFixed(2)} hrs dispon.`;
+          legLectAvailEl.textContent = `${formatHours(lectAvail)} dispon.`;
           legLectAvailEl.className = "font-bold text-teal-400 font-mono";
         } else {
-          legLectAvailEl.textContent = `0.00 hrs (Completa)`;
+          legLectAvailEl.textContent = `0 hrs 00 min (Completa)`;
           legLectAvailEl.className = "font-bold text-amber-400 font-mono";
         }
       }
