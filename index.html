@@ -1541,12 +1541,12 @@
         const stay = Math.max(0, rawSpan - lunchHrs);
         
         const permEl = document.getElementById(`daily-permanence-${index}`);
-        if (permEl) permEl.textContent = `${stay.toFixed(1)}h`;
+        if (permEl) permEl.textContent = formatHours(stay);
         totalSchoolHours += stay;
       });
       
       const weeklyHoursEl = document.getElementById('establishment-weekly-hours');
-      if (weeklyHoursEl) weeklyHoursEl.textContent = `${totalSchoolHours.toFixed(1)} hrs`;
+      if (weeklyHoursEl) weeklyHoursEl.textContent = formatHours(totalSchoolHours);
     }
 
     // --- TABLAS OFICIALES MINEDUC (LEY 20.903 - PROPORCIÓN 65/35 Y 60/40) ---
@@ -2551,26 +2551,14 @@
             ${t.contract} hrs
             ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${formatHours(m.effectiveContract)} (-${formatHours(m.fixedHrs)})</span>` : ''}
           </td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped1 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie1).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped2 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie2).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">
-            <div>${m.recessHrs.toFixed(2)} hrs</div>
-            <span class="text-[10px] text-teal-400 font-semibold block">(${formatHours(m.recessHrs)})</span>
-          </td>
-          <td class="py-3.5 px-4 text-center font-mono text-violet-400 font-semibold">
-            <div>${m.planningHrsActual.toFixed(2)} hrs</div>
-            <span class="text-[10px] text-violet-300 font-semibold block">(${formatHours(m.planningHrsActual)})</span>
-          </td>
-          <td class="py-3.5 px-4 text-center font-mono ${restValClass}">
-            <div>${m.restanteVal.toFixed(2)} hrs</div>
-            <span class="text-[10px] ${restValClass} font-semibold block">(${formatHours(m.restanteVal)})</span>
-          </td>
-          <td class="py-3.5 px-4 text-center font-mono text-amber-400 font-bold">
-            <div>${m.capLect.toFixed(2)} hrs</div>
-            <span class="text-[10px] text-amber-300 font-semibold block">(${m.capLect > 0 ? formatHours(m.capLect) : '0 hrs 00 min'})</span>
-          </td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${formatHours(t.ped1 * 0.75)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${formatHours(t.pie1)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${formatHours(t.ped2 * 0.75)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${formatHours(t.pie2)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-teal-400 font-semibold">${formatHours(m.recessHrs)}</td>
+          <td class="py-3.5 px-4 text-center font-mono text-violet-400 font-semibold">${formatHours(m.planningHrsActual)}</td>
+          <td class="py-3.5 px-4 text-center font-mono ${restValClass} font-semibold">${formatHours(m.restanteVal)}</td>
+          <td class="py-3.5 px-4 text-center font-mono text-amber-400 font-bold">${m.capLect > 0 ? formatHours(m.capLect) : '0 hrs 00 min'}</td>
           <td class="py-3.5 px-4 text-center flex items-center justify-center py-5">${statusBadge}</td>
           <td class="py-3.5 px-4 text-center no-print">
             <div class="flex items-center justify-center space-x-2">
@@ -2596,19 +2584,10 @@
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE1} hrs ped.</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPed2} hrs ped.</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE2} hrs ped.</td>
-            <td class="py-4 px-4 text-center font-mono text-slate-400">
-              <div>${totalRecess.toFixed(2)} hrs</div>
-              <span class="text-[10px] text-teal-400 font-semibold block">(${formatHours(totalRecess)})</span>
-            </td>
+            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">${formatHours(totalRecess)}</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">-</td>
-            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">
-              <div>${totalNoLectLeftover.toFixed(2)} hrs</div>
-              <span class="text-[10px] text-emerald-400 font-semibold block">(${formatHours(totalNoLectLeftover)})</span>
-            </td>
-            <td class="py-4 px-4 text-center font-mono text-amber-400 font-bold">
-              <div>${totalCapRemaining.toFixed(2)} hrs</div>
-              <span class="text-[10px] text-amber-300 font-semibold block">(${formatHours(totalCapRemaining)})</span>
-            </td>
+            <td class="py-4 px-4 text-center font-mono text-emerald-400 font-bold">${formatHours(totalNoLectLeftover)}</td>
+            <td class="py-4 px-4 text-center font-mono text-amber-400 font-bold">${formatHours(totalCapRemaining)}</td>
             <td class="py-4 px-4 text-center flex items-center justify-center py-4">
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
                 Cumplimiento: ${complianceRate.toFixed(0)}%
@@ -2618,11 +2597,6 @@
           </tr>
         `;
       }
-            <td class="py-4 px-4 text-center flex items-center justify-center py-4">
-              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
-                Cumplimiento: ${complianceRate.toFixed(0)}%
-              </span>
-            </td>
             <td class="py-4 px-4 no-print"></td>
           </tr>
         `;
