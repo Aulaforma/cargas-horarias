@@ -972,26 +972,23 @@
             <table class="w-full text-left border-collapse min-w-[1000px]">
               <thead>
                 <tr class="bg-slate-900/90 light:bg-slate-100 text-slate-400 light:text-slate-700 text-[10px] uppercase font-bold tracking-wider border-b border-slate-800 light:border-slate-200">
-                  <th class="py-3.5 px-3">Docente</th>
-                  <th class="py-3.5 px-3 text-center">Contrato</th>
-                  <th class="py-3.5 px-3 text-center">Clases 1° Ciclo</th>
-                  <th class="py-3.5 px-3 text-center">PIE 1° Ciclo</th>
-                  <th class="py-3.5 px-3 text-center">Clases 2° Ciclo</th>
-                  <th class="py-3.5 px-3 text-center">PIE 2° Ciclo</th>
-                  <th class="py-3.5 px-3 text-center">Recreos (Dec)</th>
-                  <th class="py-3.5 px-3 text-center text-teal-400">Recreos (H:M)</th>
-                  <th class="py-3.5 px-3 text-center">Planif (Dec)</th>
-                  <th class="py-3.5 px-3 text-center text-violet-400">Planif (H:M)</th>
-                  <th class="py-3.5 px-3 text-center">Otras NL (Dec)</th>
-                  <th class="py-3.5 px-3 text-center text-emerald-400">Otras NL (H:M)</th>
-                  <th class="py-3.5 px-3 text-center text-amber-400 font-bold">Horas Restantes (H:M)</th>
-                  <th class="py-3.5 px-3 text-center font-bold">Estado Ley</th>
-                  <th class="py-3.5 px-3 text-center no-print">Acciones</th>
+                  <th class="py-3.5 px-4">Docente</th>
+                  <th class="py-3.5 px-4 text-center">Contrato</th>
+                  <th class="py-3.5 px-4 text-center">Clases 1° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">PIE 1° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">Clases 2° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">PIE 2° Ciclo</th>
+                  <th class="py-3.5 px-4 text-center">Recreos</th>
+                  <th class="py-3.5 px-4 text-center text-violet-400">Planif. Real</th>
+                  <th class="py-3.5 px-4 text-center text-emerald-400">Otras NL Sobra</th>
+                  <th class="py-3.5 px-4 text-center text-amber-400 font-bold">Horas Sobrantes</th>
+                  <th class="py-3.5 px-4 text-center font-bold">Estado Ley</th>
+                  <th class="py-3.5 px-4 text-center no-print">Acciones</th>
                 </tr>
               </thead>
               <tbody id="roster-tbody" class="divide-y divide-slate-800/50 light:divide-slate-200 text-xs">
                 <tr>
-                  <td colspan="15" class="py-8 text-center text-slate-500">
+                  <td colspan="12" class="py-8 text-center text-slate-500">
                     <i data-lucide="users" class="w-8 h-8 mx-auto mb-2 opacity-30"></i>
                     No se han registrado docentes. Comience ingresando datos arriba.
                   </td>
@@ -2333,7 +2330,7 @@
       if (filtered.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="15" class="py-8 text-center text-slate-500">
+            <td colspan="12" class="py-8 text-center text-slate-500">
               <i data-lucide="info" class="w-8 h-8 mx-auto mb-2 opacity-30"></i>
               No se encontraron docentes con los criterios seleccionados.
             </td>
@@ -2351,6 +2348,7 @@
       let totalPIE2 = 0;
       let totalRecess = 0;
       let totalNoLectLeftover = 0;
+      let totalCapRemaining = 0;
       let totalCompliant = 0;
 
       filtered.forEach(t => {
@@ -2362,6 +2360,7 @@
         totalPIE2 += t.pie2;
         totalRecess += m.recessHrs;
         totalNoLectLeftover += m.restanteVal;
+        totalCapRemaining += m.capLect;
         if (!m.isInfraccion) totalCompliant++;
 
         let statusBadge = '';
@@ -2422,19 +2421,28 @@
             ${t.contract} hrs
             ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${formatHours(m.effectiveContract)} (-${formatHours(m.fixedHrs)})</span>` : ''}
           </td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped1 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie1).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped2 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie2).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${m.recessHrs.toFixed(2)} hrs</td>
-          <td class="py-3.5 px-3 text-center font-mono text-teal-400 font-semibold">${formatHours(m.recessHrs)}</td>
-          <td class="py-3.5 px-3 text-center font-mono text-slate-400">${m.planningHrsActual.toFixed(2)} hrs</td>
-          <td class="py-3.5 px-3 text-center font-mono text-violet-400 font-semibold">${formatHours(m.planningHrsActual)}</td>
-          <td class="py-3.5 px-3 text-center font-mono ${restValClass}">${m.restanteVal.toFixed(2)} hrs</td>
-          <td class="py-3.5 px-3 text-center font-mono ${restValClass} font-semibold">${formatHours(m.restanteVal)}</td>
-          <td class="py-3.5 px-3 text-center font-mono text-amber-400 font-bold">${m.capLect > 0 ? formatHours(m.capLect) : '0 hrs 00 min'}</td>
-          <td class="py-3.5 px-3 text-center flex items-center justify-center py-5">${statusBadge}</td>
-          <td class="py-3.5 px-3 text-center no-print">
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped1 * 0.75).toFixed(1)}h chron)</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie1).toFixed(1)}h chron)</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped2 * 0.75).toFixed(1)}h chron)</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie2).toFixed(1)}h chron)</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">
+            <div>${m.recessHrs.toFixed(2)} hrs</div>
+            <span class="text-[10px] text-teal-400 font-semibold block">(${formatHours(m.recessHrs)})</span>
+          </td>
+          <td class="py-3.5 px-4 text-center font-mono text-violet-400 font-semibold">
+            <div>${m.planningHrsActual.toFixed(2)} hrs</div>
+            <span class="text-[10px] text-violet-300 font-semibold block">(${formatHours(m.planningHrsActual)})</span>
+          </td>
+          <td class="py-3.5 px-4 text-center font-mono ${restValClass}">
+            <div>${m.restanteVal.toFixed(2)} hrs</div>
+            <span class="text-[10px] ${restValClass} font-semibold block">(${formatHours(m.restanteVal)})</span>
+          </td>
+          <td class="py-3.5 px-4 text-center font-mono text-amber-400 font-bold">
+            <div>${m.capLect.toFixed(2)} hrs</div>
+            <span class="text-[10px] text-amber-300 font-semibold block">(${m.capLect > 0 ? formatHours(m.capLect) : '0 hrs 00 min'})</span>
+          </td>
+          <td class="py-3.5 px-4 text-center flex items-center justify-center py-5">${statusBadge}</td>
+          <td class="py-3.5 px-4 text-center no-print">
             <div class="flex items-center justify-center space-x-2">
               <button onclick="editTeacher('${t.id}')" class="p-1.5 hover:bg-slate-800 light:hover:bg-slate-200 rounded-lg text-slate-400 hover:text-white light:hover:text-slate-800 transition-colors" title="Editar">
                 <i data-lucide="edit-3" class="w-4 h-4"></i>
@@ -2452,25 +2460,31 @@
       if (tfoot) {
         tfoot.innerHTML = `
           <tr class="text-slate-300 light:text-slate-900 border-t border-slate-800">
-            <td class="py-4 px-3 font-bold">TOTALES (Planta Seleccionada)</td>
-            <td class="py-4 px-3 text-center font-mono font-bold">${totalContract} hrs</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalPed1} hrs ped.</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalPIE1} hrs ped.</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalPed2} hrs ped.</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalPIE2} hrs ped.</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalRecess.toFixed(2)} hrs</td>
-            <td class="py-4 px-3 text-center font-mono text-teal-400 font-bold">${formatHours(totalRecess)}</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">-</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">-</td>
-            <td class="py-4 px-3 text-center font-mono text-slate-400">${totalNoLectLeftover.toFixed(2)} hrs</td>
-            <td class="py-4 px-3 text-center font-mono text-emerald-400 font-bold">${formatHours(totalNoLectLeftover)}</td>
-            <td class="py-4 px-3 text-center font-mono text-amber-400 font-bold">-</td>
-            <td class="py-4 px-3 text-center flex items-center justify-center py-4">
+            <td class="py-4 px-4 font-bold">TOTALES (Planta Seleccionada)</td>
+            <td class="py-4 px-4 text-center font-mono font-bold">${totalContract} hrs</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPed1} hrs ped.</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE1} hrs ped.</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPed2} hrs ped.</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE2} hrs ped.</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">
+              <div>${totalRecess.toFixed(2)} hrs</div>
+              <span class="text-[10px] text-teal-400 font-semibold block">(${formatHours(totalRecess)})</span>
+            </td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">-</td>
+            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">
+              <div>${totalNoLectLeftover.toFixed(2)} hrs</div>
+              <span class="text-[10px] text-emerald-400 font-semibold block">(${formatHours(totalNoLectLeftover)})</span>
+            </td>
+            <td class="py-4 px-4 text-center font-mono text-amber-400 font-bold">
+              <div>${totalCapRemaining.toFixed(2)} hrs</div>
+              <span class="text-[10px] text-amber-300 font-semibold block">(${formatHours(totalCapRemaining)})</span>
+            </td>
+            <td class="py-4 px-4 text-center flex items-center justify-center py-4">
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
                 Cumplimiento: ${complianceRate.toFixed(0)}%
               </span>
             </td>
-            <td class="py-4 px-3 no-print"></td>
+            <td class="py-4 px-4 no-print"></td>
           </tr>
         `;
       }
