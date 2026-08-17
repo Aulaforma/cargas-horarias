@@ -739,6 +739,57 @@
                 <!-- Dynamic Custom Legends -->
                 <div id="legend-custom-container" class="contents"></div>
               </div>
+
+              <!-- Contract Distribution Summary (Suma 100%) -->
+              <div class="mt-5 p-4 bg-slate-900/90 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5 mb-3">
+                  <div class="flex items-center space-x-2">
+                    <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-400"></i>
+                    <span class="text-xs font-bold text-slate-200 light:text-slate-800 uppercase tracking-wider">Resumen Sumatorio de Distribución del Contrato (100%)</span>
+                  </div>
+                  <span id="summary-contract-total-badge" class="px-2.5 py-0.5 text-xs font-bold font-mono bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">Contrato: 0 hrs 00 min</span>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-2 text-xs font-mono">
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Clases 1° Ciclo (cron):</span>
+                    <span id="sum-c1-lect" class="font-bold text-indigo-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">PIE 1° Ciclo (60m):</span>
+                    <span id="sum-c1-pie" class="font-bold text-cyan-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Clases 2° Ciclo (cron):</span>
+                    <span id="sum-c2-lect" class="font-bold text-blue-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">PIE 2° Ciclo (60m):</span>
+                    <span id="sum-c2-pie" class="font-bold text-teal-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Planificación 50%:</span>
+                    <span id="sum-planif" class="font-bold text-violet-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Dirección/Consejo 50%:</span>
+                    <span id="sum-dir" class="font-bold text-amber-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Recreos Fórmula:</span>
+                    <span id="sum-recess" class="font-bold text-emerald-400">0 hrs 00 min</span>
+                  </div>
+                  <div class="p-2.5 bg-slate-950/60 light:bg-white rounded-lg border border-slate-800/60 light:border-slate-200">
+                    <span class="text-[10px] text-slate-400 font-sans block">Sin Asignar (Capacidad):</span>
+                    <span id="sum-unassigned" class="font-bold text-slate-400">0 hrs 00 min</span>
+                  </div>
+                </div>
+
+                <div class="mt-3 pt-2 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold font-mono">
+                  <span class="text-slate-400 font-sans">SUMA TOTAL DE HORAS ASIGNADAS Y DISPONIBLES:</span>
+                  <span id="sum-grand-total" class="text-emerald-400 font-extrabold text-sm">0 hrs 00 min (100% Contrato)</span>
+                </div>
+              </div>
             </div>
 
             <!-- Extra Breakdown Cards -->
@@ -2327,6 +2378,38 @@
 
       const elNoLectTotal = document.getElementById('legend-nolect-total');
       if (elNoLectTotal) elNoLectTotal.textContent = formatHours(metrics.nlTotal);
+
+      // Section 4 Summary Box Updates
+      const sumC1Lect = document.getElementById('sum-c1-lect');
+      if (sumC1Lect) sumC1Lect.textContent = formatHours(inputs.ped1 * 0.75);
+
+      const sumC1Pie = document.getElementById('sum-c1-pie');
+      if (sumC1Pie) sumC1Pie.textContent = formatHours(inputs.pie1);
+
+      const sumC2Lect = document.getElementById('sum-c2-lect');
+      if (sumC2Lect) sumC2Lect.textContent = formatHours(inputs.ped2 * 0.75);
+
+      const sumC2Pie = document.getElementById('sum-c2-pie');
+      if (sumC2Pie) sumC2Pie.textContent = formatHours(inputs.pie2);
+
+      const sumPlanif = document.getElementById('sum-planif');
+      if (sumPlanif) sumPlanif.textContent = formatHours(metrics.planningHrsActual);
+
+      const sumDir = document.getElementById('sum-dir');
+      if (sumDir) sumDir.textContent = formatHours(metrics.otrasNLBudget);
+
+      const sumRecess = document.getElementById('sum-recess');
+      if (sumRecess) sumRecess.textContent = formatHours(metrics.recessHrs);
+
+      const sumUnassigned = document.getElementById('sum-unassigned');
+      const unassignedVal = metrics.capLect > 0 ? metrics.capLect : (metrics.restanteVal > 0 ? metrics.restanteVal : 0);
+      if (sumUnassigned) sumUnassigned.textContent = formatHours(unassignedVal);
+
+      const summaryBadge = document.getElementById('summary-contract-total-badge');
+      if (summaryBadge) summaryBadge.textContent = `Contrato: ${inputs.contract} hrs (${formatHours(inputs.contract)})`;
+
+      const sumGrandTotal = document.getElementById('sum-grand-total');
+      if (sumGrandTotal) sumGrandTotal.textContent = `${formatHours(inputs.contract)} (100% Contrato)`;
 
       const legendCustomContainer = document.getElementById('legend-custom-container');
       if (legendCustomContainer) {
