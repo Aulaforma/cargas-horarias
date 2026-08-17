@@ -2272,10 +2272,10 @@
         }
       });
 
-      document.getElementById('legend-lectivas').textContent = formatHoursAbbr(inputs.ped1 * 0.75 + inputs.ped2 * 0.75);
-      document.getElementById('legend-pie').textContent = formatHoursAbbr(inputs.pie1 + inputs.pie2);
-      document.getElementById('legend-planif').textContent = formatHoursAbbr(metrics.planningHrsActual);
-      document.getElementById('legend-tiempo-muerto').textContent = formatHoursAbbr(metrics.recessHrs);
+      document.getElementById('legend-lectivas').textContent = formatHours(inputs.ped1 * 0.75 + inputs.ped2 * 0.75);
+      document.getElementById('legend-pie').textContent = formatHours(inputs.pie1 + inputs.pie2);
+      document.getElementById('legend-planif').textContent = formatHours(metrics.planningHrsActual);
+      document.getElementById('legend-tiempo-muerto').textContent = formatHours(metrics.recessHrs);
 
       const legendCustomContainer = document.getElementById('legend-custom-container');
       if (legendCustomContainer) {
@@ -2290,7 +2290,7 @@
               <span class="w-3 h-3 rounded-full ${colorClass} block"></span>
               <div>
                 <p class="text-[10px] font-bold text-slate-400">${displayName}</p>
-                <p class="text-xs font-semibold font-mono text-white light:text-slate-900">${formatHoursAbbr(c.mins / 60)}</p>
+                <p class="text-xs font-semibold font-mono text-white light:text-slate-900">${formatHours(c.mins / 60)}</p>
               </div>
             `;
             legendCustomContainer.appendChild(div);
@@ -2415,13 +2415,13 @@
             ${t.contract} hrs
             ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${m.effectiveContract.toFixed(1)}h (-${m.fixedHrs.toFixed(1)}h)</span>` : ''}
           </td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped1 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie1).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${(t.ped2 * 0.75).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${(t.pie2).toFixed(1)}h chron)</span></td>
-          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${m.recessHrs.toFixed(2)} hrs</td>
-          <td class="py-3.5 px-4 text-center font-mono text-violet-400">${m.planningHrsActual.toFixed(2)} hrs</td>
-          <td class="py-3.5 px-4 text-center font-mono ${restValClass}">${m.restanteVal.toFixed(2)} hrs</td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${formatHours(t.ped1 * 0.75)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${formatHours(t.pie1)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped2} hrs ped. <span class="text-[10px] text-slate-500 block">(${formatHours(t.ped2 * 0.75)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie2} hrs (60m) <span class="text-[10px] text-slate-500 block">(${formatHours(t.pie2)})</span></td>
+          <td class="py-3.5 px-4 text-center font-mono text-slate-400">${formatHours(m.recessHrs)}</td>
+          <td class="py-3.5 px-4 text-center font-mono text-violet-400">${formatHours(m.planningHrsActual)}</td>
+          <td class="py-3.5 px-4 text-center font-mono ${restValClass}">${formatHours(m.restanteVal)}</td>
           <td class="py-3.5 px-4 text-center flex items-center justify-center py-5">${statusBadge}</td>
           <td class="py-3.5 px-4 text-center no-print">
             <div class="flex items-center justify-center space-x-2">
@@ -2447,9 +2447,9 @@
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE1} hrs ped.</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPed2} hrs ped.</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">${totalPIE2} hrs ped.</td>
-            <td class="py-4 px-4 text-center font-mono text-slate-400">${totalRecess.toFixed(2)} hrs</td>
+            <td class="py-4 px-4 text-center font-mono text-slate-400">${formatHours(totalRecess)}</td>
             <td class="py-4 px-4 text-center font-mono text-slate-400">-</td>
-            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">${totalNoLectLeftover.toFixed(1)} hrs</td>
+            <td class="py-4 px-4 text-center font-mono text-teal-400 font-bold">${formatHours(totalNoLectLeftover)}</td>
             <td class="py-4 px-4 text-center flex items-center justify-center py-4">
               <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${complianceRate === 100 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'}">
                 Cumplimiento: ${complianceRate.toFixed(0)}%
@@ -2585,6 +2585,10 @@
       document.getElementById('cancel-edit-btn').classList.remove('hidden');
       document.getElementById('edit-indicator').classList.remove('hidden');
       document.getElementById('form-title').textContent = "Editar Docente";
+
+      if (typeof switchTab === 'function') {
+        switchTab('simulator');
+      }
 
       document.getElementById('form-title').scrollIntoView({ behavior: 'smooth' });
 
