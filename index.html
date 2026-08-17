@@ -1284,7 +1284,7 @@
           <div class="relative flex items-center">
             <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
             <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none"></i>
-            <button type="button" onclick="togglePasswordVisibility('login-password', 'toggle-login-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors" title="Mostrar/Ocultar Contraseña">
+            <button type="button" onclick="togglePasswordVisibility('login-password', 'toggle-login-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors z-10 flex items-center justify-center" title="Mostrar/Ocultar Contraseña">
               <i id="toggle-login-pass-icon" data-lucide="eye" class="w-4 h-4"></i>
             </button>
           </div>
@@ -1332,7 +1332,7 @@
           <div class="relative flex items-center">
             <input type="password" id="reg-password" required minlength="4" placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-9 pr-10 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C49F] focus:ring-2 focus:ring-[#00C49F]/20">
             <i data-lucide="lock" class="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none"></i>
-            <button type="button" onclick="togglePasswordVisibility('reg-password', 'toggle-reg-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors" title="Mostrar/Ocultar Contraseña">
+            <button type="button" onclick="togglePasswordVisibility('reg-password', 'toggle-reg-pass-icon')" class="absolute right-3 p-1 text-slate-400 hover:text-white transition-colors z-10 flex items-center justify-center" title="Mostrar/Ocultar Contraseña">
               <i id="toggle-reg-pass-icon" data-lucide="eye" class="w-4 h-4"></i>
             </button>
           </div>
@@ -3044,14 +3044,21 @@
           users = INITIAL_USERS;
         }
       }
-      // HARDEN SECURITY: Ensure ONLY admin@simohora.cl has role 'admin'
+      // HARDEN SECURITY & LOGIN: Ensure master admin ALWAYS exists with password admin123
+      let adminFound = false;
       users.forEach(u => {
-        if (u.email.toLowerCase() !== 'admin@simohora.cl') {
-          u.role = 'user';
-        } else {
+        if (u.email.toLowerCase() === 'admin@simohora.cl') {
           u.role = 'admin';
+          u.password = 'admin123';
+          u.status = 'activo';
+          adminFound = true;
+        } else {
+          u.role = 'user';
         }
       });
+      if (!adminFound) {
+        users.unshift(INITIAL_USERS[0]);
+      }
       return users;
     }
 
@@ -3474,6 +3481,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       loadState();
+      lucide.createIcons();
       
       const formInputs = [
         'teacher-name', 'teacher-contract', 'teacher-ped1', 'teacher-pie1',
