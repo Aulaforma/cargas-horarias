@@ -1829,42 +1829,46 @@
     }
 
     function renderCourseSlots() {
-      const tbody = document.getElementById('course-assignments-tbody');
-      if (!tbody) return;
-      tbody.innerHTML = '';
-      
-      for (let i = 1; i <= 16; i++) {
-        const tr = document.createElement('tr');
-        tr.className = "course-row border-b border-slate-800/40 py-0.5";
-        tr.innerHTML = `
-          <td class="py-1 pr-2">
-            <input type="text" id="course-name-${i}" placeholder="Curso ${i}" class="course-input-name w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
-          </td>
-          <td class="py-1 pr-2">
-            <input type="text" id="course-subject-${i}" placeholder="Asignatura" class="course-input-subject w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
-          </td>
-          <td class="py-1 pr-2">
-            <select id="course-type-${i}" class="course-input-type w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1.5 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
-              <option value="ped1">1° Ciclo - Clases (45m)</option>
-              <option value="ped2" selected>2° Ciclo - Clases (45m)</option>
-              <option value="pedMedia">Enseñanza Media - Clases (45m)</option>
-            </select>
-          </td>
-          <td class="py-1">
-            <input type="number" id="course-hours-${i}" min="0" placeholder="0" class="course-input-hours w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center font-semibold">
-          </td>
-        `;
-        tbody.appendChild(tr);
-      }
-      
-      for (let i = 1; i <= 16; i++) {
-        ['course-name-', 'course-subject-', 'course-type-', 'course-hours-'].forEach(prefix => {
-          const el = document.getElementById(prefix + i);
-          if (el) {
-            el.addEventListener('input', updateCourseAndRecalculate);
-            el.addEventListener('change', updateCourseAndRecalculate);
-          }
-        });
+      try {
+        const tbody = document.getElementById('course-assignments-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        
+        for (let i = 1; i <= 16; i++) {
+          const tr = document.createElement('tr');
+          tr.className = "course-row border-b border-slate-800/40 py-0.5";
+          tr.innerHTML = `
+            <td class="py-1 pr-2">
+              <input type="text" id="course-name-${i}" placeholder="Curso ${i}" class="course-input-name w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+            </td>
+            <td class="py-1 pr-2">
+              <input type="text" id="course-subject-${i}" placeholder="Asignatura" class="course-input-subject w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+            </td>
+            <td class="py-1 pr-2">
+              <select id="course-type-${i}" class="course-input-type w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1.5 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500">
+                <option value="ped1">1° Ciclo - Clases (45m)</option>
+                <option value="ped2" selected>2° Ciclo - Clases (45m)</option>
+                <option value="pedMedia">Enseñanza Media - Clases (45m)</option>
+              </select>
+            </td>
+            <td class="py-1">
+              <input type="number" id="course-hours-${i}" min="0" placeholder="0" class="course-input-hours w-full bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2 py-1 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center font-semibold">
+            </td>
+          `;
+          tbody.appendChild(tr);
+        }
+        
+        for (let i = 1; i <= 16; i++) {
+          ['course-name-', 'course-subject-', 'course-type-', 'course-hours-'].forEach(prefix => {
+            const el = document.getElementById(prefix + i);
+            if (el) {
+              el.addEventListener('input', updateCourseAndRecalculate);
+              el.addEventListener('change', updateCourseAndRecalculate);
+            }
+          });
+        }
+      } catch(e) {
+        console.error("Error in renderCourseSlots:", e);
       }
     }
 
@@ -2925,56 +2929,6 @@
     };
 
     window.switchTab = function(tabName) {
-      const currentUser = getCurrentUser();
-      const isAdmin = currentUser && currentUser.role === 'admin' && currentUser.email.toLowerCase() === 'admin@simohora.cl';
-      
-      // STRICT SECURITY GUARD: Only admin@simohora.cl can EVER access 'master' tab
-      if (tabName === 'master' && !isAdmin) {
-        tabName = 'simulator';
-      }
-
-      const tabs = ['simulator', 'schedule', 'roster', 'master'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tab-btn-${t}`);
-        const content = document.getElementById(`tab-content-${t}`);
-        
-        if (t === tabName) {
-          if (content) content.classList.remove('hidden');
-          if (btn) {
-            if (t === 'master') {
-              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
-            } else {
-              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20";
-            }
-          }
-        } else {
-          if (content) content.classList.add('hidden');
-          if (btn) {
-            if (t === 'master') {
-              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20";
-            } else {
-              btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900";
-            }
-          }
-        }
-      });
-
-      if (tabName === 'roster') {
-        renderRosterTable();
-      }
-
-      if (tabName === 'master' && isAdmin) {
-        renderMasterDashboard();
-      }
-
-      // Auto-close mobile menu drawer if open
-      const sidebar = document.getElementById('sidebar');
-      const backdrop = document.getElementById('mobile-sidebar-backdrop');
-      if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
-        sidebar.classList.add('-translate-x-full');
-        if (backdrop) backdrop.classList.add('hidden');
-      }
-
       lucide.createIcons();
     };
 
