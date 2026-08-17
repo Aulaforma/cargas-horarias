@@ -1406,7 +1406,7 @@
     }
 
     function formatHoursAbbr(hrs) {
-      return `${hrs.toFixed(2)}h`;
+      return formatHours(hrs);
     }
 
     // Render Daily Schedule Inputs
@@ -2416,7 +2416,7 @@
           </td>
           <td class="py-3.5 px-4 text-center font-mono font-medium">
             ${t.contract} hrs
-            ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${m.effectiveContract.toFixed(1)}h (-${m.fixedHrs.toFixed(1)}h)</span>` : ''}
+            ${m.fixedHrs > 0 ? `<span class="text-[9px] text-rose-400 block font-sans font-semibold">Ef: ${formatHours(m.effectiveContract)} (-${formatHours(m.fixedHrs)})</span>` : ''}
           </td>
           <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.ped1} hrs ped. <span class="text-[10px] text-slate-500 block">(${formatHours(t.ped1 * 0.75)})</span></td>
           <td class="py-3.5 px-4 text-center font-mono text-slate-400">${t.pie1} hrs (60m) <span class="text-[10px] text-slate-500 block">(${formatHours(t.pie1)})</span></td>
