@@ -2820,6 +2820,10 @@
         }
       });
 
+      if (tabName === 'roster') {
+        renderRosterTable();
+      }
+
       if (tabName === 'master' && isAdmin) {
         renderMasterDashboard();
       }
