@@ -618,8 +618,7 @@
                 <div class="p-4 bg-slate-950/60 light:bg-slate-50 rounded-2xl border border-slate-800/80 light:border-slate-200 transition-all hover:border-teal-500/30">
                   <span id="title-cycle1" class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Capacidad Restante 1° Ciclo</span>
                   <div class="flex items-baseline space-x-1.5">
-                    <span id="remaining-hours-cycle1" class="text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0.00</span>
-                    <span class="text-xs text-slate-400">hrs</span>
+                    <span id="remaining-hours-cycle1" class="text-2xl sm:text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0 hrs 00 min</span>
                   </div>
                   <span class="text-[11px] text-slate-400 block mt-1.5" id="remaining-blocks-cycle1">0 bloques de clases</span>
                 </div>
@@ -628,8 +627,7 @@
                 <div class="p-4 bg-slate-950/60 light:bg-slate-50 rounded-2xl border border-slate-800/80 light:border-slate-200 transition-all hover:border-teal-500/30">
                   <span id="title-cycle2" class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Capacidad Restante 2° Ciclo</span>
                   <div class="flex items-baseline space-x-1.5">
-                    <span id="remaining-hours-cycle2" class="text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0.00</span>
-                    <span class="text-xs text-slate-400">hrs</span>
+                    <span id="remaining-hours-cycle2" class="text-2xl sm:text-3xl font-extrabold text-white light:text-slate-900 font-title tracking-tight">0 hrs 00 min</span>
                   </div>
                   <span class="text-[11px] text-slate-400 block mt-1.5" id="remaining-blocks-cycle2">0 bloques de clases</span>
                 </div>
@@ -1889,10 +1887,10 @@
 
       const customTag = metrics.totalCustomHrs > 0 ? `<span class="text-amber-400 font-semibold block text-[10px] mt-0.5">(-${formatHours(metrics.totalCustomHrs)} descontadas en Simulación de Capacidad)</span>` : '';
 
-      hC1Disp.textContent = metrics.capLect1.toFixed(2);
+      hC1Disp.textContent = formatHours(metrics.capLect1);
       bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks1}</span> bloques. ${customTag}`;
       
-      hC2Disp.textContent = metrics.capLect2.toFixed(2);
+      hC2Disp.textContent = formatHours(metrics.capLect2);
       bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-teal-400 font-mono">${metrics.capBlocks2}</span> bloques. ${customTag}`;
 
       document.getElementById('cycle1-ratio-tag').textContent = `Ratio: ${Math.round(metrics.fLect1 * 100)}/${Math.round((1-metrics.fLect1)*100)}`;
@@ -1906,9 +1904,9 @@
 
       if (!hasCourseAssignments) {
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-slate-700";
-        hC1Disp.textContent = "0.00";
+        hC1Disp.textContent = "0 hrs 00 min";
         bC1Disp.innerHTML = `Equivalente a <span class="font-bold text-slate-500 font-mono">0</span> bloques.`;
-        hC2Disp.textContent = "0.00";
+        hC2Disp.textContent = "0 hrs 00 min";
         bC2Disp.innerHTML = `Equivalente a <span class="font-bold text-slate-500 font-mono">0</span> bloques.`;
         
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-slate-900/60 border-slate-800 text-slate-300";
