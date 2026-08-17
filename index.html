@@ -2666,7 +2666,7 @@
           ? t.courses.map(c => `${c.name || 'S/C'} (${c.subject || 'S/A'} - ${c.type}): ${c.hours}h`).join('; ')
           : '';
 
-        csv += `"${t.name}",${t.contract},${t.ped1},${t.pie1},${t.ped2},${t.pie2},${m.recessHrs.toFixed(2)},${m.planningHrsActual.toFixed(2)},${m.restanteVal.toFixed(2)},` +
+        csv += `"${t.name}",${t.contract},${t.ped1},${t.pie1},${t.ped2},${t.pie2},"${formatHours(m.recessHrs)}","${formatHours(m.planningHrsActual)}","${formatHours(m.restanteVal)}",` +
                `"${coursesStr.replace(/"/g, '""')}",` +
                `"${t.customActivity1Name || ''}",${t.customActivity1Mins || 0},` +
                `"${t.customActivity2Name || ''}",${t.customActivity2Mins || 0},` +
