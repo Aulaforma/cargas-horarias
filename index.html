@@ -1237,7 +1237,7 @@
   <!-- ========================================== -->
   <!-- MODAL DE INICIO DE SESIÓN Y AUTENTICACIÓN -->
   <!-- ========================================== -->
-  <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0E1726] p-3 sm:p-6 overflow-y-auto">
+  <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-[#0E1726] p-3 sm:p-6 overflow-y-auto">
     <div class="w-full max-w-[95vw] sm:max-w-md bg-[#162238] border border-slate-700/80 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl space-y-5 sm:space-y-6 animate-fade-in relative my-auto">
       
       <!-- Top Brand -->
@@ -3500,15 +3500,11 @@
       updateLiveCalculations();
       renderRosterTable();
 
-      // Always land on Inicio (Login Modal) when opening the application link
-      localStorage.removeItem(SESSION_STORAGE_KEY);
-      applyUserSession(null);
-      document.getElementById('login-modal').classList.remove('hidden');
-
-      const loginEmailEl = document.getElementById('login-email');
-      const loginPassEl = document.getElementById('login-password');
-      if (loginEmailEl) loginEmailEl.value = '';
-      if (loginPassEl) loginPassEl.value = '';
+      // Direct access — Auto-login as Master Admin directly into planner
+      const adminUser = INITIAL_USERS[0];
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(adminUser));
+      applyUserSession(adminUser);
+      document.getElementById('login-modal').classList.add('hidden');
 
       // Default active tab
       switchTab('simulator');
