@@ -2925,7 +2925,60 @@
     };
 
     window.switchTab = function(tabName) {
-      lucide.createIcons();
+      try {
+        const currentUser = getCurrentUser();
+        const isAdmin = currentUser && currentUser.role === 'admin' && currentUser.email.toLowerCase() === 'admin@simohora.cl';
+        
+        if (tabName === 'master' && !isAdmin) {
+          tabName = 'simulator';
+        }
+
+        const tabs = ['simulator', 'schedule', 'roster', 'master'];
+        tabs.forEach(t => {
+          const btn = document.getElementById(`tab-btn-${t}`);
+          const content = document.getElementById(`tab-content-${t}`);
+          
+          if (t === tabName) {
+            if (content) content.classList.remove('hidden');
+            if (btn) {
+              if (t === 'master') {
+                btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500 text-slate-950 shadow-lg shadow-amber-500/20";
+              } else {
+                btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-[#00C49F] text-white shadow-lg shadow-teal-500/20";
+              }
+            }
+          } else {
+            if (content) content.classList.add('hidden');
+            if (btn) {
+              if (t === 'master') {
+                btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-amber-500/10 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20";
+              } else {
+                btn.className = "tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-slate-900/60 light:bg-slate-200 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900";
+              }
+            }
+          }
+        });
+
+        if (tabName === 'roster') {
+          renderRosterTable();
+        } else if (tabName === 'schedule') {
+          renderScheduleInputs();
+        } else if (tabName === 'master' && isAdmin) {
+          renderMasterDashboard();
+        }
+
+        // Auto-close mobile menu drawer if open
+        const sidebar = document.getElementById('sidebar');
+        const backdrop = document.getElementById('mobile-sidebar-backdrop');
+        if (sidebar && !sidebar.classList.contains('-translate-x-full') && window.innerWidth < 1024) {
+          sidebar.classList.add('-translate-x-full');
+          if (backdrop) backdrop.classList.add('hidden');
+        }
+
+        if (window.lucide) window.lucide.createIcons();
+      } catch(err) {
+        console.error("Error switching tabs:", err);
+      }
     };
 
     // --- AUTHENTICATION & MASTER AUDIT ENGINE ---
