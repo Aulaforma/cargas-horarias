@@ -329,6 +329,10 @@
             <i data-lucide="users" class="w-4 h-4"></i>
             <span>3. Planta Docente & Consolidado</span>
           </button>
+          <button id="tab-btn-mineduc-modal" onclick="openMineducModal()" class="tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-indigo-950/60 light:bg-indigo-50 text-indigo-300 light:text-indigo-800 border border-indigo-800/40 hover:bg-indigo-900/40">
+            <i data-lucide="table" class="w-4 h-4 text-indigo-400"></i>
+            <span>📋 Tablas Oficiales MINEDUC</span>
+          </button>
           <button id="tab-btn-master" onclick="switchTab('master')" class="hidden tab-btn px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30">
             <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i>
             <span>👑 4. Página Maestra (Monitoreo Admin)</span>
@@ -522,15 +526,18 @@
                     <input type="number" id="teacher-custom-min-5" min="0" placeholder="0" class="col-span-3 bg-slate-900/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-teal-500 text-center">
                   </div>
 
-                  <!-- Horas Administrativas -->
+                  <!-- Horas Administrativas (Contratos Mixtos) -->
                   <div class="pt-2.5 mt-1 border-t border-slate-800/60">
                     <div class="flex items-center justify-between mb-1.5">
-                      <h4 class="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Horas Administrativas</h4>
-                      <span class="text-[9px] px-2 py-0.5 bg-rose-500/10 text-rose-400 rounded-full border border-rose-500/30">Descuento Directo</span>
+                      <h4 class="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Horas Administrativas / Gestión (Contrato Mixto)</h4>
+                      <span class="text-[9px] px-2 py-0.5 bg-rose-500/10 text-rose-400 rounded-full border border-rose-500/30">Descuento Secuencial Previo</span>
                     </div>
-                    <p class="text-[10px] text-slate-500 mb-1.5 leading-tight">Se descuentan directamente del contrato antes del desglose.</p>
+                    <p class="text-[10px] text-slate-400 mb-1.5 leading-tight">
+                      <strong>Paso 2:</strong> Se apartan directamente del Contrato Total para obtener el Contrato Efectivo de Aula (Paso 3: sobre el saldo restante se aplica el 65/35).
+                      <span class="text-rose-300 font-semibold block mt-0.5">⚠️ Regla de oro: Jamás se descuentan del 35% no lectivo.</span>
+                    </p>
                     <div class="grid grid-cols-12 gap-1.5">
-                      <input type="text" id="teacher-admin-name" placeholder="Ej. Coordinación, UTP..." class="col-span-6 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500">
+                      <input type="text" id="teacher-admin-name" placeholder="Ej. Coordinación Depto / Proyecto..." class="col-span-6 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500">
                       <input type="number" id="teacher-admin-hr" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
                       <input type="number" id="teacher-admin-min" min="0" placeholder="0" class="col-span-3 bg-slate-950/60 light:bg-white border border-rose-900/40 light:border-slate-300 rounded-lg px-1 py-1.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-rose-500 text-center">
                     </div>
@@ -956,6 +963,185 @@
                     </div>
                   </div>
                   <p class="text-[9px] text-slate-500 font-sans mt-2 pt-1 border-t border-slate-850 leading-tight">Cómputo automático integrado en el marco de la jornada laboral.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECTION 5: CUADRO DE FACTOR Y EQUIVALENCIA DE HORAS CONTRATO -->
+          <section id="sec-equivalence-table" class="dashboard-card p-6 rounded-2xl transition-all duration-300 border-l-8 border-teal-500 shadow-xl space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-3">
+              <div class="flex items-center space-x-2.5">
+                <div class="p-2 bg-teal-500/10 text-teal-400 rounded-xl border border-teal-500/20">
+                  <i data-lucide="calculator" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h2 class="text-base font-bold text-white light:text-slate-900 font-title tracking-tight">
+                    Cuadro de Factor de Equivalencia de Horas Contrato
+                  </h2>
+                  <p class="text-xs text-slate-400">
+                    Cálculo directo de Factor (Número Final) y verificación sumatoria para horas de contrato
+                  </p>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-1 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30 self-start sm:self-auto">
+                Ley 20.903 / 21.625
+              </span>
+            </div>
+
+            <!-- Real-time Equivalence Box for Active Teacher -->
+            <div class="p-4 bg-slate-950/70 light:bg-white rounded-xl border border-slate-800/80 light:border-slate-200 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                <h3 class="text-xs font-bold text-teal-400 uppercase tracking-wider flex items-center space-x-1.5">
+                  <i data-lucide="cpu" class="w-4 h-4"></i>
+                  <span>Resultados de Equivalencia del Docente Actual</span>
+                </h3>
+                <span id="equiv-sep-badge" class="text-[9px] px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30">
+                  Regla General (65/35)
+                </span>
+              </div>
+
+              <!-- 4 Metric Pill Display -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                <!-- Ped 1 Factor -->
+                <div class="p-3 bg-slate-900/80 light:bg-slate-50 rounded-xl border border-slate-800/60 light:border-slate-200">
+                  <span class="text-[10px] font-bold text-slate-400 block mb-0.5">1° Ciclo Aula</span>
+                  <div class="flex items-baseline justify-between mt-1">
+                    <span id="equiv-ped1-val" class="font-extrabold text-sm text-indigo-300 font-mono">0 hrs ped</span>
+                    <span id="equiv-factor1-tag" class="text-[10px] font-bold text-amber-400 font-mono bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">Factor: 0</span>
+                  </div>
+                </div>
+
+                <!-- Ped 2 Factor -->
+                <div class="p-3 bg-slate-900/80 light:bg-slate-50 rounded-xl border border-slate-800/60 light:border-slate-200">
+                  <span class="text-[10px] font-bold text-slate-400 block mb-0.5">2° Ciclo / Media / Parv.</span>
+                  <div class="flex items-baseline justify-between mt-1">
+                    <span id="equiv-ped2-val" class="font-extrabold text-sm text-blue-300 font-mono">0 hrs ped</span>
+                    <span id="equiv-factor2-tag" class="text-[10px] font-bold text-amber-400 font-mono bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">Factor: 0</span>
+                  </div>
+                </div>
+
+                <!-- Número Final (Sum of Factors) -->
+                <div class="p-3 bg-teal-950/40 light:bg-teal-50 rounded-xl border border-teal-800/50 light:border-teal-200">
+                  <span class="text-[10px] font-bold text-teal-300 block mb-0.5">Número Final (Factor Total)</span>
+                  <span id="equiv-final-number" class="text-xl font-black text-teal-400 font-mono block">0</span>
+                </div>
+
+                <!-- Contrato Calculado por Equivalencia -->
+                <div class="p-3 bg-indigo-950/40 light:bg-indigo-50 rounded-xl border border-indigo-800/50 light:border-indigo-200">
+                  <span class="text-[10px] font-bold text-indigo-300 block mb-0.5">Contrato Equivalente</span>
+                  <span id="equiv-calculated-contract" class="text-xl font-black text-indigo-400 font-mono block">0 hrs</span>
+                </div>
+              </div>
+
+              <!-- Formula Summation Box -->
+              <div class="p-3.5 bg-slate-900/90 light:bg-slate-100 rounded-lg border border-slate-800/80 text-xs space-y-2">
+                <div class="flex items-center justify-between font-mono text-[11px] text-slate-300 flex-wrap gap-1">
+                  <span class="font-sans font-bold text-slate-400 text-[10px]">FÓRMULA SUMATORIA CONTRATO:</span>
+                  <div class="flex items-center space-x-1 flex-wrap font-mono">
+                    <span id="formula-ped-total" class="text-indigo-300 font-bold">0 hrs aula</span>
+                    <span class="text-slate-500">+</span>
+                    <span id="formula-pie-total" class="text-cyan-300 font-bold">0 hrs PIE</span>
+                    <span class="text-slate-500">+</span>
+                    <span id="formula-admin-total" class="text-rose-300 font-bold">0 hrs admin</span>
+                    <span class="text-slate-500">+</span>
+                    <span id="formula-factor-total" class="text-amber-300 font-bold">0 (Número Final)</span>
+                    <span class="text-slate-500">=</span>
+                    <span id="formula-contract-result" class="text-emerald-400 font-extrabold text-sm">0 hrs Contrato</span>
+                  </div>
+                </div>
+
+                <div id="equiv-comparison-alert" class="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px]">
+                  <!-- Populated dynamically in JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Reference Tables Section (Tablas de Factores) -->
+            <div class="space-y-3">
+              <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
+                <i data-lucide="table" class="w-4 h-4 text-teal-400"></i>
+                <span>Tablas Oficiales de Factores de Equivalencia</span>
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Table 1: 2° Ciclo, Media, Parvularia y 1° Ciclo General -->
+                <div class="bg-slate-950/60 light:bg-white rounded-xl border border-slate-800 light:border-slate-200 p-3 space-y-2">
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+                    <h4 class="text-[11px] font-bold text-blue-400 uppercase">
+                      Regla 1: 2° Ciclo, Media, Pre-Kinder y Kinder (Parvularia)
+                    </h4>
+                    <span class="text-[9px] px-2 py-0.5 bg-blue-500/10 text-blue-300 rounded border border-blue-500/20">65/35</span>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left text-[11px]">
+                      <thead>
+                        <tr class="text-slate-400 border-b border-slate-800 uppercase text-[9px] font-bold">
+                          <th class="py-1 px-2">Horas Aula Pedagógicas</th>
+                          <th class="py-1 px-2 text-right">Número / Factor</th>
+                        </tr>
+                      </thead>
+                      <tbody id="table-general-tbody" class="divide-y divide-slate-800/40 font-mono text-slate-300">
+                        <!-- Dynamically populated in JS -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Table 2: 1° Ciclo Básico Prioritario >80% SEP -->
+                <div class="bg-slate-950/60 light:bg-white rounded-xl border border-slate-800 light:border-slate-200 p-3 space-y-2">
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+                    <h4 class="text-[11px] font-bold text-indigo-400 uppercase">
+                      Regla 2: 1° Ciclo Prioritario (&gt;80% SEP)
+                    </h4>
+                    <span class="text-[9px] px-2 py-0.5 bg-indigo-500/10 text-indigo-300 rounded border border-indigo-500/20">60/40</span>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-left text-[11px]">
+                      <thead>
+                        <tr class="text-slate-400 border-b border-slate-800 uppercase text-[9px] font-bold">
+                          <th class="py-1 px-2">Horas Aula Pedagógicas</th>
+                          <th class="py-1 px-2 text-right">Número / Factor</th>
+                        </tr>
+                      </thead>
+                      <tbody id="table-priority-tbody" class="divide-y divide-slate-800/40 font-mono text-slate-300">
+                        <!-- Dynamically populated in JS -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Quick Calculator inside the Cuadro -->
+            <div class="p-4 bg-slate-900/60 light:bg-slate-50 rounded-xl border border-slate-800/80 light:border-slate-200 space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800/60 pb-2">
+                <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-1.5">
+                  <i data-lucide="calculator" class="w-3.5 h-3.5"></i>
+                  <span>Simulador Rápido de Equivalencia (Prueba Directa)</span>
+                </h3>
+                <span class="text-[9px] px-2 py-0.5 bg-amber-500/10 text-amber-300 rounded-full border border-amber-500/30">Prueba tu combinación</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Hrs Aula 1° Ciclo</label>
+                  <input type="number" id="sim-ped1" min="0" max="44" placeholder="ej. 10" oninput="runQuickEquivSim()" class="w-full bg-slate-950/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 font-semibold focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Hrs Aula 2° / Media / Parv.</label>
+                  <input type="number" id="sim-ped2" min="0" max="44" placeholder="ej. 10" oninput="runQuickEquivSim()" class="w-full bg-slate-950/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 font-semibold focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold text-slate-400 mb-1">Establecimiento &gt;80% SEP</label>
+                  <select id="sim-priority" onchange="runQuickEquivSim()" class="w-full bg-slate-950/80 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-100 light:text-slate-900 font-semibold focus:outline-none focus:border-amber-500">
+                    <option value="true" selected>Sí (&gt;80% SEP)</option>
+                    <option value="false">No (&le;80% SEP)</option>
+                  </select>
+                </div>
+                <div class="p-2.5 bg-amber-950/30 light:bg-amber-50 rounded-lg border border-amber-800/40 flex flex-col justify-center">
+                  <span class="text-[9px] font-bold text-amber-400 uppercase">Resultado Simulación</span>
+                  <span id="sim-result-text" class="text-xs font-mono font-bold text-amber-200 mt-0.5">2 + 3 = 5 (Total 25 hrs)</span>
                 </div>
               </div>
             </div>
@@ -1549,6 +1735,50 @@
       if (weeklyHoursEl) weeklyHoursEl.textContent = formatHours(totalSchoolHours);
     }
 
+    // --- TABLAS DE FACTORES DE EQUIVALENCIA (CUADRO DE HORAS AULA A CONTRATO) ---
+    const EQUIVALENCE_TABLE_GENERAL = [
+      { min: 35, max: 38, factor: 6, label: "35 a 38 horas" },
+      { min: 29, max: 34, factor: 5, label: "29 a 34 horas" },
+      { min: 22, max: 28, factor: 4, label: "22 a 28 horas" },
+      { min: 16, max: 21, factor: 3, label: "16 a 21 horas" },
+      { min: 10, max: 15, factor: 2, label: "10 a 15 horas" },
+      { min: 4,  max: 9,  factor: 1, label: "4 a 9 horas" },
+      { min: 1,  max: 3,  factor: 0, label: "1 a 3 horas" }
+    ];
+
+    const EQUIVALENCE_TABLE_PRIORITY = [
+      { min: 33, max: 35, factor: 9, label: "33 a 35 horas" },
+      { min: 29, max: 32, factor: 8, label: "29 a 32 horas" },
+      { min: 25, max: 28, factor: 7, label: "25 a 28 horas" },
+      { min: 21, max: 24, factor: 6, label: "21 a 24 horas" },
+      { min: 18, max: 20, factor: 5, label: "18 a 20 horas" },
+      { min: 14, max: 17, factor: 4, label: "14 a 17 horas" },
+      { min: 10, max: 13, factor: 3, label: "10 a 13 horas" },
+      { min: 6,  max: 9,  factor: 2, label: "6 a 9 horas" },
+      { min: 2,  max: 5,  factor: 1, label: "2 a 5 horas" },
+      { min: 1,  max: 1,  factor: 0, label: "1 hora" }
+    ];
+
+    function getFactorGeneral(pedHrs) {
+      const ped = Math.round(pedHrs);
+      if (ped <= 0) return 0;
+      for (const row of EQUIVALENCE_TABLE_GENERAL) {
+        if (ped >= row.min && ped <= row.max) return row.factor;
+      }
+      if (ped > 38) return 6 + Math.floor((ped - 38) / 6);
+      return 0;
+    }
+
+    function getFactor1erCicloPrioritario(pedHrs) {
+      const ped = Math.round(pedHrs);
+      if (ped <= 0) return 0;
+      for (const row of EQUIVALENCE_TABLE_PRIORITY) {
+        if (ped >= row.min && ped <= row.max) return row.factor;
+      }
+      if (ped > 35) return 9 + Math.floor((ped - 35) / 4);
+      return 0;
+    }
+
     // --- TABLAS OFICIALES MINEDUC (LEY 20.903 - PROPORCIÓN 65/35 Y 60/40) ---
     const MINEDUC_TABLE_65_35 = {
       44: { ha: 38, hcMins: 1710, recMins: 180, nlMins: 750 },
@@ -1640,7 +1870,7 @@
       5:  { ha: 4,  hcMins: 180,  recMins: 20,  nlMins: 100 },
       4:  { ha: 3,  hcMins: 135,  recMins: 16,  nlMins: 89 },
       3:  { ha: 2,  hcMins: 90,   recMins: 12,  nlMins: 78 },
-      2:  { ha: 1,  hcMins: 45,   recMins: 8,   nlMins: 67 },
+      2:  { ha: 2,  hcMins: 90,   recMins: 8,   nlMins: 22 },
       1:  { ha: 1,  hcMins: 45,   recMins: 4,   nlMins: 11 }
     };
 
@@ -1665,7 +1895,7 @@
       const { priority, blockDuration, apoderadosMins } = globalParams;
       const { contract, ped1, pie1, ped2, pie2 } = teacherInput;
 
-      const legalColacionHrs = (contract === 43 || contract === 44) ? 2 : 0;
+      const legalColacionHrs = 0;
       const adminHrs = (teacherInput.adminMins || 0) / 60;
 
       const customActivity1Mins = parseFloat(teacherInput.customActivity1Mins) || 0;
@@ -1682,7 +1912,7 @@
 
       const totalCustomHrs = custom1Hrs + custom2Hrs + custom3Hrs + custom4Hrs + custom5Hrs;
       const fixedHrs = adminHrs + totalCustomHrs;
-      const effectiveContract = Math.max(0, contract - adminHrs - legalColacionHrs);
+      const effectiveContract = Math.max(0, contract - adminHrs);
 
       const lClass1 = ped1 * 0.75;
       const pie1Chrono = pie1;
@@ -1696,29 +1926,52 @@
       const lectivasTotal = lectivas1 + lectivas2;
 
       // Determinación del ciclo de clases asignadas:
-      // - 2° Ciclo y Media SIEMPRE usan 65/35 (independiente de si el colegio tiene flag prioritario).
-      // - 1° Ciclo usa 60/40 solo si el colegio es prioritario (>80%).
       const hasOnly2ndCycleOrMedia = (lectivas2 > 0 && lectivas1 === 0);
       const hasOnly1stCycle = (lectivas1 > 0 && lectivas2 === 0);
       const isMixed = (lectivas1 > 0 && lectivas2 > 0);
 
       const isEffectivePriority = priority && !hasOnly2ndCycleOrMedia;
 
-      // Datos oficiales MINEDUC según tabla correspondiente
-      const mineducOfficial1 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, isEffectivePriority);
-      const mineducOfficial2 = getMineducOfficialData(effectiveContract > 0 ? effectiveContract : contract, false);
+      // --- ALGORITMO EXACTO LEY 21.625 / 20.903 PARA CARGAS MIXTAS EN COLEGIOS PRIORITARIOS ---
+      let contract1stCycle = 0;
+      let contract2ndCycle = effectiveContract;
+      let maxLectivas1 = 0;
+      let maxLectivas2 = 0;
+      let maxLectivasTotal = 0;
 
-      const recessHrs = mineducOfficial1.recHrs;
-      let nlTotal = mineducOfficial1.nlHrs;
-
-      if (isMixed && priority) {
-        // Carga Mixta: 1° Ciclo (60/40) + 2° Ciclo/Media (65/35)
-        const r1 = lectivas1 / lectivasTotal;
-        const r2 = lectivas2 / lectivasTotal;
-        nlTotal = (mineducOfficial1.nlHrs * r1) + (mineducOfficial2.nlHrs * r2);
-      } else if (hasOnly2ndCycleOrMedia) {
-        nlTotal = mineducOfficial2.nlHrs;
+      if (priority) {
+        if (isMixed || hasOnly1stCycle) {
+          // Si el colegio es prioritario (>80% SEP) y tiene horas en 1° Ciclo:
+          // 1° Ciclo rige a 60/40 (60% lectivo). El contrato consumido por 1° ciclo es lectivas1 / 0.60
+          contract1stCycle = Math.min(effectiveContract, lectivas1 / 0.60);
+          contract2ndCycle = Math.max(0, effectiveContract - contract1stCycle);
+          
+          maxLectivas1 = contract1stCycle * 0.60;
+          maxLectivas2 = contract2ndCycle * 0.65;
+          maxLectivasTotal = maxLectivas1 + maxLectivas2;
+        } else {
+          // Solo 2° Ciclo / Media: Rige a 65/35 sobre todo el contrato efectivo
+          contract1stCycle = 0;
+          contract2ndCycle = effectiveContract;
+          maxLectivas1 = 0;
+          maxLectivas2 = effectiveContract * 0.65;
+          maxLectivasTotal = maxLectivas2;
+        }
+      } else {
+        // Colegio No Prioritario: Rige regla general 65/35
+        contract1stCycle = 0;
+        contract2ndCycle = effectiveContract;
+        maxLectivas1 = 0;
+        maxLectivas2 = effectiveContract * 0.65;
+        maxLectivasTotal = maxLectivas2;
       }
+
+      // Horas de Recreo: Siempre se obtienen de multiplicar las horas de contrato efectivo por 4 minutos
+      const recessHrs = (effectiveContract * 4) / 60;
+      
+      // Bolsa No Lectiva Total (Bolsa Restante 35% o 40% - Recreos)
+      const totalNoLectivaPlusRecess = Math.max(0, effectiveContract - maxLectivasTotal);
+      const nlTotal = Math.max(0, totalNoLectivaPlusRecess - recessHrs);
 
       const totalPedagogicalHours = (ped1 + ped2) + ((pie1 + pie2) / 0.75);
 
@@ -1729,30 +1982,27 @@
       const otrasNLBudget = nlTotal * 0.50;
       const restanteVal = otrasNLBudget;
 
-      // Capacidad restante obtenida desde el tope legal oficial de Horas Lectivas MINEDUC
-      const capLect1 = Math.max(0, mineducOfficial1.hcHrs - lectivasTotal - totalCustomHrs);
-      const capLect2 = Math.max(0, mineducOfficial2.hcHrs - lectivasTotal - totalCustomHrs);
-      const capLect = capLect1;
+      // Capacidad Restante de Aula (Horas Lectivas disponibles por asignar)
+      const capLect = Math.max(0, maxLectivasTotal - lectivasTotal - totalCustomHrs);
+
+      // Capacidad restante desglosada por ciclo
+      const contractUsed = priority 
+        ? ((lectivas1 / 0.60) + (lectivas2 / 0.65) + totalCustomHrs)
+        : ((lectivasTotal / 0.65) + totalCustomHrs);
+      const unassignedContract = Math.max(0, effectiveContract - contractUsed);
+
+      const capLect1 = unassignedContract * (priority ? 0.60 : 0.65);
+      const capLect2 = unassignedContract * 0.65;
 
       const blockHrs = blockDuration / 60;
       const capBlocks1 = Math.floor(capLect1 / blockHrs);
       const capBlocks2 = Math.floor(capLect2 / blockHrs);
 
-      const fLect = priority ? 0.60 : 0.65;
+      const fLect = effectiveContract > 0 ? (maxLectivasTotal / effectiveContract) : 0.65;
+      
       let contractRequired = contract;
-      if (lectivasTotal > mineducOfficial1.hcHrs) {
-        const table = priority ? MINEDUC_TABLE_60_40 : MINEDUC_TABLE_65_35;
-        let reqC = contract;
-        for (let c = 1; c <= 44; c++) {
-          if ((table[c].hcMins / 60) >= lectivasTotal - 0.001) {
-            reqC = c;
-            break;
-          }
-        }
-        if (reqC === contract && lectivasTotal > (table[44].hcMins / 60)) {
-          reqC = (lectivasTotal / fLect);
-        }
-        contractRequired = reqC + adminHrs + legalColacionHrs + totalCustomHrs;
+      if (contractUsed > effectiveContract + 0.001) {
+        contractRequired = Math.ceil(contractUsed + adminHrs);
       }
 
       const contractDiff = contractRequired - contract;
@@ -1771,6 +2021,12 @@
         lectivas1,
         lectivas2,
         lectivasTotal,
+        contract1stCycle,
+        contract2ndCycle,
+        maxLectivas1,
+        maxLectivas2,
+        maxLectivasTotal,
+        totalNoLectivaPlusRecess,
         contractRequired,
         contractDiff,
         recessHrs,
@@ -1824,7 +2080,12 @@
         totalDirCustomHrs: ((teacherInput.dirCustomActivity1Mins || 0) + (teacherInput.dirCustomActivity2Mins || 0) + (teacherInput.dirCustomActivity3Mins || 0) + (teacherInput.dirCustomActivity4Mins || 0) + (teacherInput.dirCustomActivity5Mins || 0)) / 60,
         dirRemainingHrs: otrasNLBudget - (((teacherInput.dirCustomActivity1Mins || 0) + (teacherInput.dirCustomActivity2Mins || 0) + (teacherInput.dirCustomActivity3Mins || 0) + (teacherInput.dirCustomActivity4Mins || 0) + (teacherInput.dirCustomActivity5Mins || 0)) / 60),
         adminName: teacherInput.adminName,
-        adminMins: teacherInput.adminMins
+        adminMins: teacherInput.adminMins,
+        factor1: priority ? getFactor1erCicloPrioritario(ped1) : getFactorGeneral(ped1),
+        factor2: getFactorGeneral(ped2),
+        numeroFinal: (priority ? getFactor1erCicloPrioritario(ped1) : getFactorGeneral(ped1)) + getFactorGeneral(ped2),
+        pieTotal: pie1 + pie2,
+        contratoCalculadoEquiv: ped1 + ped2 + pie1 + pie2 + adminHrs + ((priority ? getFactor1erCicloPrioritario(ped1) : getFactorGeneral(ped1)) + getFactorGeneral(ped2))
       };
     }
 
@@ -1849,6 +2110,7 @@
                 <option value="ped1">1° Ciclo - Clases (45m)</option>
                 <option value="ped2" selected>2° Ciclo - Clases (45m)</option>
                 <option value="pedMedia">Enseñanza Media - Clases (45m)</option>
+                <option value="pedParvularia">Pre-Kinder / Kinder (Parvularia) - Clases (45m)</option>
               </select>
             </td>
             <td class="py-1">
@@ -1883,7 +2145,7 @@
         const hours = parseFloat(document.getElementById(`course-hours-${i}`).value) || 0;
         
         if (type === 'ped1') ped1 += hours;
-        if (type === 'ped2' || type === 'pedMedia') ped2 += hours;
+        if (type === 'ped2' || type === 'pedMedia' || type === 'pedParvularia') ped2 += hours;
       }
 
       document.getElementById('teacher-ped1').value = ped1;
@@ -2009,7 +2271,7 @@
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-red-950/30 border-red-800/40 text-red-300";
         
         const fixedInfo = metrics.fixedHrs > 0 ? ` (incluye ${formatHours(metrics.fixedHrs)} fijadas/admin descontadas)` : '';
-        const maxAula = formatHours(metrics.effectiveContract * metrics.fLect1);
+        const maxAula = formatHours(metrics.maxLectivasTotal);
         
         alertContainer.innerHTML = `
           <i data-lucide="alert-triangle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-red-400"></i>
@@ -2029,7 +2291,7 @@
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-amber-950/30 border-amber-800/40 text-amber-300";
         
         const fixedInfo = metrics.fixedHrs > 0 ? ` (Contrato efectivo descontando fijadas/admin: ${formatHours(metrics.effectiveContract)})` : '';
-        const maxAula = formatHours(metrics.effectiveContract * metrics.fLect1);
+        const maxAula = formatHours(metrics.maxLectivasTotal);
         
         if (metrics.isConTolerancia) {
           alertContainer.innerHTML = `
@@ -2064,7 +2326,7 @@
         capCard.className = "dashboard-card p-6 rounded-2xl transition-all duration-300 relative overflow-hidden flex flex-col justify-between border-l-8 border-emerald-500";
         alertContainer.className = "mt-4 p-4 rounded-xl border flex items-start space-x-3 bg-emerald-950/30 border-emerald-800/40 text-emerald-300";
         
-        const maxAula = (metrics.effectiveContract * metrics.fLect1).toFixed(2);
+        const maxAula = formatHours(metrics.maxLectivasTotal);
 
         alertContainer.innerHTML = `
           <i data-lucide="check-circle" class="w-5 h-5 mt-0.5 flex-shrink-0 text-emerald-400"></i>
@@ -2073,7 +2335,7 @@
             <p class="text-[11px] text-slate-400 mt-1">La carga asignada respeta los topes y la proporción sobre el contrato efectivo (${metrics.effectiveContract.toFixed(2)} hrs).</p>
             <div class="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] bg-emerald-950/40 rounded-lg p-2 border border-emerald-900/30 font-mono">
               <span class="text-slate-400 font-sans">Contrato Efectivo Aula:</span><span class="text-slate-200 font-bold text-right">${metrics.effectiveContract.toFixed(2)} hrs</span>
-              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula} hrs</span>
+              <span class="text-slate-400 font-sans">Máx Aula Permitido (${Math.round(metrics.fLect1*100)}%):</span><span class="text-emerald-400 font-bold text-right">${maxAula}</span>
               <span class="text-slate-400 font-sans">Total Lectivas Asignadas:</span><span class="text-emerald-300 font-bold text-right">${metrics.lectivasTotal.toFixed(2)} hrs</span>
               <span class="text-slate-400 font-sans">Descuento Fijadas/Admin:</span><span class="text-rose-300 font-bold text-right">-${formatHours(metrics.fixedHrs)}</span>
             </div>
@@ -2091,21 +2353,21 @@
           adminCapEl.innerHTML = `
             <div class="flex items-center justify-between border-b border-rose-800/30 pb-1.5">
               <span class="font-bold text-rose-300 uppercase text-[11px] flex items-center space-x-1">
-                <span>📋 Ajuste por Horas Fijadas / Administrativas del Contrato</span>
+                <span>📋 Contrato Mixto: Ajuste Secuencial de Horas Administrativas</span>
               </span>
               <span class="text-[10px] font-mono text-rose-400 font-semibold">-${formatHours(metrics.fixedHrs)} del Contrato</span>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] font-mono pt-1">
               <div>
-                <span class="text-slate-400 font-sans block text-[10px]">Contrato Total:</span>
+                <span class="text-slate-400 font-sans block text-[10px]">Paso 1 - Contrato Total:</span>
                 <span class="text-slate-200 font-bold">${currentInputs.contract} hrs</span>
               </div>
               <div>
-                <span class="text-slate-400 font-sans block text-[10px]">Descuento Fijadas/Admin:</span>
+                <span class="text-slate-400 font-sans block text-[10px]">Paso 2 - Horas Admin:</span>
                 <span class="text-rose-400 font-bold">-${formatHours(metrics.fixedHrs)}</span>
               </div>
               <div>
-                <span class="text-slate-400 font-sans block text-[10px]">Contrato Efectivo:</span>
+                <span class="text-slate-400 font-sans block text-[10px]">Paso 3 - Saldo Aula:</span>
                 <span class="text-indigo-300 font-bold">${formatHours(metrics.effectiveContract)}</span>
               </div>
               <div>
@@ -2113,9 +2375,10 @@
                 <span class="text-emerald-400 font-bold">${formatHours(maxAulaChrono)} (${maxAulaPed.toFixed(1)} hrs ped)</span>
               </div>
             </div>
-            <p class="text-[9px] text-slate-400 font-sans leading-tight border-t border-slate-800/40 pt-1 mt-1">
-              Las ${formatHours(metrics.fixedHrs)} fijadas/administrativas se descuentan directamente del contrato. El máximo de aula (${formatHours(maxAulaChrono)} / ${maxAulaPed.toFixed(1)} hrs ped) se calcula sobre el contrato efectivo (${formatHours(metrics.effectiveContract)}).
-            </p>
+            <div class="mt-2 bg-rose-950/40 p-2.5 rounded-lg border border-rose-900/30 text-[10px] text-slate-300 font-sans leading-tight space-y-1">
+              <p><strong class="text-slate-200">Cálculo Secuencial:</strong> Se toma el contrato de ${currentInputs.contract} hrs, se restan ${formatHours(metrics.fixedHrs)} de gestión administrativa/coordinación, y sobre el saldo restante para aula de ${formatHours(metrics.effectiveContract)} se aplica la proporción legal (${Math.round(metrics.fLect1*100)}/${Math.round((1-metrics.fLect1)*100)}).</p>
+              <p class="text-amber-300 font-semibold">⚠️ Regla de Oro: Las horas administrativas jamás se descuentan del 35% no lectivo (${formatHours(metrics.nlTotal)}), el cual permanece intacto por ley para planificación, evaluación y trabajo colaborativo.</p>
+            </div>
           `;
           adminCapEl.classList.remove('hidden');
         } else {
@@ -2131,13 +2394,15 @@
       }
 
       let presenceTotal = 0;
-      appState.global.schedule.forEach((sched, index) => {
-        if (index < currentInputs.presenceDays) {
-          const rawSpan = parseTime(sched.exit) - parseTime(sched.entrance);
-          const lunchHrs = (parseFloat(sched.lunch) || 0) / 60;
-          presenceTotal += Math.max(0, rawSpan - lunchHrs);
-        }
-      });
+      if (currentInputs.contract > 0) {
+        appState.global.schedule.forEach((sched, index) => {
+          if (index < currentInputs.presenceDays) {
+            const rawSpan = parseTime(sched.exit) - parseTime(sched.entrance);
+            const lunchHrs = (parseFloat(sched.lunch) || 0) / 60;
+            presenceTotal += Math.max(0, rawSpan - lunchHrs);
+          }
+        });
+      }
 
       document.getElementById('total-permanence-display').textContent = formatHours(presenceTotal);
       document.getElementById('contract-label').textContent = `Contrato: ${currentInputs.contract} hrs`;
@@ -2215,7 +2480,7 @@
       if (legRatioLectEl) legRatioLectEl.textContent = `${fLectPct}% Lectiva`;
       
       const legLectMaxEl = document.getElementById('legal-lect-max');
-      if (legLectMaxEl) legLectMaxEl.textContent = formatHours(metrics.effectiveContract * metrics.fLect1);
+      if (legLectMaxEl) legLectMaxEl.textContent = formatHours(metrics.maxLectivasTotal);
       
       const legLectAssignedEl = document.getElementById('legal-lect-assigned');
       if (legLectAssignedEl) legLectAssignedEl.textContent = formatHours(metrics.lectivasTotal);
@@ -2269,8 +2534,149 @@
         }
       }
 
+      try {
+        updateEquivalenceLiveCard(metrics, currentInputs, globalParams);
+      } catch (e) {
+        console.error("Error in updateEquivalenceLiveCard:", e);
+      }
+
       lucide.createIcons();
     }
+
+    function renderEquivalenceReferenceTables(activePed1, activePed2, isPriority) {
+      const tbodyGen = document.getElementById('table-general-tbody');
+      const tbodyPrio = document.getElementById('table-priority-tbody');
+      if (!tbodyGen || !tbodyPrio) return;
+
+      const ped1Round = Math.round(activePed1 || 0);
+      const ped2Round = Math.round(activePed2 || 0);
+
+      tbodyGen.innerHTML = EQUIVALENCE_TABLE_GENERAL.map(row => {
+        const isMatch2 = (ped2Round >= row.min && ped2Round <= row.max);
+        const isMatch1NonPrio = (!isPriority && ped1Round >= row.min && ped1Round <= row.max && ped1Round > 0);
+        const isMatch = isMatch2 || isMatch1NonPrio;
+        const rowClass = isMatch 
+          ? "bg-teal-500/20 text-teal-200 font-bold border-l-4 border-teal-400" 
+          : "hover:bg-slate-900/40";
+        const badge = isMatch ? `<span class="ml-1.5 text-[8px] font-sans px-1.5 py-0.5 bg-teal-400 text-slate-950 font-bold rounded">Activo</span>` : '';
+        return `
+          <tr class="${rowClass} transition-colors">
+            <td class="py-1.5 px-2 text-left">${row.label}${badge}</td>
+            <td class="py-1.5 px-2 text-right font-extrabold text-amber-400">${row.factor}</td>
+          </tr>
+        `;
+      }).join('');
+
+      tbodyPrio.innerHTML = EQUIVALENCE_TABLE_PRIORITY.map(row => {
+        const isMatchPrio = (isPriority && ped1Round >= row.min && ped1Round <= row.max && ped1Round > 0);
+        const rowClass = isMatchPrio 
+          ? "bg-indigo-500/20 text-indigo-200 font-bold border-l-4 border-indigo-400" 
+          : "hover:bg-slate-900/40";
+        const badge = isMatchPrio ? `<span class="ml-1.5 text-[8px] font-sans px-1.5 py-0.5 bg-indigo-400 text-slate-950 font-bold rounded">Activo</span>` : '';
+        return `
+          <tr class="${rowClass} transition-colors">
+            <td class="py-1.5 px-2 text-left">${row.label}${badge}</td>
+            <td class="py-1.5 px-2 text-right font-extrabold text-amber-400">${row.factor}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateEquivalenceLiveCard(metrics, currentInputs, globalParams) {
+      const p1El = document.getElementById('equiv-ped1-val');
+      const p2El = document.getElementById('equiv-ped2-val');
+      const f1El = document.getElementById('equiv-factor1-tag');
+      const f2El = document.getElementById('equiv-factor2-tag');
+      const finalNumEl = document.getElementById('equiv-final-number');
+      const calcContractEl = document.getElementById('equiv-calculated-contract');
+      const sepBadgeEl = document.getElementById('equiv-sep-badge');
+
+      if (!p1El) return;
+
+      const { ped1, ped2, factor1, factor2, numeroFinal, pieTotal, adminHrs, contratoCalculadoEquiv } = metrics;
+      const { contract } = currentInputs;
+      const isPriority = globalParams.priority;
+
+      p1El.textContent = `${ped1} hrs ped`;
+      p2El.textContent = `${ped2} hrs ped`;
+      
+      const labelF1 = isPriority ? `Factor (>80% SEP): ${factor1}` : `Factor (65/35): ${factor1}`;
+      f1El.textContent = labelF1;
+      f2El.textContent = `Factor (65/35): ${factor2}`;
+
+      finalNumEl.textContent = `${numeroFinal}`;
+      calcContractEl.textContent = `${contratoCalculadoEquiv} hrs`;
+
+      if (sepBadgeEl) {
+        if (isPriority) {
+          sepBadgeEl.textContent = "1° Ciclo: Prioritario >80% SEP (60/40)";
+          sepBadgeEl.className = "text-[9px] px-2 py-0.5 bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/30";
+        } else {
+          sepBadgeEl.textContent = "1° Ciclo: Regular (65/35)";
+          sepBadgeEl.className = "text-[9px] px-2 py-0.5 bg-indigo-500/20 text-indigo-300 rounded-full border border-indigo-500/30";
+        }
+      }
+
+      const pedTotal = ped1 + ped2;
+      document.getElementById('formula-ped-total').textContent = `${pedTotal} hrs ped`;
+      document.getElementById('formula-pie-total').textContent = `${pieTotal} hrs PIE`;
+      document.getElementById('formula-admin-total').textContent = `${adminHrs} hrs admin`;
+      document.getElementById('formula-factor-total').textContent = `${numeroFinal} (Factor)`;
+      document.getElementById('formula-contract-result').textContent = `${contratoCalculadoEquiv} hrs Contrato`;
+
+      const alertCompEl = document.getElementById('equiv-comparison-alert');
+      if (alertCompEl) {
+        if (contract <= 0) {
+          alertCompEl.innerHTML = `
+            <span class="text-slate-400">Ingrese las horas de contrato del docente para comparar.</span>
+          `;
+        } else if (contratoCalculadoEquiv === contract) {
+          alertCompEl.innerHTML = `
+            <span class="text-emerald-400 font-bold flex items-center space-x-1">
+              <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+              <span>Coincidencia Exacta con el Contrato Ingresado (${contract} hrs)</span>
+            </span>
+            <span class="text-[10px] text-slate-400">100% verificado según tabla Mineduc</span>
+          `;
+        } else {
+          const diff = contratoCalculadoEquiv - contract;
+          const diffText = diff > 0 ? `+${diff} hrs` : `${diff} hrs`;
+          alertCompEl.innerHTML = `
+            <span class="text-amber-400 font-bold flex items-center space-x-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+              <span>Diferencia con Contrato: Calculado = ${contratoCalculadoEquiv} hrs (Ingresado: ${contract} hrs, diff: ${diffText})</span>
+            </span>
+          `;
+        }
+      }
+
+      renderEquivalenceReferenceTables(ped1, ped2, isPriority);
+    }
+
+    window.runQuickEquivSim = function() {
+      const p1 = parseFloat(document.getElementById('sim-ped1').value) || 0;
+      const p2 = parseFloat(document.getElementById('sim-ped2').value) || 0;
+      const isPrio = document.getElementById('sim-priority').value === 'true';
+
+      const f1 = isPrio ? getFactor1erCicloPrioritario(p1) : getFactorGeneral(p1);
+      const f2 = getFactorGeneral(p2);
+      const sumF = f1 + f2;
+      const pedTot = p1 + p2;
+      const totalContrato = pedTot + sumF;
+
+      const resEl = document.getElementById('sim-result-text');
+      if (resEl) {
+        if (p1 > 0 && p2 > 0) {
+          resEl.textContent = `1° C: ${f1} + 2° C: ${f2} = ${sumF} factor. Total Contrato: ${totalContrato} hrs`;
+        } else if (p1 > 0) {
+          resEl.textContent = `Factor 1° C: ${f1}. Total Contrato: ${totalContrato} hrs`;
+        } else if (p2 > 0) {
+          resEl.textContent = `Factor 2° C: ${f2}. Total Contrato: ${totalContrato} hrs`;
+        } else {
+          resEl.textContent = `Ingresa horas para simular`;
+        }
+      }
+    };
 
     function renderStackedChart(inputs, metrics) {
       const barContainer = document.getElementById('chart-bar');
@@ -2279,6 +2685,12 @@
 
       if (inputs.contract <= 0) {
         barContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-slate-500 text-xs font-semibold">Ingrese horas de contrato</div>`;
+        const summaryBadge = document.getElementById('summary-contract-total-badge');
+        if (summaryBadge) summaryBadge.textContent = `Contrato: 0 hrs`;
+        const sumGrandTotal = document.getElementById('sum-grand-total');
+        if (sumGrandTotal) sumGrandTotal.textContent = `0 hrs 00 min (0% Contrato)`;
+        const sumUnassigned = document.getElementById('sum-unassigned');
+        if (sumUnassigned) sumUnassigned.textContent = `0 hrs 00 min`;
         return;
       }
 
@@ -2547,6 +2959,7 @@
             <div>${t.name}</div>
             <div class="flex flex-wrap items-center gap-1 mt-0.5">
               <span class="text-[9px] px-1.5 bg-slate-800 text-slate-400 rounded border border-slate-700 inline-block">${cycleType}</span>
+              <span class="text-[9px] px-1.5 bg-teal-950/80 text-teal-300 rounded border border-teal-800/60 inline-block font-mono" title="Factor Final (Suma de Factores Mineduc)">Factor: ${m.numeroFinal}</span>
             </div>
             ${courseBadgesHtml}
             ${customDetailsHtml}
@@ -2795,7 +3208,7 @@
         return;
       }
 
-      let csv = 'Nombre,Contrato,Clases 1o Ciclo (Ped),PIE 1o Ciclo (Ped),Clases 2o Ciclo (Ped),PIE 2o Ciclo (Ped),Recreos,Planif. Real,Otras NL Sobra,Cursos Asignados,Actividad 1,Minutos 1,Actividad 2,Minutos 2,Actividad 3,Minutos 3,Actividad 4,Minutos 4,Actividad 5,Minutos 5,Estado Ley\n';
+      let csv = 'Nombre,Contrato,Clases 1o Ciclo (Ped),PIE 1o Ciclo (Ped),Clases 2o Ciclo (Ped),PIE 2o Ciclo (Ped),Factor Final,Contrato Equiv,Recreos,Planif. Real,Otras NL Sobra,Cursos Asignados,Actividad 1,Minutos 1,Actividad 2,Minutos 2,Actividad 3,Minutos 3,Actividad 4,Minutos 4,Actividad 5,Minutos 5,Estado Ley\n';
       
       appState.teachers.forEach(t => {
         const m = calculateTeacherMetrics(t, appState.global);
@@ -2805,7 +3218,7 @@
           ? t.courses.map(c => `${c.name || 'S/C'} (${c.subject || 'S/A'} - ${c.type}): ${c.hours}h`).join('; ')
           : '';
 
-        csv += `"${t.name}",${t.contract},${t.ped1},${t.pie1},${t.ped2},${t.pie2},"${formatHours(m.recessHrs)}","${formatHours(m.planningHrsActual)}","${formatHours(m.restanteVal)}",` +
+        csv += `"${t.name}",${t.contract},${t.ped1},${t.pie1},${t.ped2},${t.pie2},${m.numeroFinal},${m.contratoCalculadoEquiv},"${formatHours(m.recessHrs)}","${formatHours(m.planningHrsActual)}","${formatHours(m.restanteVal)}",` +
                `"${coursesStr.replace(/"/g, '""')}",` +
                `"${t.customActivity1Name || ''}",${t.customActivity1Mins || 0},` +
                `"${t.customActivity2Name || ''}",${t.customActivity2Mins || 0},` +
@@ -3512,6 +3925,136 @@
       // Default active tab
       switchTab('simulator');
     });
+
+    // --- TABLAS OFICIALES MINEDUC MODAL INTERACTIVO ---
+    let currentMineducModalRatio = '65_35';
+
+    function openMineducModal() {
+      const modal = document.getElementById('mineduc-table-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        renderMineducTableModalRows(currentMineducModalRatio);
+        lucide.createIcons();
+      }
+    }
+
+    function closeMineducModal() {
+      const modal = document.getElementById('mineduc-table-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function switchMineducModalRatio(ratio) {
+      currentMineducModalRatio = ratio;
+      const btn65 = document.getElementById('mineduc-modal-btn-65');
+      const btn60 = document.getElementById('mineduc-modal-btn-60');
+
+      if (ratio === '65_35') {
+        btn65.className = "px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md";
+        btn60.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+      } else {
+        btn60.className = "px-4 py-2 rounded-xl text-xs font-bold bg-teal-600 text-white shadow-md";
+        btn65.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white";
+      }
+      renderMineducTableModalRows(ratio);
+    }
+
+    function renderMineducTableModalRows(ratio) {
+      const tbody = document.getElementById('mineduc-modal-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const tableData = ratio === '60_40' ? MINEDUC_TABLE_60_40 : MINEDUC_TABLE_65_35;
+      const activeContract = parseFloat(document.getElementById('teacher-contract').value) || 0;
+
+      for (let c = 44; c >= 1; c--) {
+        const row = tableData[c];
+        if (!row) continue;
+
+        const isCurrent = (c === activeContract);
+        const tr = document.createElement('tr');
+        tr.className = isCurrent 
+          ? "bg-teal-950/60 light:bg-teal-50 border-l-4 border-[#00C49F] font-bold text-white" 
+          : "hover:bg-slate-850/50 light:hover:bg-slate-100 transition-colors border-b border-slate-800/40";
+
+        const badge = isCurrent ? `<span class="ml-2 px-2 py-0.5 text-[9px] bg-teal-500/20 text-teal-300 rounded-full border border-teal-500/40">📍 Tu Contrato</span>` : '';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-4 font-mono font-bold text-slate-200 light:text-slate-800">
+            ${c} hrs ${badge}
+          </td>
+          <td class="py-2.5 px-4 text-center font-mono text-indigo-400 font-semibold">${row.ha} hrs ped</td>
+          <td class="py-2.5 px-4 text-center font-mono text-slate-300 light:text-slate-700">${formatHours(row.hcMins / 60)}</td>
+          <td class="py-2.5 px-4 text-center font-mono text-emerald-400 font-medium">${formatHours(row.recMins / 60)}</td>
+          <td class="py-2.5 px-4 text-center font-mono text-amber-400 font-semibold">${formatHours(row.nlMins / 60)}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
   </script>
+
+  <!-- ========================================== -->
+  <!-- MODAL DE TABLAS OFICIALES MINEDUC -->
+  <!-- ========================================== -->
+  <div id="mineduc-table-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in no-print">
+    <div class="bg-[#162238] light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-800/80 flex items-center justify-between bg-slate-900/60 light:bg-slate-50">
+        <div class="flex items-center space-x-3">
+          <div class="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-xl border border-indigo-500/30">
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white light:text-slate-900 font-title">Tablas Oficiales de Referencia MINEDUC</h3>
+            <p class="text-xs text-slate-400 light:text-slate-600">Límites legales oficiales de Horas Lectivas (HA/HC), Recreos y No Lectivas (Ley 20.903 / Ley 21.625)</p>
+          </div>
+        </div>
+        <button onclick="closeMineducModal()" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Ratio Switcher & Filter -->
+      <div class="px-6 py-3 border-b border-slate-800/60 bg-slate-950/40 flex items-center justify-between">
+        <div class="flex space-x-2">
+          <button id="mineduc-modal-btn-65" onclick="switchMineducModalRatio('65_35')" class="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-md">
+            Tabla 65/35 (Ley 20.903 - Regla General)
+          </button>
+          <button id="mineduc-modal-btn-60" onclick="switchMineducModalRatio('60_40')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-400 hover:text-white">
+            Tabla 60/40 (Ley 21.625 - 1° a 4° Básico &gt;80% SEP)
+          </button>
+        </div>
+        <span class="text-[11px] text-slate-400 font-mono">1 a 44 Horas Semanales</span>
+      </div>
+
+      <!-- Modal Body Scrollable Table -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+        <table class="w-full text-xs text-left">
+          <thead class="text-[10px] font-bold text-slate-400 uppercase bg-slate-900/80 light:bg-slate-100 sticky top-0 z-10 border-b border-slate-800">
+            <tr>
+              <th class="py-3 px-4">Jornada Semanal</th>
+              <th class="py-3 px-4 text-center">Horas Lectivas (HA 45m)</th>
+              <th class="py-3 px-4 text-center">Horas Lectivas (HC 60m)</th>
+              <th class="py-3 px-4 text-center">Recreo Proporcional</th>
+              <th class="py-3 px-4 text-center">Horas No Lectivas</th>
+            </tr>
+          </thead>
+          <tbody id="mineduc-modal-tbody" class="divide-y divide-slate-800/40">
+            <!-- Dynamically populated in JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t border-slate-800/80 bg-slate-900/60 light:bg-slate-50 flex items-center justify-between text-xs text-slate-400">
+        <p class="text-[11px]">Arts. 69 y 80 DFL N° 1/1996 MINEDUC & Art. Cuarto Transitorio Ley N° 20.903.</p>
+        <button onclick="closeMineducModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl transition-all">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
